@@ -22,7 +22,7 @@ Roadmap
 - JS rewrite into a better pattern
 - Update libraries/plugins
 
-Try it live on http://xaviesteve.com/github/html5timetracker/
+Try it live on http://luckyshot.github.io/timetracker/
 
 
 ================
