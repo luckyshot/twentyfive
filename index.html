@@ -1,1 +1,78 @@
-My GitHub Page
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>HTML5 Time Tracker</title>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="icon" type="image/png" href="favicon.png" />
+</head>
+<body>
+<section id="settings">
+	<div class="overlay"></div>
+	<div class="content">
+		<form action="" id="cycle-form" class="settings-form">
+			<label for="cycle">Cycle length</label>
+			<input type="text" id="cycle" placeholder="30" />
+			<input type="submit" value="Save">
+		</form>
+		<form action="" id="next-form" class="settings-form">
+			<label for="nextCycle">Cycle length 2</label>
+			<input type="text" id="nextCycle" placeholder="30" />
+			<input type="submit" value="Save">
+		</form>
+	</div>
+</section>
+<section id="welcome">
+	<h1>Build the habit of logging time</h1>
+	<p>Keep track of how you're spending your time effortlessly.</p>
+	<a href="#" class="btn-start">Let's get trackin'</a>
+	<a href="#" class="settings set-cycle">Settings</a>
+</section>
+
+<section id="countdown">
+	<div id="timer"><span></span></div>
+	<a href="#" id="end">Finish this task</a>
+	<a href="#" id="cancel">cancel</a>
+</section>
+
+<section id="list">
+	<ul id="done">
+
+	</ul>
+	<div id="actions">
+		<a href="#" class="btn-start">Continue working</a>
+		<br>
+		<a href="#" id="reset">Delete all</a>
+		<span>Are you sure?
+			<a href="#" class="confirm">Yes</a>
+			<a href="#" class="cancel">No</a>
+		</span>
+	</div>
+	<a href="#" class="settings set-cycle">Settings</a>
+</section>
+
+<section id="alert">
+	<form action="" id="logActivity">
+	<label for="what">What have you been working on?</label>
+	<input type="text" id="what" placeholder="Be as descriptive as possible" />
+	<br>
+	<label><input type="checkbox" id="new" checked /> Continue working</label>
+	<input type="submit" id="submit" value="Submit">
+	</form>
+	<a href="#" id="void">cancel</a>
+	<a href="#" class="settings set-next">Settings</a>
+</section>
+
+<a href="http://twitter.com/heyimjuani" target="_blank" id="by">HTML5 <strong>Time Tracker</strong></a>
+<!-- <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://unlayered.com/time" data-text="HTML5 Time Tracker" data-via="heyimjuani" data-related="heyimjuani">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> -->
+
+
+
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery.countdown.min.js"></script>
+<script type="text/javascript" src="site.min.js"></script>
+
+</body>
+</html>
