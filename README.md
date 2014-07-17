@@ -25,7 +25,9 @@ Roadmap
 Try it live on http://luckyshot.github.io/timetracker/
 
 
-================
+Credits
+----------------
 
-Needs Keith Wood's countdown jQuery plugin (https://github.com/kbwood/countdown) to work.
-Note that I had to change a line, more on that here: https://github.com/kbwood/countdown/issues/26
+Juani Ruiz's HTML5 Time Tracker (https://github.com/heyimjuani/html5timetracker)
+Keith Wood's countdown jQuery plugin (https://github.com/kbwood/countdown Note that Juani had to change a line, more on that here: https://github.com/kbwood/countdown/issues/26)
+Tom Moor's Tinycon plugin (https://github.com/tommoor/tinycon)
