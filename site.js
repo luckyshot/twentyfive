@@ -26,9 +26,9 @@ $(document).ready(function() {
 
 		var init = function()
 		{
-			if (lS.cycle)
+			if (lS.htt_cycle)
 			{
-				cycle = lS.cycle;
+				cycle = lS.htt_cycle;
 				minToWork = cycle;
 			}
 			else
@@ -56,10 +56,10 @@ $(document).ready(function() {
 					$("#done").prepend( lS.getItem( lS.key(i) ) );
 				}
 				// check if the user is new
-				if (lS.count)
+				if (lS.htt_count)
 				{
-					$(".count").text(lS.count);
-					count = lS.count;
+					$(".count").text(lS.htt_count);
+					count = lS.htt_count;
 					$("body").addClass("list");
 				}
 				else
@@ -128,7 +128,7 @@ $(document).ready(function() {
 		$(".set-cycle").on("click", function()
 		{
 			$("body").addClass("settings-open");
-			$("#cycle").val(lS.cycle);
+			$("#cycle").val(lS.htt_cycle);
 			return false;
 		});
 
@@ -137,7 +137,7 @@ $(document).ready(function() {
 		$(".set-next").on("click", function()
 		{
 			$("body").addClass("settings-open");
-			$("#nextCycle").val(lS.nextCycle);
+			$("#nextCycle").val(lS.htt_nextCycle);
 			return false;
 		});
 
@@ -171,7 +171,7 @@ $(document).ready(function() {
 				lS.setItem("htt_cycle", cycle);
 				lS.setItem("htt_nextCycle", cycle);
 			}
-			minToWork = lS.cycle;
+			minToWork = lS.htt_cycle;
 			$("body").removeClass("settings-open");
 			return false;
 		});
@@ -181,7 +181,7 @@ $(document).ready(function() {
 		$("#next-form").submit(function()
 		{
 			lS.setItem("htt_nextCycle", nextCycle);
-			nextCycle = lS.nextCycle;
+			nextCycle = lS.htt_nextCycle;
 			$("body").removeClass("settings-open");
 			return false;
 		});
@@ -191,8 +191,8 @@ $(document).ready(function() {
 		$("#settings .overlay").on("click", function()
 		{
 			$("body").removeClass("settings-open");
-			$("#cycle").val(lS.cycle);
-			$("#nextCycle").val(lS.nextCycle);
+			$("#cycle").val(lS.htt_cycle);
+			$("#nextCycle").val(lS.htt_nextCycle);
 		});
 
 		// start the timer
@@ -223,7 +223,7 @@ $(document).ready(function() {
 		// check that there are previous tasks already done
 		$("#cancel").on("click", function()
 		{
-			if (lS.count)
+			if (lS.htt_count)
 			{
 				$("#timer span").countdown("option", {until: 0, onExpiry: null});
 				cancelTimer("list");
@@ -246,7 +246,7 @@ $(document).ready(function() {
 				timeWorked;
 
 			count++;
-			lS.count = count;
+			lS.htt_count = count;
 
 			myAudio.currentTime = 0;
 			myAudio.pause();
@@ -266,8 +266,8 @@ $(document).ready(function() {
 			// if these differ, get them to be the same
 			if (nextCycle !== cycle)
 			{
-				cycle = lS.nextCycle;
-				lS.setItem("htt_cycle", lS.nextCycle);
+				cycle = lS.htt_nextCycle;
+				lS.setItem("htt_cycle", lS.htt_nextCycle);
 			}
 
 			// add lS keys
