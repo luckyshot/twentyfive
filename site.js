@@ -24,21 +24,59 @@ $(document).ready(function() {
 			count = 0;
 
 
-		if (lS.cycle)
-		{
-			cycle = lS.cycle;
-			minToWork = cycle;
-		}
-		else
-		{
-			minToWork = MIN_TO_WORK;
-			cycle = minToWork;
-			nextCycle = cycle;
-		}
-
-
 		var init = function()
 		{
+			if (lS.cycle)
+			{
+				cycle = lS.cycle;
+				minToWork = cycle;
+			}
+			else
+			{
+				minToWork = MIN_TO_WORK;
+				cycle = minToWork;
+				nextCycle = cycle;
+			}
+
+			$("#timer span").countdown({
+				until: 0,
+				format: "MS",
+				compact: true,
+				onExpiry: openAlert,
+				onTick: updateTitle,
+			});
+
+			// Get stuff from lS
+			if (typeof (Storage) !== undefined)
+			{
+				var i = 0;
+				while (i < lS.length)
+				{
+					if (lS.key(i) === "htt_count" || lS.key(i).indexOf("htt_task") === -1) { continue; }
+					$("#done").prepend( lS.getItem( lS.key(i) ) );
+				}
+				// check if the user is new
+				if (lS.count)
+				{
+					$(".count").text(lS.count);
+					count = lS.count;
+					$("body").addClass("list");
+				}
+				else
+				{
+					$("body").addClass("new");
+				}
+			}
+
+			// Tinycon.setOptions({
+			// 	width: 7,
+			// 	height: 9,
+			// 	font: '10px arial',
+			// 	colour: '#ffffff',
+			// 	background: '#549A2F',
+			// 	fallback: true
+			// });
+
 			updateTitle(APP_TITLE);
 		};
 
@@ -71,47 +109,20 @@ $(document).ready(function() {
 			if (!!title[5])
 			{
 				doc.title = title[5]+":"+title[6]+" - "+APP_TITLE;
+				Tinycon.setBubble(title[5]);
 			}
 			else if (!!title)
 			{
 				doc.title = title;
+				Tinycon.setBubble();
 			}
 			else
 			{
 				doc.title = APP_TITLE;
+				Tinycon.setBubble();
 			}
 		};
 
-
-		$("#timer span").countdown({
-			until: 0,
-			format: "MS",
-			compact: true,
-			onExpiry: openAlert,
-			onTick: updateTitle,
-		});
-
-		// Get stuff from lS
-		if (typeof (Storage) !== undefined)
-		{
-			var i = 0;
-			while (i < lS.length)
-			{
-				if (lS.key(i) === "htt_count" || lS.key(i).indexOf("htt_task") === -1) { continue; }
-				$("#done").prepend( lS.getItem( lS.key(i) ) );
-			}
-			// check if the user is new
-			if (lS.count)
-			{
-				$(".count").text(lS.count);
-				count = lS.count;
-				$("body").addClass("list");
-			}
-			else
-			{
-				$("body").addClass("new");
-			}
-		}
 
 		// set the cycle length
 		$(".set-cycle").on("click", function()
