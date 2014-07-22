@@ -106,7 +106,7 @@ $(document).ready(function() {
 
 		var updateTitle = function(title)
 		{
-			if (!!title[5])
+			if (!!title[6])
 			{
 				doc.title = title[5]+":"+title[6]+" - "+APP_TITLE;
 				Tinycon.setBubble(title[5]);
