@@ -22,6 +22,7 @@ h1 {display:none;}
 
 /* Countdown */
 .countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;}
+.countdown .estimate {text-align: center;font-size: 0.7rem;margin-top: -20px;opacity: 0.5;}
 
 /* Naming */
 .naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
@@ -65,6 +66,7 @@ button {cursor: pointer;opacity:.9;}
 
 	<div id="countdown" class="page countdown">
 		<p id="clock" class="clock">25:00</p>
+		<p id="estimate" class="estimate">0:00 - 25:00</p>
 		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
 		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
@@ -172,6 +174,7 @@ var TimeTracker = {
 				colour: '#ffffff',
 				background: '#1abc9c'
 			});
+			doc.getElementById('estimate').innerHTML = TimeTracker.timestampToDate(Date.now()) + ' - ' + TimeTracker.timestampToDate(Date.now()+TimeTracker.cycle*1000);
 			TimeTracker.clock = TimeTracker.cycle;
 			TimeTracker.t = setInterval(function(){
 				self.clock--;
