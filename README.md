@@ -1,22 +1,19 @@
 TimeTracker
 ================
 
-Roadmap
+TimeTracker is a minimal time tracking tool following the principles of the Pomodoro Technique. The UI and UX is a fork from Juani's HTML5 Time Tracker, I've recoded and redesigned it from scratch to increase performance, scalability, get rid of jQuery, get rid of the jQuery countdown plugin, progress bar, dynamic favicon, local storage is now saved in a unified JSON string.
+
+Try it live on http://luckyshot.github.io/timetracker/
+
+TODO
 ----------------
 
 - Responsive design
-- Green clock/tick for Idle/Ready
-- Red clock/tick for Finished
-- Autofill textbox w previous task
-- JS rewrite into a better pattern
-- Update libraries/plugins
 
-Try it live on http://luckyshot.github.io/timetracker/
 
 
 Credits
 ----------------
 
-Inspired by Juani Ruiz's HTML5 Time Tracker (https://github.com/heyimjuani/html5timetracker)
-Keith Wood's countdown jQuery plugin (https://github.com/kbwood/countdown Note that Juani had to change a line, more on that here: https://github.com/kbwood/countdown/issues/26)
+Heavily inspired by Juani Ruiz's HTML5 Time Tracker (https://github.com/heyimjuani/html5timetracker)
 Tom Moor's Tinycon plugin (https://github.com/tommoor/tinycon)
