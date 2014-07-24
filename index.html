@@ -21,17 +21,19 @@ h1 {display:none;}
 .page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);}
+.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 5px;background: rgba(0,0,0,0.3);}
+	.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 5px;background: rgba(231, 76, 60, 0.8);}
+.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
 .countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
 
 /* Naming */
 .naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
 
 /* List */
-.list .start {margin: 40px auto 20px;}
+.list .start {margin: 40px auto;}
 .list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.8;transition: opacity .3s ease-in;}
 	.list li:hover {opacity:1;}
-	.list li:before {content: "";border: 8px solid transparent;border-bottom: 8px solid #fff;position: absolute;top: -16px;left: 50%;margin-left: -8px;}
+	.list li:before {content: "";border: 8px solid transparent;border-top: 8px solid #fff;position: absolute;bottom: -16px;left: 50%;margin-left: -8px;}
 	.list .title {font-size: 1.66rem;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.5rem;text-transform: uppercase;}
@@ -65,6 +67,9 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 	<h1>TimeTracker</h1>
 
 	<div id="countdown" class="page countdown">
+		<div class="progress">
+			<div id="bar" class="bar"></div>
+		</div>
 		<p id="clock" class="clock">25:00</p>
 		<p id="estimate" class="estimate">0:00 - 25:00</p>
 		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
@@ -85,7 +90,7 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 				<p class="detail"><span class="interval">23 min</span>9:00&mdash;9:23</p>
 			</li> -->
 		</ul>
-		<button id="clearTasks" class="danger" title="Remove all tasks">Clear tasks</button>
+		<button id="clearTasks" class="danger" title="Remove all tasks">Clear all</button>
 	</div>
 
 
@@ -179,6 +184,8 @@ var TimeTracker = {
 			TimeTracker.t = setInterval(function(){
 				self.clock--;
 				doc.getElementById('clock').innerHTML = self.secsToTime( self.clock );
+
+				doc.getElementById('bar').style.width = (100-(self.clock / self.cycle * 100))+'%';
 
 				Tinycon.setBubble( parseInt(self.clock/60) );
 
