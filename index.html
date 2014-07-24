@@ -64,7 +64,7 @@ button {cursor: pointer;opacity:.9;}
 	<h1>TimeTracker</h1>
 
 	<div id="countdown" class="page countdown">
-		<p id="clock" class="clock">--:--</p>
+		<p id="clock" class="clock">25:00</p>
 		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
 		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
@@ -127,6 +127,7 @@ var TimeTracker = {
 	 * Countdown
 	 */
 	startCountdown: function() {
+		doc.getElementById('clock').innerHTML = '25:00';
 		TimeTracker.startTimer();
 		TimeTracker.selectView('countdown');
 	},
@@ -152,7 +153,6 @@ var TimeTracker = {
 	},
 
 	resetCountdown: function() {
-		doc.getElementById('clock').innerHTML = '--:--';
 		clearInterval(TimeTracker.t);
 		TimeTracker.status = 'idle';
 		Tinycon.reset();
