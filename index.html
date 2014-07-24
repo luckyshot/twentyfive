@@ -1,79 +1,220 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset='utf-8'>
-	<title>HTML5 Time Tracker</title>
-	<link rel="stylesheet" href="style.css" />
-	<link rel="icon" type="image/png" href="favicon.png" />
+	<meta charset="UTF-8">
+	<title>Time</title>
+	<style>
+* {margin:0;padding:0;}
+html {font-family:sans-serif;}
+
+.page /*{opacity:0;*/transition: opacity .3s ease-in;}
+	.page.active {opacity:1;}
+
+/* Countdown
+.clock {font-size: 6em;text-align: center;color: #ccc;padding-top: 100px;}
+ */
+
+.danger {position: absolute;
+top: 20px;
+right: 20px;
+background: none;
+border: none;
+text-transform: lowercase;
+color: red;}
+
+	</style>
+
+
+
 </head>
 <body>
-<section id="settings">
-	<div class="overlay"></div>
-	<div class="content">
-		<form action="" id="cycle-form" class="settings-form">
-			<label for="cycle">Cycle length</label>
-			<input type="text" id="cycle" placeholder="30" />
-			<input type="submit" value="Save">
-		</form>
-		<form action="" id="next-form" class="settings-form">
-			<label for="nextCycle">Cycle length 2</label>
-			<input type="text" id="nextCycle" placeholder="30" />
-			<input type="submit" value="Save">
-		</form>
+
+	<div id="countdown" class="page countdown active">
+		<p id="clock" class="clock">25:00</p>
+		<button id="finishCountdown" class="primary" title="Finish the current task">I'm finished</button>
+		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
-</section>
-<section id="welcome">
-	<h1>Build the habit of logging time</h1>
-	<p>Keep track of how you're spending your time effortlessly.</p>
-	<a href="#" class="btn-start">Let's get trackin'</a>
-	<a href="#" class="settings set-cycle">Settings</a>
-</section>
 
-<section id="countdown">
-	<div id="timer"><span></span></div>
-	<a href="#" id="end">Finish this task</a>
-	<a href="#" id="cancel">cancel</a>
-</section>
-
-<section id="list">
-	<ul id="done">
-
-	</ul>
-	<div id="actions">
-		<a href="#" class="btn-start">Continue working</a>
-		<br>
-		<a href="#" id="reset">Delete all</a>
-		<span>Are you sure?
-			<a href="#" class="confirm">Yes</a>
-			<a href="#" class="cancel">No</a>
-		</span>
+	<div id="naming" class="page naming">
+		<p class="question">What have you been working on?</p>
+		<input type="text" id="taskTitle" class="title">
+		<button id="saveNaming" class="primary" title="Save the current task">Save</button>
+		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
-	<a href="#" class="settings set-cycle">Settings</a>
-</section>
 
-<section id="alert">
-	<form action="" id="logActivity">
-	<label for="what">What have you been working on?</label>
-	<input type="text" id="what" placeholder="Be as descriptive as possible" />
-	<br>
-	<label><input type="checkbox" id="new" checked /> Continue working</label>
-	<input type="submit" id="submit" value="Done">
-	</form>
-	<a href="#" id="void">cancel</a>
-	<a href="#" class="settings set-next">Settings</a>
-</section>
+	<div id="list" class="page list">
+		<button id="startCountdown" class="primary">Start new task</button>
+		<ul id="taskList" class="list">
+			<li>
+				<p class="title">Task title</p>
+				<p class="detail">9:00&mdash;9:23<span class="interval">23 min</span></p>
+			</li>
+		</ul>
+	</div>
 
-<a href="https://github.com/luckyshot/timetracker" target="_blank" id="by"><strong>Time Tracker</strong></a>
-<!-- <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://unlayered.com/time" data-text="HTML5 Time Tracker" data-via="heyimjuani" data-related="heyimjuani">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> -->
+<script>
+
+;( function( doc ) {
+
+'use strict';
+
+var TimeTracker = {
+
+		cycle: 25*60, // in seconds
+
+		status: 'idle', // idle, running,
+		page: 'countdown', // countdown, naming, list
+		clock: 0,
+
+		interval: 1000,
+
+	selectView: function(page) {
+		var pages = doc.getElementsByClassName("page");
+		for(var i = 0; i < pages.length; i++) {
+			doc.getElementsByClassName('page')[i].classList.remove('active');
+		}
+		doc.getElementById(page).classList.add('active');
+	},
+
+	secsToTime: function(s) {
+		return parseInt(s / 60) +':'+ ('0'+s % 60).slice(-2);
+	},
 
 
+	/**
+	 * Countdown
+	 */
+	startCountdown: function() {
+		TimeTracker.startTimer();
+		TimeTracker.selectView('countdown');
+	},
+
+	// Timer finished or user clicked Done
+	finishCountdown: function() {
+		clearInterval(TimeTracker.t);
+
+		var duration = TimeTracker.cycle-TimeTracker.clock;
+		TimeTracker.currentTask = {
+			start: Date.now()-duration,
+			duration: duration,
+			end: Date.now(),
+			title: '', // will be saved in saveNaming
+		};
+
+		TimeTracker.selectView('naming');
+	},
+
+	cancelCountdown: function() {
+		clearInterval(TimeTracker.t);
+
+		TimeTracker.selectView('list');
+	},
+
+	/**
+	 * Timer
+	 */
+
+	startTimer: function() {
+		var self = this;
+		if (TimeTracker.status != 'running') {
+			TimeTracker.clock = TimeTracker.cycle;
+			TimeTracker.t = setInterval(function(){
+				self.clock--;
+				doc.getElementById('clock').innerHTML = self.secsToTime( self.clock );
+
+				if (self.clock < 1) {
+					self.finishCountdown();
+				}
+
+			}, TimeTracker.interval);
+			TimeTracker.status = 'running';
+		}
+	},
 
 
-<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="jquery.countdown.min.js"></script>
-<script type="text/javascript" src="tinycon.min.js"></script>
-<script type="text/javascript" src="site.js"></script>
+	/**
+	 * Naming
+	 */
+
+	saveNaming: function() {
+		TimeTracker.currentTask.title = doc.getElementById('taskTitle').value;
+
+		// Add task at the beginning
+		TimeTracker.db.tasks.unshift(TimeTracker.currentTask);
+
+		TimeTracker.saveDatabase();
+
+		TimeTracker.refreshList();
+
+		TimeTracker.selectView('list');
+		// pause and reset timer
+	},
+
+	cancelNaming: function() {
+		TimeTracker.selectView('list');
+	},
+
+	refreshList: function() {
+		document.getElementById('taskList').innerHTML = '';
+		for (var i = 0; i < TimeTracker.db.tasks.length; i++) {
+			document.getElementById('taskList').innerHTML +=
+				'<li>'+
+					'<p class="title">'+TimeTracker.db.tasks[i].title+'</p>'+
+					'<p class="detail">'+
+						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].start)+'&mdash;'+
+						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].end)+
+						'<span class="interval">'+parseInt(TimeTracker.db.tasks[i].duration / 60)+' min</span></p>'+
+				'</li>'
+		};
+	},
+
+
+	// Retrieves tasks and config saved in Database
+	loadDatabase: function() {
+		var lsDb = localStorage.getItem('TimeTracker');
+		TimeTracker.db = (lsDb) ? JSON.parse(lsDb) : {'tasks':[]};
+	},
+
+	saveDatabase: function() {
+		localStorage.setItem( 'TimeTracker', JSON.stringify(TimeTracker.db) );
+	},
+
+
+	timestampToDate: function(timestamp) {
+		var date = new Date(timestamp*1000);
+		return date.getHours()+':'+('0'+date.getMinutes()).slice(-2);
+	},
+
+
+	initEvents: function() {
+		// Page List
+		doc.getElementById('startCountdown').onclick = TimeTracker.startCountdown;
+
+		// Page Countdown
+		doc.getElementById('finishCountdown').onclick = TimeTracker.finishCountdown;
+		doc.getElementById('cancelCountdown').onclick = TimeTracker.cancelCountdown;
+
+		// Page Naming
+		doc.getElementById('saveNaming').onclick = TimeTracker.saveNaming;
+		doc.getElementById('cancelNaming').onclick = TimeTracker.cancelNaming;
+	},
+
+	init: function() {
+		TimeTracker.initEvents();
+		TimeTracker.loadDatabase();
+		TimeTracker.refreshList();
+		TimeTracker.startCountdown();
+	}
+};
+
+
+TimeTracker.init();
+
+
+}( document ) );
+
+</script>
+
 
 </body>
 </html>
