@@ -2,42 +2,69 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Time</title>
+	<title>TimeTracker</title>
 	<style>
 * {margin:0;padding:0;}
-html {font-family:sans-serif;}
+html {font-family: "Helvetica Neue", Helvetica, sans-serif}
 
-.page /*{opacity:0;*/transition: opacity .3s ease-in;}
-	.page.active {opacity:1;}
 
-/* Countdown
-.clock {font-size: 6em;text-align: center;color: #ccc;padding-top: 100px;}
+body.list {background: #3498db;}
+body.countdown {background: #2c3e50;}
+body.naming {background: #1abc9c;}
+
+body.list .page.list,
+body.countdown .page.countdown,
+body.naming .page.naming {opacity:1;z-index:1000;}
+
+.page {opacity:0;transition: opacity .3s ease-in;display: block;position: absolute;width: 100%;}
+
+/* Countdown */
+.countdown .clock {font-size: 10rem;font-weight: 100;text-align: center;color: #fff;padding-top: 100px;}
+
+/* Naming */
+.naming .question {color: #fff;text-align: center;font-size: 2rem;font-weight: 100;font-style: italic;margin-top: 130px;}
+.naming .title {display: block;width: 20rem;font-size: 2rem;margin: 10px auto;padding: 20px;}
+
+/* List */
+.list li {background: #fff;width: 340px;margin: 0 auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.5);padding: 20px;list-style:none;margin-bottom: 10px;position:relative;}
+	.list .title {font-size: 1.66rem;}
+	.list .detail {opacity: .66;font-size: .8rem;}
+	.list .interval {opacity: .33;float:right;font-size: .7rem;}
+	.list .delete {display:none;cursor:pointer;top: -3px;position: absolute;right: 0;line-height: 1rem;color: #FF4849;}
+	.list li:hover .delete {display:block;}
+
+
+/* Buttons */
+button {cursor: pointer;}
+.primary,
+.secondary {display: block;margin: 10px auto;padding: 0.5em 1.66rem;font-size: 1rem;background: transparent;border: 3px solid #fff;color: #fff;}
+.primary {background: #e74c3c;border:none;font-size: 2rem;}
+.secondary {opacity:.8;}
+.danger {position: absolute;top: 20px;right: 20px;background: none;border: none;text-transform: lowercase;color: #fff;opacity:.4;}
+	.danger:hover {color: #FF4849;opacity:1;}
+
+
+
+
+/* Debug
+.page {opacity:1 !important;background: transparent !important;}
  */
-
-.danger {position: absolute;
-top: 20px;
-right: 20px;
-background: none;
-border: none;
-text-transform: lowercase;
-color: red;}
-
 	</style>
 
 
-
+	<link rel="shortcut icon" href="favicon.png">
 </head>
-<body>
+<body class="">
 
-	<div id="countdown" class="page countdown active">
-		<p id="clock" class="clock">25:00</p>
-		<button id="finishCountdown" class="primary" title="Finish the current task">I'm finished</button>
+	<div id="countdown" class="page countdown">
+		<p id="clock" class="clock">--:--</p>
+		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm finished</button>
 		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
 
 	<div id="naming" class="page naming">
 		<p class="question">What have you been working on?</p>
-		<input type="text" id="taskTitle" class="title">
+		<input type="text" id="taskTitle" class="title" placeholder="Be as descriptive as possible&hellip;">
 		<button id="saveNaming" class="primary" title="Save the current task">Save</button>
 		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
@@ -45,16 +72,18 @@ color: red;}
 	<div id="list" class="page list">
 		<button id="startCountdown" class="primary">Start new task</button>
 		<ul id="taskList" class="list">
-			<li>
+			<!-- <li>
 				<p class="title">Task title</p>
 				<p class="detail">9:00&mdash;9:23<span class="interval">23 min</span></p>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 
+
+<script src="tinycon.min.js"></script>
 <script>
 
-;( function( doc ) {
+;( function( doc, win ) {
 
 'use strict';
 
@@ -68,12 +97,14 @@ var TimeTracker = {
 
 		interval: 1000,
 
+		audio: new Audio("alert.mp3"),
+
 	selectView: function(page) {
-		var pages = doc.getElementsByClassName("page");
-		for(var i = 0; i < pages.length; i++) {
-			doc.getElementsByClassName('page')[i].classList.remove('active');
+		doc.body.className = page;
+		if (page==='list') {
+			doc.getElementById('taskTitle').focus();
+			doc.getElementById('taskTitle').select();
 		}
-		doc.getElementById(page).classList.add('active');
 	},
 
 	secsToTime: function(s) {
@@ -91,9 +122,9 @@ var TimeTracker = {
 
 	// Timer finished or user clicked Done
 	finishCountdown: function() {
-		clearInterval(TimeTracker.t);
+		TimeTracker.resetCountdown();
 
-		var duration = TimeTracker.cycle-TimeTracker.clock;
+		var duration = (TimeTracker.cycle-TimeTracker.clock)*1000;
 		TimeTracker.currentTask = {
 			start: Date.now()-duration,
 			duration: duration,
@@ -105,9 +136,14 @@ var TimeTracker = {
 	},
 
 	cancelCountdown: function() {
-		clearInterval(TimeTracker.t);
-
+		TimeTracker.resetCountdown();
 		TimeTracker.selectView('list');
+	},
+
+	resetCountdown: function() {
+		clearInterval(TimeTracker.t);
+		TimeTracker.status = 'idle';
+		Tinycon.setBubble();
 	},
 
 	/**
@@ -122,7 +158,12 @@ var TimeTracker = {
 				self.clock--;
 				doc.getElementById('clock').innerHTML = self.secsToTime( self.clock );
 
+				Tinycon.setBubble( parseInt(self.clock/60) );
+
 				if (self.clock < 1) {
+					win.blur();
+					TimeTracker.audio.loop = true;
+					TimeTracker.audio.play();
 					self.finishCountdown();
 				}
 
@@ -163,7 +204,8 @@ var TimeTracker = {
 					'<p class="detail">'+
 						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].start)+'&mdash;'+
 						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].end)+
-						'<span class="interval">'+parseInt(TimeTracker.db.tasks[i].duration / 60)+' min</span></p>'+
+						'<span class="interval">'+parseInt(TimeTracker.db.tasks[i].duration / 60 / 1000)+' min</span></p>'+
+						'<i class="delete" title="Remove this task" data-id="'+i+'">&times;</i>'+
 				'</li>'
 		};
 	},
@@ -181,7 +223,7 @@ var TimeTracker = {
 
 
 	timestampToDate: function(timestamp) {
-		var date = new Date(timestamp*1000);
+		var date = new Date(timestamp);
 		return date.getHours()+':'+('0'+date.getMinutes()).slice(-2);
 	},
 
@@ -197,13 +239,19 @@ var TimeTracker = {
 		// Page Naming
 		doc.getElementById('saveNaming').onclick = TimeTracker.saveNaming;
 		doc.getElementById('cancelNaming').onclick = TimeTracker.cancelNaming;
+
+		win.onfocus = function() { TimeTracker.audio.loop = false; }
 	},
 
 	init: function() {
 		TimeTracker.initEvents();
 		TimeTracker.loadDatabase();
 		TimeTracker.refreshList();
-		TimeTracker.startCountdown();
+		if (TimeTracker.db.tasks.length>0) {
+			TimeTracker.selectView('list');
+		}else{
+			TimeTracker.startCountdown();
+		}
 	}
 };
 
@@ -211,7 +259,7 @@ var TimeTracker = {
 TimeTracker.init();
 
 
-}( document ) );
+}( document, window ) );
 
 </script>
 
