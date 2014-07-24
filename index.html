@@ -21,15 +21,15 @@ h1 {display:none;}
 .page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;}
-.countdown .estimate {text-align: center;font-size: 0.7rem;margin-top: -20px;opacity: 0.5;}
+.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);}
+.countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
 
 /* Naming */
 .naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
 
 /* List */
 .list .start {margin: 40px auto 20px;}
-.list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.9;}
+.list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.8;transition: opacity .3s ease-in;}
 	.list li:hover {opacity:1;}
 	.list li:before {content: "";border: 8px solid transparent;border-bottom: 8px solid #fff;position: absolute;top: -16px;left: 50%;margin-left: -8px;}
 	.list .title {font-size: 1.66rem;}
@@ -40,13 +40,13 @@ h1 {display:none;}
 
 
 /* Buttons */
-button {cursor: pointer;opacity:.9;}
+button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 	button:hover {cursor: pointer;opacity:1;}
 .primary,
 .secondary {display: block;margin: 10px auto;padding: 0.5em 2rem;font-size: 1rem;background: transparent;border: 2px solid #1abc9c;color: #1abc9c;}
 .primary {background: #e74c3c;color: #fff;border: none;font-size: 1.33rem;padding: 1rem 4rem;}
 .secondary {opacity:.8;}
-.danger {position: absolute;top: 20px;right: 20px;background: none;border: none;text-transform: lowercase;color: #fff;opacity:.4;}
+.danger {position: absolute;top: 20px;right: 20px;background: none;border: none;font-size: 0.5rem;text-transform: uppercase;color: #fff;opacity:.4;}
 	.danger:hover {color: #FF4849;opacity:1;}
 
 
