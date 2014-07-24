@@ -21,8 +21,8 @@ h1 {display:none;}
 .page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 5px;background: rgba(0,0,0,0.3);}
-	.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 5px;background: rgba(231, 76, 60, 0.8);}
+.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,0.3);}
+	.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 3px;background: rgba(231, 76, 60, 0.8);}
 .countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
 .countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
 
@@ -48,7 +48,7 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 .secondary {display: block;margin: 10px auto;padding: 0.5em 2rem;font-size: 1rem;background: transparent;border: 2px solid #1abc9c;color: #1abc9c;}
 .primary {background: #e74c3c;color: #fff;border: none;font-size: 1.33rem;padding: 1rem 4rem;}
 .secondary {opacity:.8;}
-.danger {position: absolute;top: 20px;right: 20px;background: none;border: none;font-size: 0.5rem;text-transform: uppercase;color: #fff;opacity:.4;}
+.danger {position: fixed;bottom: 20px;right: 20px;background: none;border: none;font-size: 0.5rem;text-transform: uppercase;color: #fff;opacity:.4;}
 	.danger:hover {color: #FF4849;opacity:1;}
 
 
@@ -90,7 +90,7 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 				<p class="detail"><span class="interval">23 min</span>9:00&mdash;9:23</p>
 			</li> -->
 		</ul>
-		<button id="clearTasks" class="danger" title="Remove all tasks">Clear all</button>
+		<button id="clearTasks" class="danger" title="Remove all tasks">Reset</button>
 	</div>
 
 
