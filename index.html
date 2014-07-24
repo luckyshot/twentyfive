@@ -16,27 +16,21 @@ body.list .page.list,
 body.countdown .page.countdown,
 body.naming .page.naming {opacity:1;z-index:1000;transition: opacity .5s ease-in;}
 
+h1 {display:none;}
+
 .page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
 .countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;}
 
 /* Naming */
-.naming .question {color: #fff;text-align: center;font-size: 1.5rem;padding-top: 250px;opacity: .8;}
-.naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;padding: 20px;text-align:center;}
+.naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
 
 /* List */
 .list .start {margin: 40px auto 20px;}
 .list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.9;}
 	.list li:hover {opacity:1;}
-.list li:before {
-content: "";
-border: 8px solid transparent;
-border-bottom: 8px solid #fff;
-position: absolute;
-top: -16px;
-left: 50%;
-margin-left: -8px;}
+	.list li:before {content: "";border: 8px solid transparent;border-bottom: 8px solid #fff;position: absolute;top: -16px;left: 50%;margin-left: -8px;}
 	.list .title {font-size: 1.66rem;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.5rem;text-transform: uppercase;}
@@ -67,6 +61,8 @@ button {cursor: pointer;opacity:.9;}
 </head>
 <body class="">
 
+	<h1>TimeTracker</h1>
+
 	<div id="countdown" class="page countdown">
 		<p id="clock" class="clock">--:--</p>
 		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
@@ -74,9 +70,8 @@ button {cursor: pointer;opacity:.9;}
 	</div>
 
 	<div id="naming" class="page naming">
-		<p class="question">What have you been working on?</p>
-		<input type="text" id="taskTitle" class="title" placeholder="Be as descriptive as possible&hellip;">
-		<button id="saveNaming" class="primary" title="Save the current task">Save task</button>
+		<input type="text" id="taskTitle" class="title" placeholder="What have you been working on?" title="Be as descriptive as possible&hellip;">
+		<button id="saveNaming" class="primary" title="Save task">Save task</button>
 		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
 
@@ -114,8 +109,12 @@ var TimeTracker = {
 	selectView: function(page) {
 		doc.body.className = page;
 		if (page==='list') {
-			doc.getElementById('taskTitle').focus();
-			doc.getElementById('taskTitle').select();
+			var tT = doc.getElementById('taskTitle');
+			setTimeout(function(){
+				tT.focus();
+				tT.select();
+			}, 100);
+			console.log('focus');
 		}
 	},
 
@@ -236,8 +235,8 @@ var TimeTracker = {
 						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].end)+
 					'</p>'+
 					'<i class="delete" title="Remove this task" data-id="'+i+'">&times;</i>'+
-				'</li>'
-		};
+				'</li>';
+		}
 	},
 
 
