@@ -5,40 +5,51 @@
 	<title>TimeTracker</title>
 	<style>
 * {margin:0;padding:0;}
-html {font-family: "Helvetica Neue", Helvetica, sans-serif}
+html {font-family: "Helvetica Neue", Helvetica, sans-serif;}
 
-
+body {transition: background .5s ease-in;}
 body.list {background: #3498db;}
 body.countdown {background: #2c3e50;}
 body.naming {background: #1abc9c;}
 
 body.list .page.list,
 body.countdown .page.countdown,
-body.naming .page.naming {opacity:1;z-index:1000;}
+body.naming .page.naming {opacity:1;z-index:1000;transition: opacity .5s ease-in;}
 
-.page {opacity:0;transition: opacity .3s ease-in;display: block;position: absolute;width: 100%;}
+.page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown .clock {font-size: 10rem;font-weight: 100;text-align: center;color: #fff;padding-top: 100px;}
+.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;}
 
 /* Naming */
-.naming .question {color: #fff;text-align: center;font-size: 2rem;font-weight: 100;font-style: italic;margin-top: 130px;}
-.naming .title {display: block;width: 20rem;font-size: 2rem;margin: 10px auto;padding: 20px;}
+.naming .question {color: #fff;text-align: center;font-size: 1.5rem;padding-top: 250px;opacity: .8;}
+.naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;padding: 20px;text-align:center;}
 
 /* List */
-.list li {background: #fff;width: 340px;margin: 0 auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.5);padding: 20px;list-style:none;margin-bottom: 10px;position:relative;}
+.list .start {margin: 40px auto 20px;}
+.list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.9;}
+	.list li:hover {opacity:1;}
+.list li:before {
+content: "";
+border: 8px solid transparent;
+border-bottom: 8px solid #fff;
+position: absolute;
+top: -16px;
+left: 50%;
+margin-left: -8px;}
 	.list .title {font-size: 1.66rem;}
-	.list .detail {opacity: .66;font-size: .8rem;}
-	.list .interval {opacity: .33;float:right;font-size: .7rem;}
-	.list .delete {display:none;cursor:pointer;top: -3px;position: absolute;right: 0;line-height: 1rem;color: #FF4849;}
+	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
+	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.5rem;text-transform: uppercase;}
+	.list .delete {display:none;cursor:pointer;top: -3px;position: absolute;right: 0;line-height: 1rem;color: #999;}
 	.list li:hover .delete {display:block;}
 
 
 /* Buttons */
-button {cursor: pointer;}
+button {cursor: pointer;opacity:.9;}
+	button:hover {cursor: pointer;opacity:1;}
 .primary,
-.secondary {display: block;margin: 10px auto;padding: 0.5em 1.66rem;font-size: 1rem;background: transparent;border: 3px solid #fff;color: #fff;}
-.primary {background: #e74c3c;border:none;font-size: 2rem;}
+.secondary {display: block;margin: 10px auto;padding: 0.5em 2rem;font-size: 1rem;background: transparent;border: 2px solid #1abc9c;color: #1abc9c;}
+.primary {background: #e74c3c;color: #fff;border: none;font-size: 1.33rem;padding: 1rem 4rem;}
 .secondary {opacity:.8;}
 .danger {position: absolute;top: 20px;right: 20px;background: none;border: none;text-transform: lowercase;color: #fff;opacity:.4;}
 	.danger:hover {color: #FF4849;opacity:1;}
@@ -58,25 +69,26 @@ button {cursor: pointer;}
 
 	<div id="countdown" class="page countdown">
 		<p id="clock" class="clock">--:--</p>
-		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm finished</button>
+		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
 		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
 
 	<div id="naming" class="page naming">
 		<p class="question">What have you been working on?</p>
 		<input type="text" id="taskTitle" class="title" placeholder="Be as descriptive as possible&hellip;">
-		<button id="saveNaming" class="primary" title="Save the current task">Save</button>
+		<button id="saveNaming" class="primary" title="Save the current task">Save task</button>
 		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
 	</div>
 
 	<div id="list" class="page list">
-		<button id="startCountdown" class="primary">Start new task</button>
+		<button id="startCountdown" class="primary start" title="Start a new task">Get back to work</button>
 		<ul id="taskList" class="list">
 			<!-- <li>
 				<p class="title">Task title</p>
-				<p class="detail">9:00&mdash;9:23<span class="interval">23 min</span></p>
+				<p class="detail"><span class="interval">23 min</span>9:00&mdash;9:23</p>
 			</li> -->
 		</ul>
+		<button id="clearTasks" class="danger" title="Remove all tasks">Clear tasks</button>
 	</div>
 
 
@@ -141,9 +153,10 @@ var TimeTracker = {
 	},
 
 	resetCountdown: function() {
+		doc.getElementById('clock').innerHTML = '--:--';
 		clearInterval(TimeTracker.t);
 		TimeTracker.status = 'idle';
-		Tinycon.setBubble();
+		Tinycon.reset();
 	},
 
 	/**
@@ -153,6 +166,13 @@ var TimeTracker = {
 	startTimer: function() {
 		var self = this;
 		if (TimeTracker.status != 'running') {
+			Tinycon.setOptions({
+				width: 11,
+				height: 10,
+				font: '12px helvetica',
+				colour: '#ffffff',
+				background: '#1abc9c'
+			});
 			TimeTracker.clock = TimeTracker.cycle;
 			TimeTracker.t = setInterval(function(){
 				self.clock--;
@@ -161,6 +181,14 @@ var TimeTracker = {
 				Tinycon.setBubble( parseInt(self.clock/60) );
 
 				if (self.clock < 1) {
+					Tinycon.setBubble('END');
+					Tinycon.setOptions({
+						width: 7,
+						height: 70,
+						font: '7px helvetica',
+						colour: '#ffffff',
+						background: '#e74c3c'
+					});
 					win.blur();
 					TimeTracker.audio.loop = true;
 					TimeTracker.audio.play();
@@ -180,6 +208,8 @@ var TimeTracker = {
 	saveNaming: function() {
 		TimeTracker.currentTask.title = doc.getElementById('taskTitle').value;
 
+		TimeTracker.windowFocused(); // TODO make sure stop audio loop bug
+
 		// Add task at the beginning
 		TimeTracker.db.tasks.unshift(TimeTracker.currentTask);
 
@@ -188,7 +218,6 @@ var TimeTracker = {
 		TimeTracker.refreshList();
 
 		TimeTracker.selectView('list');
-		// pause and reset timer
 	},
 
 	cancelNaming: function() {
@@ -202,10 +231,11 @@ var TimeTracker = {
 				'<li>'+
 					'<p class="title">'+TimeTracker.db.tasks[i].title+'</p>'+
 					'<p class="detail">'+
-						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].start)+'&mdash;'+
+						'<span class="interval">'+parseInt(TimeTracker.db.tasks[i].duration / 60 / 1000)+' minutes</span>'+
+						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].start)+' - '+
 						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].end)+
-						'<span class="interval">'+parseInt(TimeTracker.db.tasks[i].duration / 60 / 1000)+' min</span></p>'+
-						'<i class="delete" title="Remove this task" data-id="'+i+'">&times;</i>'+
+					'</p>'+
+					'<i class="delete" title="Remove this task" data-id="'+i+'">&times;</i>'+
 				'</li>'
 		};
 	},
@@ -221,16 +251,29 @@ var TimeTracker = {
 		localStorage.setItem( 'TimeTracker', JSON.stringify(TimeTracker.db) );
 	},
 
+	clearTasks: function() {
+		if (!confirm('Do you want to delete all tasks?')) return false;
+		localStorage.removeItem('TimeTracker');
+		TimeTracker.saveDatabase();
+		TimeTracker.loadDatabase();
+		TimeTracker.refreshList();
+	},
+
 
 	timestampToDate: function(timestamp) {
 		var date = new Date(timestamp);
 		return date.getHours()+':'+('0'+date.getMinutes()).slice(-2);
 	},
 
+	windowFocused: function() {
+		TimeTracker.audio.loop = false;
+		TimeTracker.audio.pause();
+	},
 
 	initEvents: function() {
 		// Page List
 		doc.getElementById('startCountdown').onclick = TimeTracker.startCountdown;
+		doc.getElementById('clearTasks').onclick = TimeTracker.clearTasks;
 
 		// Page Countdown
 		doc.getElementById('finishCountdown').onclick = TimeTracker.finishCountdown;
@@ -240,7 +283,7 @@ var TimeTracker = {
 		doc.getElementById('saveNaming').onclick = TimeTracker.saveNaming;
 		doc.getElementById('cancelNaming').onclick = TimeTracker.cancelNaming;
 
-		win.onfocus = function() { TimeTracker.audio.loop = false; }
+		win.onfocus = TimeTracker.windowFocused;
 	},
 
 	init: function() {
