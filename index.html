@@ -21,16 +21,18 @@ h1 {display:none;}
 .page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,0.3);}
-	.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 3px;background: rgba(231, 76, 60, 0.8);}
-.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
-.countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
+.countdown {height: 300px;width: 400px;position: absolute;top: 50%;left: 50%;margin: -350px auto auto -200px;}
+	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,0.3);}
+		.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 3px;background: rgba(231, 76, 60, 0.8);}
+	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
+	.countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
 
 /* Naming */
 .naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
 
 /* List */
 .list .start {margin: 40px auto;}
+	.list .tasklist {overflow-y: scroll;height: 400px;}
 .list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.8;transition: opacity .3s ease-in;}
 	.list li:hover {opacity:1;}
 	.list li:before {content: "";border: 8px solid transparent;border-top: 8px solid #fff;position: absolute;bottom: -16px;left: 50%;margin-left: -8px;}
@@ -84,7 +86,7 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 
 	<div id="list" class="page list">
 		<button id="startCountdown" class="primary start" title="Start a new task">Get back to work</button>
-		<ul id="taskList" class="list">
+		<ul id="taskList" class="tasklist">
 			<!-- <li>
 				<p class="title">Task title</p>
 				<p class="detail"><span class="interval">23 min</span>9:00&mdash;9:23</p>
@@ -121,7 +123,6 @@ var TimeTracker = {
 				tT.focus();
 				tT.select();
 			}, 100);
-			console.log('focus');
 		}
 	},
 
@@ -218,6 +219,8 @@ var TimeTracker = {
 		TimeTracker.currentTask.title = doc.getElementById('taskTitle').value;
 
 		TimeTracker.windowFocused(); // TODO make sure stop audio loop bug
+
+		Tinycon.reset();
 
 		// Add task at the beginning
 		TimeTracker.db.tasks.unshift(TimeTracker.currentTask);
