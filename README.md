@@ -8,6 +8,7 @@ Try it live on http://luckyshot.github.io/timetracker/
 TODO
 ----------------
 
+- Timer to be based on Date and not on setInterval ( better accuracy, see http://stackoverflow.com/a/6347336/217180 )
 - Responsive design
 
 
