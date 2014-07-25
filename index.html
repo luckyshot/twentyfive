@@ -5,7 +5,7 @@
 	<title>TimeTracker</title>
 	<style>
 * {margin:0;padding:0;}
-html {font-family: "Helvetica Neue", Helvetica, sans-serif;-webkit-font-smoothing: antialiased;}
+html,body {font-family: "Helvetica Neue", Helvetica, sans-serif;height:100%;-webkit-font-smoothing: antialiased;}
 
 body {transition: background .5s ease-in;}
 body.list {background: #3498db;}
@@ -21,7 +21,7 @@ h1 {display:none;}
 .page {display:none;opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown {height: 300px;width: 400px;position: absolute;top: 50%;left: 50%;margin: -350px auto auto -200px;}
+.countdown {display:table-cell;vertical-align:middle;height:100%;width:100%;}
 	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,0.3);}
 		.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 3px;background: rgba(231, 76, 60, 0.8);}
 	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
@@ -56,10 +56,12 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 	.danger:hover {color: #FF4849;opacity:1;}
 
 
-
+@media screen and (max-width: 960px) {
+	
+}
 
 /* Debug
-.page {opacity:1 !important;background: transparent !important;}
+.page {display:block;opacity:1 !important;background: transparent !important;}
  */
 	</style>
 
