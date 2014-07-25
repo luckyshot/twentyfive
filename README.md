@@ -8,6 +8,8 @@ Try it live on http://luckyshot.github.io/timetracker/
 TODO
 ----------------
 
+- Settings page to edit Countdown
+- END favicon to draw attention by flashing/toggling colors
 - Timer to be based on Date and not on setInterval ( better accuracy, see http://stackoverflow.com/a/6347336/217180 )
 - Responsive design
 
