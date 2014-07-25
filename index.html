@@ -14,11 +14,11 @@ body.naming {background: #1abc9c;}
 
 body.list .page.list,
 body.countdown .page.countdown,
-body.naming .page.naming {opacity:1;z-index:1000;transition: opacity .5s ease-in;}
+body.naming .page.naming {display:block;opacity:1;z-index:1000;transition: opacity .5s ease-in;}
 
 h1 {display:none;}
 
-.page {opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
+.page {display:none;opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
 
 /* Countdown */
 .countdown {height: 300px;width: 400px;position: absolute;top: 50%;left: 50%;margin: -350px auto auto -200px;}
@@ -32,7 +32,6 @@ h1 {display:none;}
 
 /* List */
 .list .start {margin: 40px auto;}
-	.list .tasklist {overflow-y: scroll;height: 400px;}
 .list li {background: #fff;width: 340px;margin: 20px auto;box-shadow: 0 5px 5px rgba(44, 62, 80, 0.1);padding: 20px 30px 30px;list-style:none;position:relative;text-align: center;opacity:.8;transition: opacity .3s ease-in;}
 	.list li:hover {opacity:1;}
 	.list li:before {content: "";border: 8px solid transparent;border-top: 8px solid #fff;position: absolute;bottom: -16px;left: 50%;margin-left: -8px;}
