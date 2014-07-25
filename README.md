@@ -1,7 +1,7 @@
 TimeTracker
 ================
 
-TimeTracker is a minimal time tracking tool following the principles of the Pomodoro Technique. The UI and UX is a fork from Juani's HTML5 Time Tracker, I've recoded and redesigned it from scratch to increase performance, scalability, get rid of jQuery, get rid of the jQuery countdown plugin, progress bar, dynamic favicon, local storage is now saved in a unified JSON string.
+Minimal time tracking tool following the principles of the Pomodoro Technique. The UI is heavily inspired by Juani's HTML5 Time Tracker but has been redeveloped and redesigned from scratch to increase performance, scalability, get rid of jQuery, get rid of the jQuery countdown plugin, progress bar, dynamic favicon, local storage is now saved in a unified JSON string.
 
 Try it live on http://luckyshot.github.io/timetracker/
 
