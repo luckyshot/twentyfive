@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, maximum-scale=1, minimum-scale=1"/>
 	<title>TimeTracker</title>
 	<style>
 * {margin:0;padding:0;}
@@ -57,7 +58,7 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 
 
 @media screen and (max-width: 960px) {
-	
+
 }
 
 /* Debug
@@ -99,7 +100,10 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 		<button id="clearTasks" class="danger" title="Remove all tasks">Reset</button>
 	</div>
 
-	<footer><a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">☺</a></footer>
+	<footer>
+		<!-- <a href="#settings" title="Settings"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3NTkzMDdGOTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3NTkzMDdGQTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjc1OTMwN0Y3NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjc1OTMwN0Y4NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+CJhIvgAAAuJJREFUeNrsW9Fx2zAMVXz9jzaoOoG9QbRBvUHUCaoNog2qDZpuoA2iTFBlgjIbMBOw5B18p6aWDBKPlBz73eHDNk3yWSCJB9A3xpjskrDJLgxXwlfCV8Is7KwVgu/n1sq1E3aTrK0pa7+t9fReCB6tPVnT1lrhj/cv3LEEsMaaNv/jMaCvyhyH6yuXzhVFuDfT8JlobeYhJoxyaTXz2b21wVo106akJfBjps0bubgInxIQdvhs7ae1xlpH7TWtzb21LWOMATFRFGHupuKIfxfs/KvZpXdZfNwidusN6OluszSopB3cANSS22zuEhF+I29SSz3hOiHZg1t3goBGRLg+cYzEwlYSxW0C12y3ENkxaUVHGmwN59Shevf6fmUC6IVi72E0T01e4EXYBQkPZ6oCX6eOsDnCigKFGE9CjyKtQ7T1FUz6G43HUkt7g4MTFiUjsC9IaCDHZaulDjRoE6BoygmpGYKCSxgxYCWQcbtYc5hzr0EwUAvQ2JJlpen73gmAkDWlEEJdML4mDwnOeAwJXfmYp/milKZ4Cs9fNwNbh1xKnNDSnce/PJQTGj59tqhYumO2GyIQHjwCG4UirMDtkPkyr3ZcwjpbPzSScAFuFyNBWCAJc3VnjGQet887DmkO4dwjeVZGIOzT5+l5Ms7B9swCj50k8NgHhpbZOYaWEpmGEA9lSvHQXJo8VB81AbARhpKn8ECxcMk8R10O6okS7lI8H4u+ppJ4bvA/EdOpiyXx5rKWKWtGydK0c/Xhhtzr+V3Uc7syclOJ+ODA49im0pvloaaOnjmTlEuXrEy80EboreKk9eElKojBZBGEU29uixfEeQoFh1aaVUE84UPeKcU9jy9SwqhbPH0idxbnzFD3tLgbyGu28MW0VLpVnagIFIyzHZLkRxEezuVyKYpwNSEpUdeHNUnN1RAeT7YHVBG7UR81sBoJO5amcsShu2pOfcBLN7EIrxbXf7V8dPwVYAB+FLwQwmJ41wAAAABJRU5ErkJggg==" alt=""></a> -->
+		<a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">⑂</a>
+	</footer>
 
 <script src="tinycon.min.js"></script>
 <script>
