@@ -5,7 +5,10 @@
 	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, maximum-scale=1, minimum-scale=1"/>
 	<title>TimeTracker</title>
 	<style>
+
 * {margin:0;padding:0;}
+*, *:before, *:after {-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
+
 html,body {font-family: "Helvetica Neue", Helvetica, sans-serif;height:100%;-webkit-font-smoothing: antialiased;}
 
 body {transition: background .5s ease-in;}
@@ -19,7 +22,7 @@ body.naming .page.naming {display:block;opacity:1;z-index:1000;transition: opaci
 
 h1 {display:none;}
 
-.page {display:none;opacity:0;transition: opacity .1s ease-in;display: block;position: absolute;width: 100%;}
+.page {display:none;opacity:0;transition: opacity .1s ease-in;position: absolute;width: 100%;}
 
 /* Countdown */
 .countdown {display:table-cell;vertical-align:middle;height:100%;width:100%;}
@@ -29,6 +32,7 @@ h1 {display:none;}
 	.countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
 
 /* Naming */
+.naming {display:table-cell;vertical-align:middle;height:100%;width:100%;}
 .naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
 
 /* List */
@@ -56,8 +60,17 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 .danger {position: fixed;bottom: 20px;right: 20px;background: none;border: none;font-size: 0.5rem;text-transform: uppercase;color: #fff;opacity:.4;}
 	.danger:hover {color: #FF4849;opacity:1;}
 
+/* Small screen */
+@media screen and (max-width: 640px) {
 
-@media screen and (max-width: 960px) {
+	/* Countdown */
+	.countdown .clock {font-size: 6rem;}
+
+	/* List */
+	.list li {margin: 20px;width:auto;}
+
+	/* Naming */
+	.naming .title {width: 90%;font-size: 1.2em;}
 
 }
 
