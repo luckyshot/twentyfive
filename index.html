@@ -25,15 +25,15 @@ h1 {display:none;}
 section {display:none;opacity:0;transition: opacity .1s ease-in;position: absolute;width: 100%;}
 
 /* Countdown */
-.countdown {display:table-cell;vertical-align:middle;height:100%;width:100%;}
+.countdown {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:260px;width:640px;}
 	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,0.3);}
 		.countdown .bar {position: fixed;top: 0;left: 0;width: 0%;height: 3px;background: rgba(231, 76, 60, 0.8);}
-	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;padding-top: 250px;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
+	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
 	.countdown .estimate {text-align: center;font-size: 1rem;margin-top: -20px;opacity: .2;}
 
 /* Naming */
-.naming {display:table-cell;vertical-align:middle;height:100%;width:100%;}
-.naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;margin-top: 250px;padding: 20px;text-align:center;}
+.naming {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:170px;width:640px;}
+.naming .title {display: block;width: 40rem;font-size: 2rem;margin: 10px auto;padding: 20px;text-align:center;}
 
 /* List */
 .list .start {margin: 40px auto;}
@@ -137,7 +137,13 @@ section {display:block;opacity:1 !important;background: transparent !important;}
 
 
 
+/*
 
+TODO: Use currentTask.duration instead of TT.clock (and get rid of it)
+TODO: Tinycon to update on change of minute and not every second
+
+
+*/
 
 ;( function( doc, win ) {
 
@@ -149,11 +155,10 @@ var gId = function(id) {
 
 var TT = {
 
-		cycle: 25*60, // in seconds
+		cycle: 25 * 60 * 1000, // ms
 
 		status: 'idle', // idle, running,
 		page: 'countdown', // countdown, naming, list
-		clock: 0,
 
 		interval: 1000,
 
@@ -170,7 +175,8 @@ var TT = {
 		}
 	},
 
-	secsToTime: function(s) {
+	msToTime: function(s) {
+		s = parseInt(s / 1000);
 		return parseInt(s / 60) +':'+ ('0'+s % 60).slice(-2);
 	},
 
@@ -179,29 +185,24 @@ var TT = {
 	 * Countdown
 	 */
 	startCountdown: function() {
-		gId('clock').innerHTML = '25:00';
+		gId('clock').innerHTML = TT.msToTime(TT.cycle);
 		TT.startTimer();
 		TT.selectView('countdown');
 	},
 
 	// Timer finished or user clicked Done
 	finishCountdown: function() {
-		TT.resetCountdown();
-
-		var duration = (TT.cycle-TT.clock)*1000;
-		TT.currentTask = {
-			start: Date.now()-duration,
-			duration: duration,
-			end: Date.now(),
-			title: '', // will be saved in saveNaming
-		};
-
 		TT.selectView('naming');
+		TT.currentTask.duration = TT.cycle - TT.currentTask.clock;
+		TT.currentTask.clock = null;
+		TT.currentTask.end = Date.now();
+		TT.resetCountdown();
 	},
 
+	// User clicked Cancel
 	cancelCountdown: function() {
-		TT.resetCountdown();
 		TT.selectView('list');
+		TT.resetCountdown();
 	},
 
 	resetCountdown: function() {
@@ -216,8 +217,11 @@ var TT = {
 	 */
 
 	startTimer: function() {
+
 		var self = this;
+
 		if (TT.status != 'running') {
+
 			Tinycon.setOptions({
 				width: 11,
 				height: 10,
@@ -225,14 +229,23 @@ var TT = {
 				colour: '#ffffff',
 				background: '#1abc9c'
 			});
-			gId('estimate').innerHTML = TT.timestampToDate(Date.now()) + ' - ' + TT.timestampToDate(Date.now()+TT.cycle*1000);
-			TT.clock = TT.cycle;
-			TT.t = setInterval(function(){
-				self.clock--;
-				gId('clock').innerHTML = self.secsToTime( self.clock );
-				document.title = '['+self.secsToTime( self.clock )+'] TimeTracker';
 
-				gId('bar').style.width = (100-(self.clock / self.cycle * 100))+'%';
+			TT.currentTask = {
+				start: Date.now(),
+				clock: TT.cycle,
+				end: Date.now() + TT.cycle
+			};
+
+			gId('estimate').innerHTML = TT.timestampToDate(TT.currentTask.start) + ' - ' + TT.timestampToDate(TT.currentTask.end);
+
+			TT.t = setInterval(function(){
+
+				TT.currentTask.clock = parseInt(TT.currentTask.start + self.cycle - Date.now());
+
+				gId('clock').innerHTML = self.msToTime( TT.currentTask.clock );
+				document.title = '['+self.msToTime( TT.currentTask.clock )+'] TimeTracker';
+
+				gId('bar').style.width = (100-(TT.currentTask.clock / self.cycle * 100))+'%';
 
 				Tinycon.setBubble( parseInt(self.clock/60) );
 
@@ -262,17 +275,16 @@ var TT = {
 	 */
 
 	saveNaming: function() {
+
 		TT.currentTask.title = gId('taskTitle').value;
 
-		TT.windowFocused(); // TODO make sure stop audio loop bug
-
+		TT.windowFocused();
 		Tinycon.reset();
 
 		// Add task at the beginning
 		TT.db.tasks.unshift(TT.currentTask);
 
 		TT.saveDatabase();
-
 		TT.refreshList();
 
 		TT.selectView('list');
@@ -301,7 +313,7 @@ var TT = {
 	taskClick: function(e) {
 		var data = e.target.dataset;
 
-		if (data.action === 'deleteTask') {
+		if (data.action === 'deleteTask') { // TODO: doesn't delete newly created tasks, update event handler on saveNaming()
 			TT.db.tasks.splice(data.id, data.id);
 			TT.saveDatabase();
 			TT.refreshList();
@@ -357,7 +369,7 @@ var TT = {
 		gId('saveNaming').addEventListener('click', TT.saveNaming);
 		gId('cancelNaming').addEventListener('click', TT.cancelNaming);
 
-		win.addEventListener('focus', TT.windowFocused); // TODO: test this
+		win.addEventListener('focus', TT.windowFocused);
 	},
 
 	init: function() {
