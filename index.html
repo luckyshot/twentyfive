@@ -215,7 +215,7 @@ var TT = {
 	db: null,
 	t: null, // stores the timer instance
 
-	audio: new Audio("alert.mp3"),
+
 
 	selectView: function(page) {
 		doc.body.className = page;
@@ -323,6 +323,7 @@ var TT = {
 				background: '#e74c3c'
 			});
 			win.blur();
+			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
 			TT.audio.loop = true;
 			TT.audio.play();
 			TT.finishCountdown();
