@@ -398,9 +398,8 @@ var TT = {
 	},
 
 	clearTasks: function() {
-		if (!confirm('Do you want to delete all tasks?')) return false;
+		if (!confirm('Do you want to reset all data?')) return false;
 		localStorage.removeItem('TimeTracker');
-		TT.saveDatabase();
 		TT.loadDatabase();
 		TT.refreshList();
 	},
