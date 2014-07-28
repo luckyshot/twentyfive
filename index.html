@@ -147,7 +147,7 @@ var gId = function(id) {
 	return document.getElementById(id);
 }
 
-var TimeTracker = {
+var TT = {
 
 		cycle: 25*60, // in seconds
 
@@ -162,10 +162,10 @@ var TimeTracker = {
 	selectView: function(page) {
 		doc.body.className = page;
 		if (page==='list') {
-			var tT = gId('taskTitle');
+			var taT = gId('taskTitle');
 			setTimeout(function(){
-				tT.focus();
-				tT.select();
+				taT.focus();
+				taT.select();
 			}, 100);
 		}
 	},
@@ -180,33 +180,33 @@ var TimeTracker = {
 	 */
 	startCountdown: function() {
 		gId('clock').innerHTML = '25:00';
-		TimeTracker.startTimer();
-		TimeTracker.selectView('countdown');
+		TT.startTimer();
+		TT.selectView('countdown');
 	},
 
 	// Timer finished or user clicked Done
 	finishCountdown: function() {
-		TimeTracker.resetCountdown();
+		TT.resetCountdown();
 
-		var duration = (TimeTracker.cycle-TimeTracker.clock)*1000;
-		TimeTracker.currentTask = {
+		var duration = (TT.cycle-TT.clock)*1000;
+		TT.currentTask = {
 			start: Date.now()-duration,
 			duration: duration,
 			end: Date.now(),
 			title: '', // will be saved in saveNaming
 		};
 
-		TimeTracker.selectView('naming');
+		TT.selectView('naming');
 	},
 
 	cancelCountdown: function() {
-		TimeTracker.resetCountdown();
-		TimeTracker.selectView('list');
+		TT.resetCountdown();
+		TT.selectView('list');
 	},
 
 	resetCountdown: function() {
-		clearInterval(TimeTracker.t);
-		TimeTracker.status = 'idle';
+		clearInterval(TT.t);
+		TT.status = 'idle';
 		Tinycon.reset();
 		document.title = 'TimeTracker';
 	},
@@ -217,7 +217,7 @@ var TimeTracker = {
 
 	startTimer: function() {
 		var self = this;
-		if (TimeTracker.status != 'running') {
+		if (TT.status != 'running') {
 			Tinycon.setOptions({
 				width: 11,
 				height: 10,
@@ -225,9 +225,9 @@ var TimeTracker = {
 				colour: '#ffffff',
 				background: '#1abc9c'
 			});
-			gId('estimate').innerHTML = TimeTracker.timestampToDate(Date.now()) + ' - ' + TimeTracker.timestampToDate(Date.now()+TimeTracker.cycle*1000);
-			TimeTracker.clock = TimeTracker.cycle;
-			TimeTracker.t = setInterval(function(){
+			gId('estimate').innerHTML = TT.timestampToDate(Date.now()) + ' - ' + TT.timestampToDate(Date.now()+TT.cycle*1000);
+			TT.clock = TT.cycle;
+			TT.t = setInterval(function(){
 				self.clock--;
 				gId('clock').innerHTML = self.secsToTime( self.clock );
 				document.title = '['+self.secsToTime( self.clock )+'] TimeTracker';
@@ -246,13 +246,13 @@ var TimeTracker = {
 						background: '#e74c3c'
 					});
 					win.blur();
-					TimeTracker.audio.loop = true;
-					TimeTracker.audio.play();
+					TT.audio.loop = true;
+					TT.audio.play();
 					self.finishCountdown();
 				}
 
-			}, TimeTracker.interval);
-			TimeTracker.status = 'running';
+			}, TT.interval);
+			TT.status = 'running';
 		}
 	},
 
@@ -262,36 +262,36 @@ var TimeTracker = {
 	 */
 
 	saveNaming: function() {
-		TimeTracker.currentTask.title = gId('taskTitle').value;
+		TT.currentTask.title = gId('taskTitle').value;
 
-		TimeTracker.windowFocused(); // TODO make sure stop audio loop bug
+		TT.windowFocused(); // TODO make sure stop audio loop bug
 
 		Tinycon.reset();
 
 		// Add task at the beginning
-		TimeTracker.db.tasks.unshift(TimeTracker.currentTask);
+		TT.db.tasks.unshift(TT.currentTask);
 
-		TimeTracker.saveDatabase();
+		TT.saveDatabase();
 
-		TimeTracker.refreshList();
+		TT.refreshList();
 
-		TimeTracker.selectView('list');
+		TT.selectView('list');
 	},
 
 	cancelNaming: function() {
-		TimeTracker.selectView('list');
+		TT.selectView('list');
 	},
 
 	refreshList: function() {
 		document.getElementById('taskList').innerHTML = '';
-		for (var i = 0; i < TimeTracker.db.tasks.length; i++) {
+		for (var i = 0; i < TT.db.tasks.length; i++) {
 			document.getElementById('taskList').innerHTML +=
 				'<li>'+
-					'<p class="title">'+TimeTracker.db.tasks[i].title+'</p>'+
+					'<p class="title">'+TT.db.tasks[i].title+'</p>'+
 					'<p class="detail">'+
-						'<span class="interval">'+parseInt(TimeTracker.db.tasks[i].duration / 60 / 1000)+' minutes</span>'+
-						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].start)+' - '+
-						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].end)+
+						'<span class="interval">'+parseInt(TT.db.tasks[i].duration / 60 / 1000)+' minutes</span>'+
+						TT.timestampToDate(TT.db.tasks[i].start)+' - '+
+						TT.timestampToDate(TT.db.tasks[i].end)+
 					'</p>'+
 					'<i class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">&times;</i>'+
 				'</li>';
@@ -302,9 +302,9 @@ var TimeTracker = {
 		var data = e.target.dataset;
 
 		if (data.action === 'deleteTask') {
-			TimeTracker.db.tasks.splice(data.id, data.id);
-			TimeTracker.saveDatabase();
-			TimeTracker.refreshList();
+			TT.db.tasks.splice(data.id, data.id);
+			TT.saveDatabase();
+			TT.refreshList();
 
 		}else{
 			return false;
@@ -314,19 +314,19 @@ var TimeTracker = {
 	// Retrieves tasks and config saved in Database
 	loadDatabase: function() {
 		var lsDb = localStorage.getItem('TimeTracker');
-		TimeTracker.db = (lsDb) ? JSON.parse(lsDb) : {'tasks':[]};
+		TT.db = (lsDb) ? JSON.parse(lsDb) : {'tasks':[]};
 	},
 
 	saveDatabase: function() {
-		localStorage.setItem( 'TimeTracker', JSON.stringify(TimeTracker.db) );
+		localStorage.setItem( 'TimeTracker', JSON.stringify(TT.db) );
 	},
 
 	clearTasks: function() {
 		if (!confirm('Do you want to delete all tasks?')) return false;
 		localStorage.removeItem('TimeTracker');
-		TimeTracker.saveDatabase();
-		TimeTracker.loadDatabase();
-		TimeTracker.refreshList();
+		TT.saveDatabase();
+		TT.loadDatabase();
+		TT.refreshList();
 	},
 
 
@@ -336,41 +336,44 @@ var TimeTracker = {
 	},
 
 	windowFocused: function() {
-		TimeTracker.audio.loop = false;
-		TimeTracker.audio.pause();
+		TT.audio.loop = false;
+		TT.audio.pause();
 	},
 
+	/**
+	 * DOM Events
+	 */
 	initEvents: function() {
 		// Page List
-		gId('startCountdown').addEventListener('click', TimeTracker.startCountdown);
-		gId('clearTasks').addEventListener('click', TimeTracker.clearTasks);
-		gId('taskList').addEventListener('click', TimeTracker.taskClick);
+		gId('startCountdown').addEventListener('click', TT.startCountdown);
+		gId('clearTasks').addEventListener('click', TT.clearTasks);
+		gId('taskList').addEventListener('click', TT.taskClick);
 
 		// Page Countdown
-		gId('finishCountdown').addEventListener('click', TimeTracker.finishCountdown);
-		gId('cancelCountdown').addEventListener('click', TimeTracker.cancelCountdown);
+		gId('finishCountdown').addEventListener('click', TT.finishCountdown);
+		gId('cancelCountdown').addEventListener('click', TT.cancelCountdown);
 
 		// Page Naming
-		gId('saveNaming').addEventListener('click', TimeTracker.saveNaming);
-		gId('cancelNaming').addEventListener('click', TimeTracker.cancelNaming);
+		gId('saveNaming').addEventListener('click', TT.saveNaming);
+		gId('cancelNaming').addEventListener('click', TT.cancelNaming);
 
-		win.addEventListener('focus', TimeTracker.windowFocused);
+		win.addEventListener('focus', TT.windowFocused); // TODO: test this
 	},
 
 	init: function() {
-		TimeTracker.initEvents();
-		TimeTracker.loadDatabase();
-		TimeTracker.refreshList();
-		if (TimeTracker.db.tasks.length>0) {
-			TimeTracker.selectView('list');
+		TT.initEvents();
+		TT.loadDatabase();
+		TT.refreshList();
+		if (TT.db.tasks.length>0) {
+			TT.selectView('list');
 		}else{
-			TimeTracker.startCountdown();
+			TT.startCountdown();
 		}
 	}
 };
 
 
-TimeTracker.init();
+TT.init();
 
 
 }( document, window ) );
