@@ -64,12 +64,14 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 @media screen and (max-width: 640px) {
 
 	/* Countdown */
+	.countdown {width:280px;}
 	.countdown .clock {font-size: 6rem;}
 
 	/* List */
 	.list li {margin: 20px;width:auto;}
 
 	/* Naming */
+	.naming {width:280px;}
 	.naming .title {width: 90%;font-size: 1.2em;}
 
 }
@@ -259,7 +261,7 @@ var TT = {
 					self.finishCountdown();
 				}
 
-			}, 400); // less than a second to avoid JS timers' lag
+			}, 400); // a bit less than a second to avoid setInterval lag
 			TT.status = 'running';
 		}
 	},
