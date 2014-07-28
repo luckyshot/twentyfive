@@ -49,10 +49,11 @@ section {display:none;opacity:0;transition: opacity .1s ease-in;position: absolu
 	.list .title {font-size: 1.66rem;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.6rem;text-transform: uppercase;}
-	.list .delete {cursor:pointer;top: -3px;position: absolute;right: 1px;line-height: 1rem;color: #000;opacity: 0.3;}
+	.list .delete {cursor: pointer;top: -5px;position: absolute;right: 1px;line-height: 1rem;color: #000;opacity: 0.1;font-size: 2rem;font-style: normal;}
 
 footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
 	footer a {text-decoration: none;opacity: .5;color: #fff;}
+		footer a:hover {opacity: .8;transition: opacity .3s ease-in;}
 
 
 /* Buttons */
@@ -149,7 +150,7 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 		<button id="clearTasks" class="danger" title="Remove all tasks">Reset</button>
 
 		<footer>
-			<a href="http://xaviesteve.com/" title="Author" target="_blank">♛</a>
+			<a href="http://xaviesteve.com/" title="Author" target="_blank">★</a>
 			<a href="https://github.com/luckyshot/timetracker" title="Source code" target="_blank">⚙</a>
 		</footer>
 	</section>
@@ -370,7 +371,7 @@ var TT = {
 						TT.timestampToDate(TT.db.tasks[i].start)+' - '+
 						TT.timestampToDate(TT.db.tasks[i].end)+
 					'</p>'+
-					'<i class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">&times;</i>'+
+					'<i class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">⨯</i>'+
 				'</li>';
 		}
 	},
@@ -379,6 +380,7 @@ var TT = {
 		var data = e.target.dataset;
 
 		if (data.action === 'deleteTask') { // TODO: doesn't delete newly created tasks, update event handler on saveNaming()
+			if (!confirm('Do you want to delete this task?')) return false;
 			TT.db.tasks.splice(data.id, data.id);
 			TT.saveDatabase();
 			TT.refreshList();
@@ -412,6 +414,7 @@ var TT = {
 	},
 
 	windowFocused: function() {
+		if (typeof TT.audio === 'undefined') return false;
 		TT.audio.loop = false;
 		TT.audio.pause();
 	},
