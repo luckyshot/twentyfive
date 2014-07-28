@@ -12,7 +12,7 @@ TODO
 - END favicon to draw attention by flashing/toggling colors
 - Timer to be based on Date and not on setInterval ( better accuracy, see http://stackoverflow.com/a/6347336/217180 )
 - Responsive design
-
+- Web app capable (so we can use it as a mobile webapp)
 
 
 Credits
