@@ -21,9 +21,7 @@ Try it live on http://luckyshot.github.io/timetracker/
 TODO
 ----------------
 
-- web app icons
-- Welcome view
-- Browser Notifications
+- Browser Notifications ( https://developer.mozilla.org/en-US/docs/Web/API/notification )
 - Use ES5 array methods ( http://www.jimmycuadra.com/posts/ecmascript-5-array-methods )
 - Settings page to edit Countdown?
 - "END" favicon to draw attention by flashing/toggling colors
