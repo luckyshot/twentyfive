@@ -95,7 +95,7 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 
 	<link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAEFSURBVDiNrdMhTgNBGMXxX0dV1NavpMmeoAegByAYgichzRqwIMCCIRgsadYQDlAO0BOQ1K6vrahE7OyyXdqFJjwzmW/f/2X2m296Wjp7+jzGBGOMYnmJBeZ5ln40/b0GmGCKCwzawVFrvOA5z9KiDojwPc73gG3NcJNnaRFiYXoALHqn0Iv//N5x7H1a4yQoG/YrnAz7Xi+PJMN+VRpgEpTd3meq63enCdRr1Dj4vqotUxXShOH2rWgGjEJz1/xYhbThYrXZOl1QDgkoVpsfIV0wlkE5YbXaIR0wLALmyivZGdIBrzGvJvEBV7tcHXrMs/S6auKzcjz/qllk/ukxNXXoc/4CfLVozsn8qNgAAAAASUVORK5CYII=">
 </head>
-<body class="">
+<body class="countdown">
 
 	<h1>TimeTracker</h1>
 
@@ -160,12 +160,23 @@ var gId = function(id) {
 
 var TT = {
 
-		cycle: 25 * 60 * 1000, // ms
+	defaultDb: {
+		config: {
+			cycle: 25 * 60 * 1000, // ms
+			status: 'idle', // idle, running,
+			currentTask: {
+				start: 0,
+				end: 0,
+				duration: 0, // used on save
+				clock: 0, // used during countdown, cleared on save
+				title: ''
+			}
+		},
+		tasks: []
+	},
+	db: null,
 
-		status: 'idle', // idle, running,
-		page: 'countdown', // countdown, naming, list
-
-		audio: new Audio("alert.mp3"),
+	audio: new Audio("alert.mp3"),
 
 	selectView: function(page) {
 		doc.body.className = page;
@@ -188,7 +199,7 @@ var TT = {
 	 * Countdown
 	 */
 	startCountdown: function() {
-		gId('clock').innerHTML = TT.msToTime(TT.cycle);
+		gId('clock').innerHTML = TT.msToTime(TT.db.config.cycle);
 		TT.startTimer();
 		TT.selectView('countdown');
 	},
@@ -196,9 +207,9 @@ var TT = {
 	// Timer finished or user clicked Done
 	finishCountdown: function() {
 		TT.selectView('naming');
-		TT.currentTask.duration = TT.cycle - TT.currentTask.clock;
-		TT.currentTask.clock = null;
-		TT.currentTask.end = Date.now();
+		TT.db.config.currentTask.duration = TT.db.config.cycle - TT.db.config.currentTask.clock;
+		TT.db.config.currentTask.clock = null;
+		TT.db.config.currentTask.end = Date.now();
 		TT.resetCountdown();
 	},
 
@@ -210,9 +221,10 @@ var TT = {
 
 	resetCountdown: function() {
 		clearInterval(TT.t);
-		TT.status = 'idle';
+		TT.db.config.status = 'idle';
 		Tinycon.reset();
 		document.title = 'TimeTracker';
+		TT.saveDatabase();
 	},
 
 	/**
@@ -223,7 +235,7 @@ var TT = {
 
 		var self = this;
 
-		if (TT.status != 'running') {
+		if (TT.db.config.status != 'running') {
 
 			Tinycon.setOptions({
 				width: 11,
@@ -233,48 +245,50 @@ var TT = {
 				background: '#1abc9c'
 			});
 
-			TT.currentTask = {
+			TT.db.config.currentTask = {
 				start: Date.now(),
-				clock: TT.cycle,
-				end: Date.now() + TT.cycle
+				clock: TT.db.config.cycle,
+				end: Date.now() + TT.db.config.cycle
 			};
-
-			gId('estimate').innerHTML = TT.timestampToDate(TT.currentTask.start) + ' - ' + TT.timestampToDate(TT.currentTask.end);
-
-			TT.t = setInterval(function(){
-
-				TT.currentTask.clock = parseInt(TT.currentTask.start + self.cycle - Date.now());
-
-				gId('clock').innerHTML = self.msToTime( TT.currentTask.clock );
-				document.title = '['+self.msToTime( TT.currentTask.clock )+'] TimeTracker';
-
-				gId('bar').style.width = (100-(TT.currentTask.clock / self.cycle * 100))+'%';
-
-				if (TT.currentMinute != parseInt(TT.currentTask.clock/60/1000)) {
-					TT.currentMinute = parseInt(TT.currentTask.clock/60/1000);
-					console.log (parseInt(TT.currentTask.clock/60/1000));
-					Tinycon.setBubble( TT.currentMinute );
-				}
-
-
-				if (TT.currentTask.clock < 1) {
-					Tinycon.setBubble('END');
-					Tinycon.setOptions({
-						width: 7,
-						height: 70,
-						font: '7px helvetica',
-						colour: '#ffffff',
-						background: '#e74c3c'
-					});
-					win.blur();
-					TT.audio.loop = true;
-					TT.audio.play();
-					self.finishCountdown();
-				}
-
-			}, 400); // a bit less than a second to avoid setInterval lag
-			TT.status = 'running';
 		}
+
+		gId('estimate').innerHTML = TT.timestampToDate(TT.db.config.currentTask.start) + ' - ' + TT.timestampToDate(TT.db.config.currentTask.end);
+
+		TT.t = setInterval(function(){
+
+			TT.db.config.currentTask.clock = parseInt(TT.db.config.currentTask.start + self.db.config.cycle - Date.now());
+
+			gId('clock').innerHTML = self.msToTime( TT.db.config.currentTask.clock );
+			document.title = '['+self.msToTime( TT.db.config.currentTask.clock )+'] TimeTracker';
+
+			gId('bar').style.width = (100-(TT.db.config.currentTask.clock / self.db.config.cycle * 100))+'%';
+
+			if (TT.currentMinute != parseInt(TT.db.config.currentTask.clock/60/1000)) {
+				TT.currentMinute = parseInt(TT.db.config.currentTask.clock/60/1000);
+				console.log (parseInt(TT.db.config.currentTask.clock/60/1000));
+				Tinycon.setBubble( TT.currentMinute );
+			}
+
+
+			if (TT.db.config.currentTask.clock < 1) {
+				Tinycon.setBubble('END');
+				Tinycon.setOptions({
+					width: 7,
+					height: 70,
+					font: '7px helvetica',
+					colour: '#ffffff',
+					background: '#e74c3c'
+				});
+				win.blur();
+				TT.audio.loop = true;
+				TT.audio.play();
+				self.finishCountdown();
+			}
+
+			TT.saveDatabase();
+
+		}, 400); // a bit less than a second to avoid setInterval lag
+		TT.db.config.status = 'running';
 	},
 
 
@@ -284,13 +298,13 @@ var TT = {
 
 	saveNaming: function() {
 
-		TT.currentTask.title = gId('taskTitle').value;
+		TT.db.config.currentTask.title = gId('taskTitle').value;
 
 		TT.windowFocused();
 		Tinycon.reset();
 
 		// Add task at the beginning
-		TT.db.tasks.unshift(TT.currentTask);
+		TT.db.tasks.unshift(TT.db.config.currentTask);
 
 		TT.saveDatabase();
 		TT.refreshList();
@@ -304,6 +318,9 @@ var TT = {
 
 	refreshList: function() {
 		document.getElementById('taskList').innerHTML = '';
+		if (TT.db.tasks.length === 0) {
+			return false;
+		}
 		for (var i = 0; i < TT.db.tasks.length; i++) {
 			document.getElementById('taskList').innerHTML +=
 				'<li>'+
@@ -334,7 +351,7 @@ var TT = {
 	// Retrieves tasks and config saved in Database
 	loadDatabase: function() {
 		var lsDb = localStorage.getItem('TimeTracker');
-		TT.db = (lsDb) ? JSON.parse(lsDb) : {'tasks':[]};
+		TT.db = (lsDb) ? JSON.parse(lsDb) : TT.defaultDb;
 	},
 
 	saveDatabase: function() {
@@ -382,9 +399,10 @@ var TT = {
 
 	init: function() {
 		TT.initEvents();
+		TT.db = TT.defaultDb;
 		TT.loadDatabase();
 		TT.refreshList();
-		if (TT.db.tasks.length>0) {
+		if (TT.db.config.status === 'idle') {
 			TT.selectView('list');
 		}else{
 			TT.startCountdown();
