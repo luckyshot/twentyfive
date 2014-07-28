@@ -17,9 +17,10 @@ Try it live on http://luckyshot.github.io/timetracker/
 TODO
 ----------------
 
-- Settings page to edit Countdown
-- END favicon to draw attention by flashing/toggling colors
-- Timer to be based on Date and not on setInterval ( better accuracy, see http://stackoverflow.com/a/6347336/217180 )
+- Use ES5 array methods ( http://www.jimmycuadra.com/posts/ecmascript-5-array-methods )
+- Settings page to edit Countdown?
+- "END" favicon to draw attention by flashing/toggling colors
+- Timer to be based on Date and not on setInterval (much better accuracy, see http://stackoverflow.com/a/6347336/217180 )
 - Responsive design
 - Web app capable (so we can use it as a mobile webapp)
 
