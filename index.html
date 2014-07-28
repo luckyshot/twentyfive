@@ -208,6 +208,7 @@ var TimeTracker = {
 		clearInterval(TimeTracker.t);
 		TimeTracker.status = 'idle';
 		Tinycon.reset();
+		document.title = 'TimeTracker';
 	},
 
 	/**
@@ -229,6 +230,7 @@ var TimeTracker = {
 			TimeTracker.t = setInterval(function(){
 				self.clock--;
 				gId('clock').innerHTML = self.secsToTime( self.clock );
+				document.title = '['+self.secsToTime( self.clock )+'] TimeTracker';
 
 				gId('bar').style.width = (100-(self.clock / self.cycle * 100))+'%';
 
