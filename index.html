@@ -78,7 +78,7 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 	.countdown .clock {font-size: 6rem;}
 	.countdown .estimate {margin-top: -10px;}
 	.countdown .progress,
-		.countdown .bar {height: 5px;}
+		.countdown .bar {height: 10px;}
 
 	/* List */
 	.list li {margin: 20px;width:auto;}
@@ -199,7 +199,7 @@ var TT = {
 
 	defaultDb: {
 		config: {
-			cycle: 25 * 60 * 1000, // ms
+			cycle: 10000,//25 * 60 * 1000, // ms
 			status: 'idle', // idle, running,
 			currentTask: {
 				start: 0,
