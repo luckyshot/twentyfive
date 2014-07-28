@@ -137,14 +137,6 @@ section {display:block;opacity:1 !important;background: transparent !important;}
 
 
 
-/*
-
-TODO: Use currentTask.duration instead of TT.clock (and get rid of it)
-TODO: Tinycon to update on change of minute and not every second
-
-
-*/
-
 ;( function( doc, win ) {
 
 'use strict';
@@ -159,8 +151,6 @@ var TT = {
 
 		status: 'idle', // idle, running,
 		page: 'countdown', // countdown, naming, list
-
-		interval: 1000,
 
 		audio: new Audio("alert.mp3"),
 
@@ -247,9 +237,14 @@ var TT = {
 
 				gId('bar').style.width = (100-(TT.currentTask.clock / self.cycle * 100))+'%';
 
-				Tinycon.setBubble( parseInt(self.clock/60) );
+				if (TT.currentMinute != parseInt(TT.currentTask.clock/60/1000)) {
+					TT.currentMinute = parseInt(TT.currentTask.clock/60/1000);
+					console.log (parseInt(TT.currentTask.clock/60/1000));
+					Tinycon.setBubble( TT.currentMinute );
+				}
 
-				if (self.clock < 1) {
+
+				if (TT.currentTask.clock < 1) {
 					Tinycon.setBubble('END');
 					Tinycon.setOptions({
 						width: 7,
@@ -264,7 +259,7 @@ var TT = {
 					self.finishCountdown();
 				}
 
-			}, TT.interval);
+			}, 900); // a bit less than a second to avoid setInterval lag
 			TT.status = 'running';
 		}
 	},
