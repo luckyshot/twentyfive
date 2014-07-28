@@ -22,6 +22,7 @@ TODO
 ----------------
 
 - web app icons
+- Welcome view
 - Use ES5 array methods ( http://www.jimmycuadra.com/posts/ecmascript-5-array-methods )
 - Settings page to edit Countdown?
 - "END" favicon to draw attention by flashing/toggling colors
