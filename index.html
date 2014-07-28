@@ -11,17 +11,24 @@
 html,body {font-family: "Helvetica Neue", Helvetica, sans-serif;height:100%;-webkit-font-smoothing: antialiased;}
 
 body {transition: background .5s ease-in;}
+body.welcome {background: #3498db;}
 body.list {background: #3498db;}
 body.countdown {background: #2c3e50;}
 body.naming {background: #1abc9c;}
 
+body.welcome section.welcome,
 body.list section.list,
 body.countdown section.countdown,
 body.naming section.naming {display:block;opacity:1;z-index:1000;transition: opacity .5s ease-in;}
 
-h1 {display:none;}
-
 section {display:none;opacity:0;transition: opacity .1s ease-in;position: absolute;width: 100%;}
+
+/* Welcome */
+.welcome {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:400px;width:640px;}
+	.welcome h1,
+	.welcome p {color:#fff;text-align:center;}
+	.welcome h1 {font-size:8rem;letter-spacing:-.1em;}
+	.welcome p {line-height: 1.5em;font-size: 1.6rem;font-weight: 100;opacity: .8;font-style:italic;}
 
 /* Countdown */
 .countdown {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:260px;width:640px;}
@@ -62,6 +69,10 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 /* Small screen */
 @media screen and (max-width: 640px) {
 
+	/* Welcome */
+	.welcome {width:280px;}
+		.welcome h1 {font-size:4rem;}
+
 	/* Countdown */
 	.countdown {width:280px;}
 	.countdown .clock {font-size: 6rem;}
@@ -100,9 +111,14 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 -->
 
 </head>
-<body class="countdown">
+<body class="welcome">
 
-	<h1>TimeTracker</h1>
+	<section id="welcome" class="page welcome">
+		<h1>TimeTracker</h1>
+		<p>TimeTracker is a time tracking tool focused on speed and simplicity that encourages you to follow the Pomodoro Technique.</p>
+		<button id="startCountdownWelcome" class="primary start" title="Start a new task">Start working!</button>
+	</section>
+
 
 	<section id="countdown" class="page countdown">
 		<div class="progress">
@@ -114,11 +130,13 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
 	</section>
 
+
 	<section id="naming" class="page naming">
 		<input type="text" id="taskTitle" class="title" placeholder="What have you been working on?" title="Be as descriptive as possible&hellip;">
 		<button id="saveNaming" class="primary" title="Save task">Save task</button>
 		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
 	</section>
+
 
 	<section id="list" class="page list">
 		<button id="startCountdown" class="primary start" title="Start a new task">Get back to work</button>
@@ -129,12 +147,12 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 			</li> -->
 		</ul>
 		<button id="clearTasks" class="danger" title="Remove all tasks">Reset</button>
-	</section>
 
-	<footer>
-		<!-- <a href="#settings" title="Settings"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3NTkzMDdGOTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3NTkzMDdGQTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjc1OTMwN0Y3NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjc1OTMwN0Y4NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+CJhIvgAAAuJJREFUeNrsW9Fx2zAMVXz9jzaoOoG9QbRBvUHUCaoNog2qDZpuoA2iTFBlgjIbMBOw5B18p6aWDBKPlBz73eHDNk3yWSCJB9A3xpjskrDJLgxXwlfCV8Is7KwVgu/n1sq1E3aTrK0pa7+t9fReCB6tPVnT1lrhj/cv3LEEsMaaNv/jMaCvyhyH6yuXzhVFuDfT8JlobeYhJoxyaTXz2b21wVo106akJfBjps0bubgInxIQdvhs7ae1xlpH7TWtzb21LWOMATFRFGHupuKIfxfs/KvZpXdZfNwidusN6OluszSopB3cANSS22zuEhF+I29SSz3hOiHZg1t3goBGRLg+cYzEwlYSxW0C12y3ENkxaUVHGmwN59Shevf6fmUC6IVi72E0T01e4EXYBQkPZ6oCX6eOsDnCigKFGE9CjyKtQ7T1FUz6G43HUkt7g4MTFiUjsC9IaCDHZaulDjRoE6BoygmpGYKCSxgxYCWQcbtYc5hzr0EwUAvQ2JJlpen73gmAkDWlEEJdML4mDwnOeAwJXfmYp/milKZ4Cs9fNwNbh1xKnNDSnce/PJQTGj59tqhYumO2GyIQHjwCG4UirMDtkPkyr3ZcwjpbPzSScAFuFyNBWCAJc3VnjGQet887DmkO4dwjeVZGIOzT5+l5Ms7B9swCj50k8NgHhpbZOYaWEpmGEA9lSvHQXJo8VB81AbARhpKn8ECxcMk8R10O6okS7lI8H4u+ppJ4bvA/EdOpiyXx5rKWKWtGydK0c/Xhhtzr+V3Uc7syclOJ+ODA49im0pvloaaOnjmTlEuXrEy80EboreKk9eElKojBZBGEU29uixfEeQoFh1aaVUE84UPeKcU9jy9SwqhbPH0idxbnzFD3tLgbyGu28MW0VLpVnagIFIyzHZLkRxEezuVyKYpwNSEpUdeHNUnN1RAeT7YHVBG7UR81sBoJO5amcsShu2pOfcBLN7EIrxbXf7V8dPwVYAB+FLwQwmJ41wAAAABJRU5ErkJggg==" alt=""></a> -->
-		<a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">⑂</a>
-	</footer>
+		<footer>
+			<!-- <a href="#settings" title="Settings"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3NTkzMDdGOTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3NTkzMDdGQTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjc1OTMwN0Y3NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjc1OTMwN0Y4NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+CJhIvgAAAuJJREFUeNrsW9Fx2zAMVXz9jzaoOoG9QbRBvUHUCaoNog2qDZpuoA2iTFBlgjIbMBOw5B18p6aWDBKPlBz73eHDNk3yWSCJB9A3xpjskrDJLgxXwlfCV8Is7KwVgu/n1sq1E3aTrK0pa7+t9fReCB6tPVnT1lrhj/cv3LEEsMaaNv/jMaCvyhyH6yuXzhVFuDfT8JlobeYhJoxyaTXz2b21wVo106akJfBjps0bubgInxIQdvhs7ae1xlpH7TWtzb21LWOMATFRFGHupuKIfxfs/KvZpXdZfNwidusN6OluszSopB3cANSS22zuEhF+I29SSz3hOiHZg1t3goBGRLg+cYzEwlYSxW0C12y3ENkxaUVHGmwN59Shevf6fmUC6IVi72E0T01e4EXYBQkPZ6oCX6eOsDnCigKFGE9CjyKtQ7T1FUz6G43HUkt7g4MTFiUjsC9IaCDHZaulDjRoE6BoygmpGYKCSxgxYCWQcbtYc5hzr0EwUAvQ2JJlpen73gmAkDWlEEJdML4mDwnOeAwJXfmYp/milKZ4Cs9fNwNbh1xKnNDSnce/PJQTGj59tqhYumO2GyIQHjwCG4UirMDtkPkyr3ZcwjpbPzSScAFuFyNBWCAJc3VnjGQet887DmkO4dwjeVZGIOzT5+l5Ms7B9swCj50k8NgHhpbZOYaWEpmGEA9lSvHQXJo8VB81AbARhpKn8ECxcMk8R10O6okS7lI8H4u+ppJ4bvA/EdOpiyXx5rKWKWtGydK0c/Xhhtzr+V3Uc7syclOJ+ODA49im0pvloaaOnjmTlEuXrEy80EboreKk9eElKojBZBGEU29uixfEeQoFh1aaVUE84UPeKcU9jy9SwqhbPH0idxbnzFD3tLgbyGu28MW0VLpVnagIFIyzHZLkRxEezuVyKYpwNSEpUdeHNUnN1RAeT7YHVBG7UR81sBoJO5amcsShu2pOfcBLN7EIrxbXf7V8dPwVYAB+FLwQwmJ41wAAAABJRU5ErkJggg==" alt=""></a> -->
+			<a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">⑂</a>
+		</footer>
+	</section>
 
 <script>
 
@@ -402,6 +420,9 @@ var TT = {
 	 * DOM Events
 	 */
 	initEvents: function() {
+		// Page Welcome
+		gId('startCountdownWelcome').addEventListener('click', TT.startCountdown);
+
 		// Page List
 		gId('startCountdown').addEventListener('click', TT.startCountdown);
 		gId('clearTasks').addEventListener('click', TT.clearTasks);
@@ -428,7 +449,9 @@ var TT = {
 		TT.db = TT.defaultDb;
 		TT.loadDatabase();
 		TT.refreshList();
-		if (TT.db.config.status === 'idle') {
+		if (TT.db.config.status === 'idle' && TT.db.tasks.length == 0) {
+			TT.selectView('welcome');
+		}else if (TT.db.config.status === 'idle') {
 			TT.selectView('list');
 		}else{
 			TT.startCountdown();
