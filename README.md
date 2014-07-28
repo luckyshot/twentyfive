@@ -31,6 +31,6 @@ TODO
 Credits
 ----------------
 
-- Heavily inspired by Juani Ruiz's HTML5 Time Tracker (https://github.com/heyimjuani/html5timetracker)
-- Tom Moor's Tinycon plugin (https://github.com/tommoor/tinycon)
-- The Financial Times's FastClick.js (https://github.com/ftlabs/fastclick)
+- Heavily inspired by Juani Ruiz's <a href="https://github.com/heyimjuani/html5timetracker">HTML5 Time Tracker</a>
+- Tom Moor's <a href="https://github.com/tommoor/tinycon">Tinycon plugin</a>
+- The Financial Times's <a href="https://github.com/ftlabs/fastclick">FastClick</a>
