@@ -43,7 +43,7 @@ section {display:none;opacity:0;transition: opacity .1s ease-in;position: absolu
 	.list .title {font-size: 1.66rem;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.5rem;text-transform: uppercase;}
-	.list .delete {display:none;cursor:pointer;top: -3px;position: absolute;right: 0;line-height: 1rem;color: #999;}
+	.list .delete {display:none;cursor:pointer;top: -3px;position: absolute;right: 1px;line-height: 1rem;color: #999;}
 	.list li:hover .delete {display:block;}
 
 footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
@@ -143,6 +143,10 @@ section {display:block;opacity:1 !important;background: transparent !important;}
 
 'use strict';
 
+var gId = function(id) {
+	return document.getElementById(id);
+}
+
 var TimeTracker = {
 
 		cycle: 25*60, // in seconds
@@ -158,7 +162,7 @@ var TimeTracker = {
 	selectView: function(page) {
 		doc.body.className = page;
 		if (page==='list') {
-			var tT = doc.getElementById('taskTitle');
+			var tT = gId('taskTitle');
 			setTimeout(function(){
 				tT.focus();
 				tT.select();
@@ -175,7 +179,7 @@ var TimeTracker = {
 	 * Countdown
 	 */
 	startCountdown: function() {
-		doc.getElementById('clock').innerHTML = '25:00';
+		gId('clock').innerHTML = '25:00';
 		TimeTracker.startTimer();
 		TimeTracker.selectView('countdown');
 	},
@@ -220,13 +224,13 @@ var TimeTracker = {
 				colour: '#ffffff',
 				background: '#1abc9c'
 			});
-			doc.getElementById('estimate').innerHTML = TimeTracker.timestampToDate(Date.now()) + ' - ' + TimeTracker.timestampToDate(Date.now()+TimeTracker.cycle*1000);
+			gId('estimate').innerHTML = TimeTracker.timestampToDate(Date.now()) + ' - ' + TimeTracker.timestampToDate(Date.now()+TimeTracker.cycle*1000);
 			TimeTracker.clock = TimeTracker.cycle;
 			TimeTracker.t = setInterval(function(){
 				self.clock--;
-				doc.getElementById('clock').innerHTML = self.secsToTime( self.clock );
+				gId('clock').innerHTML = self.secsToTime( self.clock );
 
-				doc.getElementById('bar').style.width = (100-(self.clock / self.cycle * 100))+'%';
+				gId('bar').style.width = (100-(self.clock / self.cycle * 100))+'%';
 
 				Tinycon.setBubble( parseInt(self.clock/60) );
 
@@ -256,7 +260,7 @@ var TimeTracker = {
 	 */
 
 	saveNaming: function() {
-		TimeTracker.currentTask.title = doc.getElementById('taskTitle').value;
+		TimeTracker.currentTask.title = gId('taskTitle').value;
 
 		TimeTracker.windowFocused(); // TODO make sure stop audio loop bug
 
@@ -287,11 +291,23 @@ var TimeTracker = {
 						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].start)+' - '+
 						TimeTracker.timestampToDate(TimeTracker.db.tasks[i].end)+
 					'</p>'+
-					'<i class="delete" title="Remove this task" data-id="'+i+'">&times;</i>'+
+					'<i class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">&times;</i>'+
 				'</li>';
 		}
 	},
 
+	taskClick: function(e) {
+		var data = e.target.dataset;
+
+		if (data.action === 'deleteTask') {
+			TimeTracker.db.tasks.splice(data.id, data.id);
+			TimeTracker.saveDatabase();
+			TimeTracker.refreshList();
+
+		}else{
+			return false;
+		}
+	},
 
 	// Retrieves tasks and config saved in Database
 	loadDatabase: function() {
@@ -324,18 +340,19 @@ var TimeTracker = {
 
 	initEvents: function() {
 		// Page List
-		doc.getElementById('startCountdown').onclick = TimeTracker.startCountdown;
-		doc.getElementById('clearTasks').onclick = TimeTracker.clearTasks;
+		gId('startCountdown').addEventListener('click', TimeTracker.startCountdown);
+		gId('clearTasks').addEventListener('click', TimeTracker.clearTasks);
+		gId('taskList').addEventListener('click', TimeTracker.taskClick);
 
 		// Page Countdown
-		doc.getElementById('finishCountdown').onclick = TimeTracker.finishCountdown;
-		doc.getElementById('cancelCountdown').onclick = TimeTracker.cancelCountdown;
+		gId('finishCountdown').addEventListener('click', TimeTracker.finishCountdown);
+		gId('cancelCountdown').addEventListener('click', TimeTracker.cancelCountdown);
 
 		// Page Naming
-		doc.getElementById('saveNaming').onclick = TimeTracker.saveNaming;
-		doc.getElementById('cancelNaming').onclick = TimeTracker.cancelNaming;
+		gId('saveNaming').addEventListener('click', TimeTracker.saveNaming);
+		gId('cancelNaming').addEventListener('click', TimeTracker.cancelNaming);
 
-		win.onfocus = TimeTracker.windowFocused;
+		win.addEventListener('focus', TimeTracker.windowFocused);
 	},
 
 	init: function() {
