@@ -16,13 +16,13 @@ body.list {background: #3498db;}
 body.countdown {background: #2c3e50;}
 body.naming {background: #1abc9c;}
 
-body.list .page.list,
-body.countdown .page.countdown,
-body.naming .page.naming {display:block;opacity:1;z-index:1000;transition: opacity .5s ease-in;}
+body.list section.list,
+body.countdown section.countdown,
+body.naming section.naming {display:block;opacity:1;z-index:1000;transition: opacity .5s ease-in;}
 
 h1 {display:none;}
 
-.page {display:none;opacity:0;transition: opacity .1s ease-in;position: absolute;width: 100%;}
+section {display:none;opacity:0;transition: opacity .1s ease-in;position: absolute;width: 100%;}
 
 /* Countdown */
 .countdown {display:table-cell;vertical-align:middle;height:100%;width:100%;}
@@ -75,18 +75,18 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 }
 
 /* Debug
-.page {display:block;opacity:1 !important;background: transparent !important;}
+section {display:block;opacity:1 !important;background: transparent !important;}
  */
 	</style>
 
 
-	<link rel="shortcut icon" href="favicon.png">
+	<link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAEFSURBVDiNrdMhTgNBGMXxX0dV1NavpMmeoAegByAYgichzRqwIMCCIRgsadYQDlAO0BOQ1K6vrahE7OyyXdqFJjwzmW/f/2X2m296Wjp7+jzGBGOMYnmJBeZ5ln40/b0GmGCKCwzawVFrvOA5z9KiDojwPc73gG3NcJNnaRFiYXoALHqn0Iv//N5x7H1a4yQoG/YrnAz7Xi+PJMN+VRpgEpTd3meq63enCdRr1Dj4vqotUxXShOH2rWgGjEJz1/xYhbThYrXZOl1QDgkoVpsfIV0wlkE5YbXaIR0wLALmyivZGdIBrzGvJvEBV7tcHXrMs/S6auKzcjz/qllk/ukxNXXoc/4CfLVozsn8qNgAAAAASUVORK5CYII=">
 </head>
 <body class="">
 
 	<h1>TimeTracker</h1>
 
-	<div id="countdown" class="page countdown">
+	<section id="countdown" class="page countdown">
 		<div class="progress">
 			<div id="bar" class="bar"></div>
 		</div>
@@ -94,15 +94,15 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 		<p id="estimate" class="estimate">0:00 - 25:00</p>
 		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
 		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
-	</div>
+	</section>
 
-	<div id="naming" class="page naming">
+	<section id="naming" class="page naming">
 		<input type="text" id="taskTitle" class="title" placeholder="What have you been working on?" title="Be as descriptive as possible&hellip;">
 		<button id="saveNaming" class="primary" title="Save task">Save task</button>
 		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
-	</div>
+	</section>
 
-	<div id="list" class="page list">
+	<section id="list" class="page list">
 		<button id="startCountdown" class="primary start" title="Start a new task">Get back to work</button>
 		<ul id="taskList" class="tasklist">
 			<!-- <li>
@@ -111,15 +111,33 @@ button {cursor: pointer;opacity:.9;transition: opacity .3s ease-in;}
 			</li> -->
 		</ul>
 		<button id="clearTasks" class="danger" title="Remove all tasks">Reset</button>
-	</div>
+	</section>
 
 	<footer>
 		<!-- <a href="#settings" title="Settings"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3NTkzMDdGOTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3NTkzMDdGQTQzNTgxMUUzQTUzREJGMTREMzZGQzdCMyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjc1OTMwN0Y3NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjc1OTMwN0Y4NDM1ODExRTNBNTNEQkYxNEQzNkZDN0IzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+CJhIvgAAAuJJREFUeNrsW9Fx2zAMVXz9jzaoOoG9QbRBvUHUCaoNog2qDZpuoA2iTFBlgjIbMBOw5B18p6aWDBKPlBz73eHDNk3yWSCJB9A3xpjskrDJLgxXwlfCV8Is7KwVgu/n1sq1E3aTrK0pa7+t9fReCB6tPVnT1lrhj/cv3LEEsMaaNv/jMaCvyhyH6yuXzhVFuDfT8JlobeYhJoxyaTXz2b21wVo106akJfBjps0bubgInxIQdvhs7ae1xlpH7TWtzb21LWOMATFRFGHupuKIfxfs/KvZpXdZfNwidusN6OluszSopB3cANSS22zuEhF+I29SSz3hOiHZg1t3goBGRLg+cYzEwlYSxW0C12y3ENkxaUVHGmwN59Shevf6fmUC6IVi72E0T01e4EXYBQkPZ6oCX6eOsDnCigKFGE9CjyKtQ7T1FUz6G43HUkt7g4MTFiUjsC9IaCDHZaulDjRoE6BoygmpGYKCSxgxYCWQcbtYc5hzr0EwUAvQ2JJlpen73gmAkDWlEEJdML4mDwnOeAwJXfmYp/milKZ4Cs9fNwNbh1xKnNDSnce/PJQTGj59tqhYumO2GyIQHjwCG4UirMDtkPkyr3ZcwjpbPzSScAFuFyNBWCAJc3VnjGQet887DmkO4dwjeVZGIOzT5+l5Ms7B9swCj50k8NgHhpbZOYaWEpmGEA9lSvHQXJo8VB81AbARhpKn8ECxcMk8R10O6okS7lI8H4u+ppJ4bvA/EdOpiyXx5rKWKWtGydK0c/Xhhtzr+V3Uc7syclOJ+ODA49im0pvloaaOnjmTlEuXrEy80EboreKk9eElKojBZBGEU29uixfEeQoFh1aaVUE84UPeKcU9jy9SwqhbPH0idxbnzFD3tLgbyGu28MW0VLpVnagIFIyzHZLkRxEezuVyKYpwNSEpUdeHNUnN1RAeT7YHVBG7UR81sBoJO5amcsShu2pOfcBLN7EIrxbXf7V8dPwVYAB+FLwQwmJ41wAAAABJRU5ErkJggg==" alt=""></a> -->
 		<a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">⑂</a>
 	</footer>
 
-<script src="tinycon.min.js"></script>
 <script>
+
+
+
+
+
+
+/*!
+  Tinycon - A small library for manipulating the Favicon
+  Tom Moor, http://tommoor.com
+  Copyright (c) 2012 Tom Moor
+  @license MIT Licensed
+  @version 0.6.3
+*/
+(function(){var Tinycon={};var currentFavicon=null;var originalFavicon=null;var faviconImage=null;var canvas=null;var options={};var r=window.devicePixelRatio||1;var size=16*r;var defaults={width:7,height:9,font:10*r+'px arial',colour:'#ffffff',background:'#F03D25',fallback:true,crossOrigin:true,abbreviate:true};var ua=(function(){var agent=navigator.userAgent.toLowerCase();return function(browser){return agent.indexOf(browser)!==-1}}());var browser={ie:ua('msie'),chrome:ua('chrome'),webkit:ua('chrome')||ua('safari'),safari:ua('safari')&&!ua('chrome'),mozilla:ua('mozilla')&&!ua('chrome')&&!ua('safari')};var getFaviconTag=function(){var links=document.getElementsByTagName('link');for(var i=0,len=links.length;i<len;i++){if((links[i].getAttribute('rel')||'').match(/\bicon\b/)){return links[i]}}return false};var removeFaviconTag=function(){var links=document.getElementsByTagName('link');var head=document.getElementsByTagName('head')[0];for(var i=0,len=links.length;i<len;i++){var exists=(typeof(links[i])!=='undefined');if(exists&&(links[i].getAttribute('rel')||'').match(/\bicon\b/)){head.removeChild(links[i])}}};var getCurrentFavicon=function(){if(!originalFavicon||!currentFavicon){var tag=getFaviconTag();originalFavicon=currentFavicon=tag?tag.getAttribute('href'):'/favicon.ico'}return currentFavicon};var getCanvas=function(){if(!canvas){canvas=document.createElement("canvas");canvas.width=size;canvas.height=size}return canvas};var setFaviconTag=function(url){removeFaviconTag();var link=document.createElement('link');link.type='image/x-icon';link.rel='icon';link.href=url;document.getElementsByTagName('head')[0].appendChild(link)};var log=function(message){if(window.console)window.console.log(message)};var drawFavicon=function(label,colour){if(!getCanvas().getContext||browser.ie||browser.safari||options.fallback==='force'){return updateTitle(label)}var context=getCanvas().getContext("2d");var colour=colour||'#000000';var src=getCurrentFavicon();faviconImage=document.createElement('img');faviconImage.onload=function(){context.clearRect(0,0,size,size);context.drawImage(faviconImage,0,0,faviconImage.width,faviconImage.height,0,0,size,size);if((label+'').length>0)drawBubble(context,label,colour);refreshFavicon()};if(!src.match(/^data/)&&options.crossOrigin){faviconImage.crossOrigin='anonymous'}faviconImage.src=src};var updateTitle=function(label){if(options.fallback){var originalTitle=document.title;if(originalTitle[0]==='('){originalTitle=originalTitle.slice(originalTitle.indexOf(' '))}if((label+'').length>0){document.title='('+label+') '+originalTitle}else{document.title=originalTitle}}};var drawBubble=function(context,label,colour){if(typeof label=='number'&&label>99&&options.abbreviate){label=abbreviateNumber(label)}var len=(label+'').length-1;var width=options.width*r+(6*r*len),height=options.height*r;var top=size-height,left=size-width-r,bottom=16*r,right=16*r,radius=2*r;context.font=(browser.webkit?'bold ':'')+options.font;context.fillStyle=options.background;context.strokeStyle=options.background;context.lineWidth=r;context.beginPath();context.moveTo(left+radius,top);context.quadraticCurveTo(left,top,left,top+radius);context.lineTo(left,bottom-radius);context.quadraticCurveTo(left,bottom,left+radius,bottom);context.lineTo(right-radius,bottom);context.quadraticCurveTo(right,bottom,right,bottom-radius);context.lineTo(right,top+radius);context.quadraticCurveTo(right,top,right-radius,top);context.closePath();context.fill();context.beginPath();context.strokeStyle="rgba(0,0,0,0.3)";context.moveTo(left+radius/2.0,bottom);context.lineTo(right-radius/2.0,bottom);context.stroke();context.fillStyle=options.colour;context.textAlign="right";context.textBaseline="top";context.fillText(label,r===2?29:15,browser.mozilla?7*r:6*r)};var refreshFavicon=function(){if(!getCanvas().getContext)return;setFaviconTag(getCanvas().toDataURL())};var abbreviateNumber=function(label){var metricPrefixes=[['G',1000000000],['M',1000000],['k',1000]];for(var i=0;i<metricPrefixes.length;++i){if(label>=metricPrefixes[i][1]){label=round(label/metricPrefixes[i][1])+metricPrefixes[i][0];break}}return label};var round=function(value,precision){var number=new Number(value);return number.toFixed(precision)};Tinycon.setOptions=function(custom){options={};for(var key in defaults){options[key]=custom.hasOwnProperty(key)?custom[key]:defaults[key]}return this};Tinycon.setImage=function(url){currentFavicon=url;refreshFavicon();return this};Tinycon.setBubble=function(label,colour){label=label||'';drawFavicon(label,colour);return this};Tinycon.reset=function(){setFaviconTag(originalFavicon)};Tinycon.setOptions(defaults);window.Tinycon=Tinycon;if(typeof define==='function'&&define.amd){define(Tinycon)}})();
+
+
+
+
+
 
 ;( function( doc, win ) {
 
