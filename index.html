@@ -11,7 +11,7 @@
 html,body {font-family: "Helvetica Neue", Helvetica, sans-serif;height:100%;-webkit-font-smoothing: antialiased;}
 
 body {transition: background .5s ease-in;}
-body.welcome {background: #3498db;}
+body.welcome {background: #2c3e50;}
 body.list {background: #3498db;}
 body.countdown {background: #2c3e50;}
 body.naming {background: #1abc9c;}
@@ -24,11 +24,11 @@ body.naming section.naming {display:block;opacity:1;z-index:1000;transition: opa
 section {display:none;opacity:0;transition: opacity .1s ease-in;position: absolute;width: 100%;}
 
 /* Welcome */
-.welcome {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:300px;width:640px;}
+.welcome {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:250px;width:640px;}
 	.welcome h1,
 	.welcome p {color:#fff;text-align:center;}
-	.welcome h1 {font-size:8rem;letter-spacing:-.1em;}
-	.welcome p {line-height: 1.33em;font-size: 1.4rem;font-weight: 200;font-style: italic;}
+	.welcome h1 {font-size:8rem;letter-spacing:-.1em;line-height: 1em;text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);}
+	.welcome p {line-height: 1.33em;font-size: 1.4rem;font-weight: 200;font-style: italic;opacity: 0.8;}
 
 /* Countdown */
 .countdown {top: 0;right:0;bottom: 0;left: 0;position:absolute;margin: auto;height:260px;width:640px;}
@@ -70,7 +70,7 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 @media screen and (max-width: 640px) {
 
 	/* Welcome */
-	.welcome {height:280px;width:320px;}
+	.welcome {height:220px;width:100%;}
 		.welcome h1 {font-size:3.5rem;}
 
 	/* Countdown */
@@ -116,7 +116,7 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 	<section id="welcome" class="page welcome">
 		<h1>TimeTracker</h1>
 		<p>TimeTracker is a time tracking tool focused on speed and simplicity that encourages you to follow the Pomodoro Technique.</p>
-		<button id="startCountdownWelcome" class="primary start" title="Start a new task">Start a task</button>
+		<button id="startCountdownWelcome" class="secondary start" title="Start a new task">Start your first task</button>
 	</section>
 
 
