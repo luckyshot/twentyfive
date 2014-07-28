@@ -5,16 +5,16 @@ TimeTracker
 
 The UI is heavily inspired by Juani's <a href="https://github.com/heyimjuani/html5timetracker">HTML5 Time Tracker</a> but has been redeveloped and redesigned from scratch to have the following features:
 
-- increased performance and scalability
+- Increased performance and scalability
 - Pure JavaScript: no jQuery or Countdown plugin needed
-- added a progress bar
-- added a dynamic favicon that shows the status of the timer
-- local storage is now stored in a single parameter as a unified JSON string
-- fewer server requests for fast loading
-- Timer is based on Date and not on JS timers (<a href="http://stackoverflow.com/a/6347336/217180">better accuracy</a>)
-- Responsive design
+- Progress bar
+- Dynamic favicon and Document title that show the status of the timer
+- Local Storage is now stored as a single unified JSON parameter
+- Page loads faster thanks to fewer server requests
+- Timer based on Date and not on unreliable JS timers (<a href="http://stackoverflow.com/a/6347336/217180">better accuracy</a>)
+- Responsive Design
 - Mobile iOS Web App capable
-- Persistent timer (you can close the window and it will continue from where it was)
+- Persistent timer (you can close the window and it will continue counting)
 
 Try it live on http://luckyshot.github.io/timetracker/
 
@@ -23,6 +23,7 @@ TODO
 
 - web app icons
 - Welcome view
+- Browser Notifications
 - Use ES5 array methods ( http://www.jimmycuadra.com/posts/ecmascript-5-array-methods )
 - Settings page to edit Countdown?
 - "END" favicon to draw attention by flashing/toggling colors
