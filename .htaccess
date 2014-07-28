@@ -1,0 +1,12 @@
+
+# Disable ETag
+
+Header unset ETag
+FileETag None
+
+
+# Deflate
+
+<FilesMatch ".(js|css|html)$">
+  SetOutputFilter DEFLATE
+</FilesMatch>
