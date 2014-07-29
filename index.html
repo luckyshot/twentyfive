@@ -283,7 +283,7 @@ var TT = {
 
 		for ( ; i < periods.length; i++) {
 			if (typeof periods[i].max !== 'undefined' && s < periods[i].max) {
-				result = parseInt(s / periods[i].length);
+				result = parseInt(s / periods[i].length) + 1;
 				result += (result !== 1) ? ' '+periods[i].name+'s' : ' '+periods[i].name;
 				return result;
 			}
