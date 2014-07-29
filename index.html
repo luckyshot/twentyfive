@@ -224,6 +224,21 @@ var TT = {
 	currentDay: 0, // stores day for daySeparator
 	currentMinute: 0, // stores current countdown minute
 
+	tinyconOptionsRunning: {
+		width: 4,
+		height: 9,
+		font: '9px helvetica',
+		colour: '#ffffff',
+		background: '#1abc9c'
+	},
+	tinyconOptionsEnd: {
+		width: 7,
+		height: 70,
+		font: '7px helvetica',
+		colour: '#ffffff',
+		background: '#e74c3c'
+	},
+
 	monthNames: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
 
 	/**
@@ -300,13 +315,6 @@ var TT = {
 
 		if (TT.db.config.status != 'running') {
 
-			Tinycon.setOptions({
-				width: 11,
-				height: 13,
-				font: '9px helvetica',
-				colour: '#ffffff',
-				background: '#1abc9c'
-			});
 
 			TT.db.config.currentTask = {
 				start: Date.now(),
@@ -314,6 +322,8 @@ var TT = {
 				end: Date.now() + TT.db.config.cycle
 			};
 		}
+
+		Tinycon.setOptions(TT.tinyconOptionsRunning);
 
 		gId('estimate').innerHTML = TT.timestampToDate(TT.db.config.currentTask.start) + ' - ' + TT.timestampToDate(TT.db.config.currentTask.end);
 
@@ -344,13 +354,7 @@ var TT = {
 
 		if (TT.db.config.currentTask.countdown < 1000) {
 			Tinycon.setBubble('END');
-			Tinycon.setOptions({
-				width: 7,
-				height: 70,
-				font: '7px helvetica',
-				colour: '#ffffff',
-				background: '#e74c3c'
-			});
+			Tinycon.setOptions(TT.tinyconOptionsEnd);
 			win.blur();
 			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
 			TT.audio.loop = true;
