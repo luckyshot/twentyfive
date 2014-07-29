@@ -11,7 +11,7 @@
 
 
 /* General */
-html,body {font-family: "Helvetica Neue", Helvetica, sans-serif;height:100%;-webkit-font-smoothing: antialiased;}
+html,body {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;height:100%;-webkit-font-smoothing: antialiased;}
 
 body {transition: background .5s ease-in;}
 body.welcome {background: #2c3e50;}
@@ -146,13 +146,8 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 
 
 	<section id="list" class="page list">
-		<button id="startCountdown" class="primary start" title="Start a new task">Get back to work</button>
-		<ul id="taskList" class="tasklist">
-			<!-- <li>
-				<p class="title">Task title</p>
-				<p class="detail"><span class="interval">23 min</span>9:00&mdash;9:23</p>
-			</li> -->
-		</ul>
+		<button id="startCountdown" class="primary start" title="Start a new task">Start a new task</button>
+		<ul id="taskList" class="tasklist"></ul>
 		<button id="clearDatabase" class="danger" title="Clear all settings">Reset</button>
 
 		<footer>
