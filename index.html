@@ -61,11 +61,12 @@ footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
 		.list .date .month {display: block;font-size:.6rem;text-transform:uppercase;}
 
 /* Forms */
-button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
-	button:hover {cursor: pointer;opacity:1;}
+button {cursor: pointer;transition: all .3s ease-in;}
+	button:hover {cursor: pointer;}
 .primary,
 .secondary {display: block;margin: 10px auto;padding: 0.5em 2rem;font-size: 1rem;background: transparent;border: 2px solid #1abc9c;color: #1abc9c;}
 .primary {background: #e74c3c;color: #fff;border: none;font-size: 1.33rem;padding: 1rem 4rem;}
+	.primary:hover {background:#FD7062;}
 .secondary {opacity:.8;}
 .secondary:hover {background:#1abc9c;color:#2c3e50;}
 .danger {position: fixed;bottom: 20px;right: 20px;background: none;border: none;font-size: 0.6rem;text-transform: uppercase;color: #fff;opacity:.6;}
@@ -220,7 +221,7 @@ var TT = {
 	currentMinute: 0, // stores current countdown minute
 
 	tinyconOptionsRunning: {
-		width: 4,
+		width: 5,
 		height: 9,
 		font: '9px helvetica',
 		colour: '#ffffff',
@@ -244,7 +245,7 @@ var TT = {
 		if (page==='list' || page==='welcome') {
 			doc.title = 'TimeTracker';
 		}else if (page==='naming') {
-			doc.title = '[0:00] TimeTracker';
+			doc.title = '[0:00] Finished!';
 		}
 	},
 
