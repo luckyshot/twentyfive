@@ -222,6 +222,7 @@ var TT = {
 	t: null, // stores the timer instance
 
 	currentDay: 0, // stores day for daySeparator
+	currentMinute: 0, // stores current countdown minute
 
 	monthNames: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
 
@@ -301,8 +302,8 @@ var TT = {
 
 			Tinycon.setOptions({
 				width: 11,
-				height: 10,
-				font: '12px helvetica',
+				height: 13,
+				font: '7px helvetica',
 				colour: '#ffffff',
 				background: '#1abc9c'
 			});
@@ -336,9 +337,9 @@ var TT = {
 
 		gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
 
-		if (TT.db.config.currentTask.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
-			TT.db.config.currentTask.currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
-			Tinycon.setBubble( TT.db.config.currentTask.currentMinute );
+		if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
+			TT.currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
+			Tinycon.setBubble( TT.currentMinute );
 		}
 
 		if (TT.db.config.currentTask.countdown < 1000) {
