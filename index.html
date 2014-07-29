@@ -57,7 +57,7 @@ footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.6rem;text-transform: uppercase;}
 	.list .delete {cursor: pointer;top: -5px;position: absolute;right: 1px;line-height: 1rem;color: #000;opacity: 0.1;font-size: 2rem;font-style: normal;text-decoration: none;}
-	.list .date {position: absolute;top: 0;left: -40px;width:30px;color:#fff;font-size:.8rem;opacity:.5;text-align:center;}
+	.list .date {position: absolute;top: 10px;left: -50px;width: 40px;color: #fff;font-size: 2rem;line-height: 1.2rem;opacity: .5;text-align: center;}
 		.list .date .month {display: block;font-size:.6rem;text-transform:uppercase;}
 
 /* Forms */
@@ -73,7 +73,7 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 
 /* Responsive */
 /* Small screen */
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 640px), screen and (max-height: 240px) {
 
 	/* Page Welcome */
 	.welcome {height:220px;width:100%;}
@@ -88,6 +88,8 @@ button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
 
 	/* Page List */
 	.list li {margin: 20px;width:auto;}
+		.list .date {top:-1.1rem;left:0;font-size:.8rem;text-align: left;width: 100%;}
+			.list .month {display:inline;}
 
 	/* Page Naming */
 	.naming {max-width:40rem;width:auto;padding:20px;}
