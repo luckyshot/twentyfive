@@ -61,8 +61,7 @@ footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
 		.list .date .month {display: block;font-size:.6rem;text-transform:uppercase;}
 
 /* Forms */
-button {cursor: pointer;transition: all .3s ease-in;}
-	button:hover {cursor: pointer;}
+button {cursor: pointer;}
 .primary,
 .secondary {display: block;margin: 10px auto;padding: 0.5em 2rem;font-size: 1rem;background: transparent;border: 2px solid #1abc9c;color: #1abc9c;}
 .primary {background: #e74c3c;color: #fff;border: none;font-size: 1.33rem;padding: 1rem 4rem;}
@@ -319,7 +318,7 @@ var TT = {
 
 		gId('estimate').innerHTML = TT.timestampToDate(TT.db.config.currentTask.start) + ' - ' + TT.timestampToDate(TT.db.config.currentTask.end);
 
-		TT.t = setInterval(TT.timerTick, 200); // must be less than a second to avoid setInterval lag jumps
+		TT.t = window.setInterval(TT.timerTick, 200); // must be less than a second to avoid setInterval lag jumps
 		TT.db.config.status = 'running';
 	},
 
