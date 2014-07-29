@@ -371,7 +371,7 @@ var TT = {
 						TT.timestampToDate(TT.db.tasks[i].start)+' - '+
 						TT.timestampToDate(TT.db.tasks[i].end)+
 					'</p>'+
-					'<i class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">⨯</i>'+
+					'<a href="#" class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">⨯</a>'+
 				'</li>';
 		}
 	},
@@ -384,7 +384,7 @@ var TT = {
 			TT.db.tasks.splice(data.id, data.id);
 			TT.saveDatabase();
 			TT.refreshList();
-
+			e.preventDefault();
 		}else{
 			return false;
 		}
