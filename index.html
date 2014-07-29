@@ -419,6 +419,7 @@ var TT = {
 	 */
 	refreshList: function() {
 		gId('taskList').innerHTML = '';
+		TT.lastTaskEnd = 0;
 		if (TT.db.tasks.length === 0) {
 			return false;
 		}
