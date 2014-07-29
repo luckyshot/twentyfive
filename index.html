@@ -56,7 +56,7 @@ footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
 	.list .title {font-size: 1.66rem;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.6rem;text-transform: uppercase;}
-	.list .delete {cursor: pointer;top: -5px;position: absolute;right: 1px;line-height: 1rem;color: #000;opacity: 0.1;font-size: 2rem;font-style: normal;text-decoration: none;}
+	.list .delete {cursor: pointer;top: -2px;position: absolute;right: 1px;line-height: 1rem;color: #000;opacity: 0.1;font-size: .8rem;font-style: normal;text-decoration: none;}
 	.list .date {position: absolute;top: 10px;left: -50px;width: 40px;color: #fff;font-size: 2rem;line-height: 1.2rem;opacity: .5;text-align: center;}
 		.list .date .month {display: block;font-size:.6rem;text-transform:uppercase;}
 
@@ -246,12 +246,10 @@ var TT = {
 	 */
 	selectView: function(page) {
 		doc.body.className = page;
-		if (page==='list') {
-			var taT = gId('taskTitle');
-			setTimeout(function(){
-				taT.focus();
-				taT.select();
-			}, 100);
+		if (page==='list' || page==='welcome') {
+			doc.title = 'TimeTracker';
+		}else if (page==='naming') {
+			doc.title = '[0:00] TimeTracker';
 		}
 	},
 
@@ -279,7 +277,6 @@ var TT = {
 	 * Timer finished or user clicked Done
 	 */
 	finishCountdown: function() {
-		doc.title = '[0:00] TimeTracker';
 		TT.selectView('naming');
 		TT.db.config.currentTask.duration = TT.db.config.cycle - TT.db.config.currentTask.countdown;
 		delete TT.db.config.currentTask.countdown;
@@ -303,7 +300,6 @@ var TT = {
 		clearInterval(TT.t);
 		TT.db.config.status = 'idle';
 		Tinycon.reset();
-		doc.title = 'TimeTracker';
 		TT.saveDatabase();
 	},
 
@@ -389,6 +385,7 @@ var TT = {
 	 * User pressed Cancel on Naming view
 	 */
 	cancelNaming: function() {
+		Tinycon.reset();
 		TT.selectView('list');
 	},
 
@@ -411,7 +408,7 @@ var TT = {
 						TT.timestampToDate(TT.db.tasks[i].end)+
 					'</p>'+
 					TT.daySeparator(TT.db.tasks[i].start)+
-					'<a href="#" class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">⨯</a>'+
+					'<a href="#" class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">✖</a>'+
 				'</li>';
 		}
 	},
