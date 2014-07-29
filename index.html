@@ -247,6 +247,7 @@ var TT = {
 
 	// Timer finished or user clicked Done
 	finishCountdown: function() {
+		doc.title = '[0:00] TimeTracker';
 		TT.selectView('naming');
 		TT.db.config.currentTask.duration = TT.db.config.cycle - TT.db.config.currentTask.countdown;
 		delete TT.db.config.currentTask.countdown;
@@ -264,7 +265,7 @@ var TT = {
 		clearInterval(TT.t);
 		TT.db.config.status = 'idle';
 		Tinycon.reset();
-		document.title = 'TimeTracker';
+		doc.title = 'TimeTracker';
 		TT.saveDatabase();
 	},
 
@@ -306,7 +307,7 @@ var TT = {
 
 
 		gId('clock').innerHTML = TT.msToTime( TT.db.config.currentTask.countdown );
-		document.title = '['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
+		doc.title = '['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
 
 		gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
 
@@ -330,7 +331,6 @@ var TT = {
 			TT.audio.play();
 			TT.finishCountdown();
 		}
-//console.log(TT);
 		TT.saveDatabase();
 	},
 
@@ -359,12 +359,12 @@ var TT = {
 	},
 
 	refreshList: function() {
-		document.getElementById('taskList').innerHTML = '';
+		gId('taskList').innerHTML = '';
 		if (TT.db.tasks.length === 0) {
 			return false;
 		}
 		for (var i = 0; i < TT.db.tasks.length; i++) {
-			document.getElementById('taskList').innerHTML +=
+			gId('taskList').innerHTML +=
 				'<li>'+
 					'<p class="title">'+TT.db.tasks[i].title+'</p>'+
 					'<p class="detail">'+
