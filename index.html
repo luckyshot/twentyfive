@@ -57,7 +57,8 @@ footer {position: fixed;bottom: 20px;left: 20px;z-index: 1000;}
 	.list .detail {opacity: .66;font-size: 1.5rem;line-height: 1rem;font-weight: 100;}
 	.list .interval {opacity: .33;display:block;font-size: .6rem;font-weight: 500;margin-bottom: 0.6rem;text-transform: uppercase;}
 	.list .delete {cursor: pointer;top: -5px;position: absolute;right: 1px;line-height: 1rem;color: #000;opacity: 0.1;font-size: 2rem;font-style: normal;text-decoration: none;}
-
+	.list .date {position: absolute;top: 0;left: -40px;width:30px;color:#fff;font-size:.8rem;opacity:.5;text-align:center;}
+		.list .date .month {display: block;font-size:.6rem;text-transform:uppercase;}
 
 /* Forms */
 button {cursor: pointer;opacity:.9;transition: all .3s ease-in;}
@@ -218,6 +219,9 @@ var TT = {
 	db: null,
 	t: null, // stores the timer instance
 
+	currentDay: 0, // stores day for daySeparator
+
+	monthNames: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
 
 	/**
 	 * Displays the specified page and hides the others
@@ -399,9 +403,24 @@ var TT = {
 						TT.timestampToDate(TT.db.tasks[i].start)+' - '+
 						TT.timestampToDate(TT.db.tasks[i].end)+
 					'</p>'+
+					TT.daySeparator(TT.db.tasks[i].start)+
 					'<a href="#" class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">⨯</a>'+
 				'</li>';
 		}
+	},
+
+
+	/**
+	 * Used in the taskList to show the user it is a new day
+	 * If date passed belongs to a new day it outputs it
+	 */
+	daySeparator: function (date) {
+		var date = new Date(date);
+		if (TT.currentDay != date.getDay()) {
+			TT.currentDay = date.getDay();
+			return '<p class="date"><span class="day">'+date.getDate()+'</span> <span class="month">'+TT.monthNames[date.getMonth()].substr(0,3)+'</span></p>'
+		}
+		return '';
 	},
 
 
@@ -466,7 +485,7 @@ var TT = {
 
 
 	/**
-	 * When timer has finished an audio loop is started until the user 
+	 * When timer has finished an audio loop is started until the user
 	 * gets back to the window, then this is fired
 	 */
 	windowFocused: function() {
