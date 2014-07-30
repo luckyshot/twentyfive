@@ -170,9 +170,9 @@ button {cursor: pointer;}
 
 	<section id="list" class="page list">
 		<button id="startCountdown" class="primary start" title="Start a new task">Start a new task</button>
+		<div id="timeResting"></div>
 		<ul id="taskList" class="tasklist"></ul>
 		<button id="clearDatabase" class="danger" title="Clear all settings">Reset</button>
-
 	</section>
 
 
@@ -243,6 +243,7 @@ var TT = {
 	},
 	db: null,
 	t: null, // stores the timer instance
+	tR: null, // stores the resting timer instance
 
 	currentDay: null, // stores day for daySeparator
 	currentMinute: null, // stores current countdown minute
@@ -270,7 +271,14 @@ var TT = {
 	 */
 	selectView: function(page) {
 		doc.body.className = page;
-		if (page==='list' || page==='welcome') {
+
+		clearInterval(TT.tR);
+
+		if (page === 'list') {
+			doc.title = 'TimeTracker';
+			TT.timeResting();
+			TT.tR = window.setInterval(function() {TT.timeResting();}, 5000);
+		}else if (page === 'welcome') {
 			doc.title = 'TimeTracker';
 		}else if (page==='naming') {
 			doc.title = '[0:00] Finished!';
@@ -290,11 +298,11 @@ var TT = {
 		var i = 0,
 		s = ms / 1000,
 		periods = [
-			{ name: "second", length: 1, max: 60 },
-			{ name: "minute", length: 60, max: 60*60 },
-			{ name: "hour", length: 3600, max: 3600*24 },
-			{ name: "day", length: 86400, max: 86400*60 },
-			{ name: "month", length: 3600*24*30, max: 3600*24*30*12 },
+			{ name: "second", length: 1, max: 90 },
+			{ name: "minute", length: 60, max: 60*90 },
+			{ name: "hour", length: 3600, max: 3600*32 },
+			{ name: "day", length: 86400, max: 86400*45 },
+			{ name: "month", length: 3600*24*30, max: 3600*24*30*18 },
 			{ name: "year", length: 3600*24*30*12 }
 		],
 		result;
@@ -482,6 +490,15 @@ var TT = {
 		TT.lastTaskEnd = end;
 
 		return '<p class="timebetween" style="padding: '+padding+'px 0">'+result+'</p>';
+	},
+
+
+	/**
+	 * Calculates how much time has passed since last task and puts it on top of the list
+	 */
+	timeResting: function () {
+		console.log(Date.now(), TT.db.tasks[0].end);
+		gId('timeResting').innerHTML = '<p class="timebetween">'+TT.niceTime(Date.now() - TT.db.tasks[0].end)+'</p>';
 	},
 
 
