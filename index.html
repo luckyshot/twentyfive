@@ -19,11 +19,11 @@ body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;height: 100%;-
 	body.countdown {background: #2c3e50;}
 	body.naming {background: #1abc9c;}
 
-section {position: absolute;display: block;overflow:hidden;max-height:100%;width: 100%;transition: opacity .3s ease;opacity: 0;z-index:0;}
+section {position: absolute;display:none;width: 100%;transition: opacity .3s ease;opacity: 0;z-index:0;}
 	body.welcome section.welcome,
 	body.list section.list,
 	body.countdown section.countdown,
-	body.naming section.naming {z-index: 1000;overflow:auto;opacity: 1;}
+	body.naming section.naming {z-index: 1000;display:block;opacity: 1;}
 
 
 
@@ -62,7 +62,7 @@ section.welcome {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640
 	.welcome p {font-size: 1.4rem;font-weight: 200;font-style: italic;line-height: 1.33em;opacity: .8;}
 
 /* Page Countdown */
-section.countdown {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 260px;margin: auto;}
+body.countdown section.countdown {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 260px;margin: auto;}
 	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);}
 	.countdown .bar {position: fixed;top: 0;left: 0;width: 0;height: 3px;background: rgba(231, 76, 60, .8);}
 	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
