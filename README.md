@@ -3,8 +3,13 @@ TimeTracker
 
 ### TimeTracker is a minimal time tracking tool focused on simplicity and a great UX that follows the principles of the Pomodoro Technique
 
+<img src="https://cloud.githubusercontent.com/assets/141241/3752283/4ad38e2c-1806-11e4-8f09-ddb2e9cdf47d.png" alt="" width="320px"> .
+<img src="https://cloud.githubusercontent.com/assets/141241/3752282/486f7bdc-1806-11e4-9f2a-e0d95e692c21.png" alt="" width="320px">
+
+
 The UI is heavily inspired by Juani's <a href="https://github.com/heyimjuani/html5timetracker">HTML5 Time Tracker</a> but has been redeveloped and redesigned from scratch to have the following features:
 
+- Desktop, Mobile & Web App
 - Increased performance and scalability
 - Pure JavaScript: no jQuery or Countdown plugin needed
 - Progress bar
@@ -13,7 +18,6 @@ The UI is heavily inspired by Juani's <a href="https://github.com/heyimjuani/htm
 - Page loads faster thanks to fewer server requests
 - Timer based on Date and not on unreliable JS timers (<a href="http://stackoverflow.com/a/6347336/217180">better accuracy</a>)
 - Responsive Design
-- Mobile iOS Web App capable
 - Persistent timer (you can close the window and it will continue counting)
 
 Try it live on http://luckyshot.github.io/timetracker/
