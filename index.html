@@ -14,6 +14,9 @@
 html,body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;height: 100%;-webkit-font-smoothing: antialiased;}
 
 body {transition: background .5s ease-in;}
+
+li {list-style:none;}
+
 	body.welcome {background: #2c3e50;}
 	body.list {background: #3498db;padding-bottom:80px;}
 	body.countdown {background: #2c3e50;}
@@ -26,9 +29,14 @@ body {transition: background .5s ease-in;}
 
 section {position: absolute;display: none;width: 100%;transition: opacity .3s ease-in;opacity: 0;}
 
-footer {position: fixed;z-index: 1000;bottom: 20px;left: 20px;}
-	footer a {text-decoration: none;opacity: .5;color: #fff;}
-		footer a:hover {opacity: .8;}
+nav {position: fixed;z-index: 1000;bottom: 20px;left: 20px;color: #fff;opacity:.6;}
+nav:hover {opacity:1;}
+nav .menu {display:none;text-transform:uppercase;}
+	nav:focus .menu,
+	nav:active .menu,
+	nav:hover .menu {display:block;}
+	nav a {text-decoration: none;color: #fff;font-size: .6rem;padding: .5em;}
+
 
 /* Forms */
 button {cursor: pointer;}
@@ -67,19 +75,19 @@ button {cursor: pointer;}
 /* Page List */
 .list .start {margin: 40px auto;}
 
-.list li {position: relative;width: 340px;margin: 20px auto;padding: 20px 30px 30px;list-style: none;text-align:center;opacity: .8;background: #fff;box-shadow: 0 5px 5px rgba(44, 62, 80, .1);}
-	.list li:hover {opacity: 1;}
-	.list li:before {position: absolute;top: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-bottom: 8px solid #fff;}
-	.list li:after {position: absolute;bottom: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-top: 8px solid #fff;}
-	.list li:first-child:before,
-	.list li:last-child:after {border: none;}
+.tasklist li {position: relative;width: 580px;margin: 20px auto;padding: 20px 30px 30px;text-align:center;opacity: .8;background: #fff;box-shadow: 0 5px 5px rgba(44, 62, 80, .1);}
+	.tasklist li:hover {opacity: 1;}
+	.tasklist li:before {position: absolute;top: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-bottom: 8px solid #fff;}
+	.tasklist li:after {position: absolute;bottom: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-top: 8px solid #fff;}
+	.tasklist li:first-child:before,
+	.tasklist li:last-child:after {border: none;}
 
-.list .title {font-size: 1.66rem;}
-.list .detail {font-size: 1.5rem;font-weight: 100;line-height: 1rem;opacity: .66;}
-.list .interval {font-size: .6rem;font-weight: 500;display: block;margin-bottom: .6rem;text-transform: uppercase;opacity: .33;}
-.list .delete {font-size: .8rem;font-style: normal;line-height: 1rem;position: absolute;top: -2px;right: 1px;cursor: pointer;text-decoration: none;opacity: .1;color: #000;}
-.list .date {font-size: 2rem;line-height: 1.2rem;position: absolute;top: 10px;left: -50px;width: 40px;text-align: center;opacity: .5;color: #fff;}
-	.list .month {font-size: .6rem;display: block;text-transform: uppercase;}
+.tasklist .title {font-size: 1.66rem;}
+.tasklist .detail {font-size: 1.5rem;font-weight: 100;line-height: 1rem;opacity: .66;}
+.tasklist .interval {font-size: .6rem;font-weight: 500;display: block;margin-bottom: .6rem;text-transform: uppercase;opacity: .33;}
+.tasklist .delete {font-size: .8rem;font-style: normal;line-height: 1rem;position: absolute;top: -2px;right: 1px;cursor: pointer;text-decoration: none;opacity: .1;color: #000;}
+.tasklist .date {font-size: 2rem;line-height: 1.2rem;position: absolute;top: 10px;left: -50px;width: 40px;text-align: center;opacity: .5;color: #fff;}
+	.tasklist .month {font-size: .6rem;display: block;text-transform: uppercase;}
 
 .timebetween {font-size: .6rem;text-align: center;text-transform: uppercase;opacity: .5;color: #fff;}
 
@@ -163,11 +171,15 @@ button {cursor: pointer;}
 		<ul id="taskList" class="tasklist"></ul>
 		<button id="clearDatabase" class="danger" title="Clear all settings">Reset</button>
 
-		<footer>
-			<a href="http://xaviesteve.com/" title="Author" target="_blank">★</a>
-			<a href="https://github.com/luckyshot/timetracker" title="Source code" target="_blank">⚙</a>
-			<a href="http://en.wikipedia.org/wiki/Pomodoro_Technique" title="Pomodoro Technique" target="_blank" rel="nofollow">?</a>
-		</footer>
+		<nav>
+			<ul class="menu">
+				<li><a href="http://xaviesteve.com/" title="About the author" target="_blank">Credits</a></li>
+				<li><a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">Source</a></li>
+				<li><a href="http://en.wikipedia.org/wiki/Pomodoro_Technique" title="Learn about the Pomodoro Technique" target="_blank" rel="nofollow">Help</a></li>
+			</ul>
+			☰
+		</nav>
+
 	</section>
 
 <script>
