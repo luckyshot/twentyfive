@@ -91,7 +91,7 @@ button {cursor: pointer;}
 .tasklist .date {font-size: 2rem;line-height: 1.2rem;position: absolute;top: 10px;left: -50px;width: 40px;text-align: center;opacity: .5;color: #fff;}
 	.tasklist .month {font-size: .6rem;display: block;text-transform: uppercase;}
 
-.timebetween {font-size: .6rem;text-align: center;text-transform: uppercase;opacity: .5;color: #fff;}
+.timebetween {font-size: .6rem;margin: -.5rem 0;text-align: center;text-transform: uppercase;opacity: .5;color: #fff;}
 
 
 /* Responsive */
@@ -247,7 +247,7 @@ var TT = {
 
 	currentDay: null, // stores day for daySeparator
 	currentMinute: null, // stores current countdown minute
-	lastTaskEnd: 0, //
+	lastTaskStart: 0, //
 
 	tinyconOptionsRunning: {
 		width: 6,
@@ -451,7 +451,7 @@ var TT = {
 	 */
 	refreshList: function() {
 		gId('taskList').innerHTML = '';
-		TT.lastTaskEnd = 0;
+		TT.lastTaskStart = 0;
 		if (TT.db.tasks.length === 0) {
 			return false;
 		}
@@ -478,16 +478,19 @@ var TT = {
 	 */
 	timeBetween: function (start, end) {
 		var result,
-			padding;
-		if (TT.lastTaskEnd != 0) {
-			result = TT.niceTime(TT.lastTaskEnd - start);
-		}else{
+			padding,
+			rest = TT.lastTaskStart - end;
+
+		if (TT.lastTaskStart === 0) {
 			result = '';
+		}else{
+			result = TT.niceTime(rest);
+			padding = Math.round(rest / 180000);
+			padding = (padding < 0) ? 0 : padding;
+			padding = (padding > 100) ? 100 : padding;
 		}
-		padding = Math.round((TT.lastTaskEnd - start) / 360000);
-		padding = (padding < 0) ? 0 : padding;
-		padding = (padding > 100) ? 100 : padding;
-		TT.lastTaskEnd = end;
+
+		TT.lastTaskStart = start;
 
 		return '<p class="timebetween" style="padding: '+padding+'px 0">'+result+'</p>';
 	},
