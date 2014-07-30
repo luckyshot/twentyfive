@@ -6,105 +6,108 @@
 	<style>
 
 /* Reset */
-*{margin: 0;padding: 0;user-select: none;}
-*,*:before,*:after{-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+* {margin: 0;padding: 0;user-select: none;}
+*,*:before,*:after {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
 
 
 /* General */
-html,body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;height: 100%;-webkit-font-smoothing: antialiased;}
+html,body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;height: 100%;-webkit-font-smoothing: antialiased;}
 
-body{transition: background .5s ease-in;}
-	body.welcome{background: #2c3e50;}
-	body.list{background: #3498db;padding-bottom:80px;}
-	body.countdown{background: #2c3e50;}
-	body.naming{background: #1abc9c;}
+body {transition: background .5s ease-in;}
+	body.welcome {background: #2c3e50;}
+	body.list {background: #3498db;padding-bottom:80px;}
+	body.countdown {background: #2c3e50;}
+	body.naming {background: #1abc9c;}
 
 	body.welcome section.welcome,
 	body.list section.list,
 	body.countdown section.countdown,
-	body.naming section.naming{z-index: 1000;display: block;transition: opacity .5s ease-in;opacity: 1;}
+	body.naming section.naming {z-index: 1000;display: block;opacity: 1;}
 
-section{position: absolute;display: none;width: 100%;transition: opacity .1s ease-in;opacity: 0;}
+section {position: absolute;display: none;width: 100%;transition: opacity .3s ease-in;opacity: 0;}
 
-footer{position: fixed;z-index: 1000;bottom: 20px;left: 20px;}
-	footer a{text-decoration: none;opacity: .5;color: #fff;}
-		footer a:hover{transition: opacity .3s ease-in;opacity: .8;}
-
-/* Page Welcome */
-.welcome{position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 250px;margin: auto;}
-	.welcome h1,
-	.welcome p{text-align: center;color: #fff;}
-	.welcome h1{font-size: 8rem;line-height: 1em;letter-spacing: -.1em;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
-	.welcome p{font-size: 1.4rem;font-weight: 200;font-style: italic;line-height: 1.33em;opacity: .8;}
-
-/* Page Countdown */
-.countdown{position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 260px;margin: auto;}
-	.countdown .progress{position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);}
-	.countdown .bar{position: fixed;top: 0;left: 0;width: 0;height: 3px;background: rgba(231, 76, 60, .8);}
-	.countdown .clock{font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
-	.countdown .estimate{font-size: 1rem;margin-top: -20px;text-align: center;opacity: .2;}
-
-/* Page Naming */
-.naming{position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 170px;margin: auto;}
-	.naming .title{font-size: 2rem;display: block;width: 40rem;margin: 10px auto;padding: 20px;text-align: center;border: none;}
-
-/* Page List */
-.list .start{margin: 40px auto;}
-
-.list li{position: relative;width: 340px;margin: 20px auto;padding: 20px 30px 30px;list-style: none;transition: opacity .3s ease-in;text-align:center;opacity: .8;background: #fff;box-shadow: 0 5px 5px rgba(44, 62, 80, .1);}
-	.list li:hover{opacity: 1;}
-	.list li:before{position: absolute;top: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-bottom: 8px solid #fff;}
-	.list li:after{position: absolute;bottom: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-top: 8px solid #fff;}
-	.list li:first-child:before,
-	.list li:last-child:after{border: none;}
-
-.list .title{font-size: 1.66rem;}
-.list .detail{font-size: 1.5rem;font-weight: 100;line-height: 1rem;opacity: .66;}
-.list .interval{font-size: .6rem;font-weight: 500;display: block;margin-bottom: .6rem;text-transform: uppercase;opacity: .33;}
-.list .delete{font-size: .8rem;font-style: normal;line-height: 1rem;position: absolute;top: -2px;right: 1px;cursor: pointer;text-decoration: none;opacity: .1;color: #000;}
-.list .date{font-size: 2rem;line-height: 1.2rem;position: absolute;top: 10px;left: -50px;width: 40px;text-align: center;opacity: .5;color: #fff;}
-	.list .month{font-size: .6rem;display: block;text-transform: uppercase;}
-
-.timebetween{font-size: .6rem;text-align: center;text-transform: uppercase;opacity: .5;color: #fff;}
+footer {position: fixed;z-index: 1000;bottom: 20px;left: 20px;}
+	footer a {text-decoration: none;opacity: .5;color: #fff;}
+		footer a:hover {opacity: .8;}
 
 /* Forms */
-button{cursor: pointer;}
+button {cursor: pointer;}
 
 .primary,
-.secondary{font-size: 1rem;display: block;margin: 10px auto;padding: .5em 2rem;color: #1abc9c;border: 2px solid #1abc9c;background: transparent;}
-.primary{font-size: 1.33rem;padding: 1rem 4rem;color: #fff;border: none;
+.secondary {font-size: 1rem;display: block;margin: 10px auto;padding: .5em 2rem;color: #1abc9c;border: 2px solid #1abc9c;background: transparent;}
+.primary {font-size: 1.33rem;padding: 1rem 4rem;color: #fff;border: none;
 	background: #e74c3c;}
-	.primary:hover{background: #fd7062;}
-.secondary{opacity: .8;}
-	.secondary:hover{color: #2c3e50;
+	.primary:hover {background: #fd7062;}
+.secondary {opacity: .8;}
+	.secondary:hover {color: #2c3e50;
 	background: #1abc9c;}
 
-.danger{font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;border: none;background: none;}
-	.danger:hover{opacity: 1;color: #ff4849;}
+.danger {font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;border: none;background: none;}
+	.danger:hover {opacity: 1;color: #ff4849;}
+
+
+/* Page Welcome */
+.welcome {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 250px;margin: auto;}
+	.welcome h1,
+	.welcome p {text-align: center;color: #fff;}
+	.welcome h1 {font-size: 8rem;line-height: 1em;letter-spacing: -.1em;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
+	.welcome p {font-size: 1.4rem;font-weight: 200;font-style: italic;line-height: 1.33em;opacity: .8;}
+
+/* Page Countdown */
+.countdown {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 260px;margin: auto;}
+	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);}
+	.countdown .bar {position: fixed;top: 0;left: 0;width: 0;height: 3px;background: rgba(231, 76, 60, .8);}
+	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
+	.countdown .estimate {font-size: 1rem;margin-top: -20px;text-align: center;opacity: .2;}
+
+/* Page Naming */
+.naming {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 170px;margin: auto;}
+	.naming .title {font-size: 2rem;display: block;width: 40rem;margin: 10px auto;padding: 20px;text-align: center;border: none;}
+
+/* Page List */
+.list .start {margin: 40px auto;}
+
+.list li {position: relative;width: 340px;margin: 20px auto;padding: 20px 30px 30px;list-style: none;text-align:center;opacity: .8;background: #fff;box-shadow: 0 5px 5px rgba(44, 62, 80, .1);}
+	.list li:hover {opacity: 1;}
+	.list li:before {position: absolute;top: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-bottom: 8px solid #fff;}
+	.list li:after {position: absolute;bottom: -15px;left: 50%;margin-left: -8px;content: '';border: 8px solid transparent;border-top: 8px solid #fff;}
+	.list li:first-child:before,
+	.list li:last-child:after {border: none;}
+
+.list .title {font-size: 1.66rem;}
+.list .detail {font-size: 1.5rem;font-weight: 100;line-height: 1rem;opacity: .66;}
+.list .interval {font-size: .6rem;font-weight: 500;display: block;margin-bottom: .6rem;text-transform: uppercase;opacity: .33;}
+.list .delete {font-size: .8rem;font-style: normal;line-height: 1rem;position: absolute;top: -2px;right: 1px;cursor: pointer;text-decoration: none;opacity: .1;color: #000;}
+.list .date {font-size: 2rem;line-height: 1.2rem;position: absolute;top: 10px;left: -50px;width: 40px;text-align: center;opacity: .5;color: #fff;}
+	.list .month {font-size: .6rem;display: block;text-transform: uppercase;}
+
+.timebetween {font-size: .6rem;text-align: center;text-transform: uppercase;opacity: .5;color: #fff;}
+
 
 /* Responsive */
+
 /* Small screen */
-@media screen and (max-width: 640px), screen and (max-height: 240px){/* Page Welcome */
-	.welcome{width: 100%;height: 220px;}
-		.welcome h1{font-size: 3.5rem;}
+@media screen and (max-width: 640px), screen and (max-height: 240px) {
+	/* Page Welcome */
+	.welcome {width: 100%;height: 220px;}
+		.welcome h1 {font-size: 3.5rem;}
 
 	/* Page Countdown */
-	.countdown{width: 280px;height: 180px;}
-		.countdown .clock{font-size: 6rem;}
-		.countdown .estimate{margin-top: -10px;}
+	.countdown {width: 280px;height: 180px;}
+		.countdown .clock {font-size: 6rem;}
+		.countdown .estimate {margin-top: -10px;}
 		.countdown .progress,
-		.countdown .bar{height: 10px;}
+		.countdown .bar {height: 10px;}
 
 	/* Page List */
-	.list li{width: auto;margin: 20px;}
-		.list .date{font-size: .8rem;top: -1.1rem;left: 0;width: 100%;text-align: left;}
-		.list .month{font-size: inherit;display: inline;}
+	.list li {width: auto;margin: 20px;}
+		.list .date {font-size: .8rem;top: -1.1rem;left: 0;width: 100%;text-align: left;}
+		.list .month {font-size: inherit;display: inline;}
 
 	/* Page Naming */
-	.naming{width: auto;max-width: 40rem;padding: 20px;}
-		.naming .title{font-size: 1.2em;width: 90%;}
+	.naming {width: auto;max-width: 40rem;padding: 20px;}
+		.naming .title {font-size: 1.2em;width: 90%;}
 }
-
 
 	</style>
 
