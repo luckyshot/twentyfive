@@ -497,7 +497,6 @@ var TT = {
 	 * Calculates how much time has passed since last task and puts it on top of the list
 	 */
 	timeResting: function () {
-		console.log(Date.now(), TT.db.tasks[0].end);
 		gId('timeResting').innerHTML = '<p class="timebetween">'+TT.niceTime(Date.now() - TT.db.tasks[0].end)+'</p>';
 	},
 
