@@ -29,7 +29,9 @@ li {list-style:none;}
 
 section {position: absolute;display: none;width: 100%;transition: opacity .3s ease-in;opacity: 0;}
 
-nav {position: fixed;z-index: 1000;bottom: 20px;left: 20px;color: #fff;opacity:.6;}
+nav {display: none;position: fixed;z-index: 1000;bottom: 20px;left: 20px;color: #fff;opacity:.6;}
+	body.welcome nav,
+	body.list nav {display: block;}
 nav:hover {opacity:1;}
 nav .menu {display:none;text-transform:uppercase;}
 	nav:focus .menu,
@@ -171,19 +173,21 @@ button {cursor: pointer;}
 		<ul id="taskList" class="tasklist"></ul>
 		<button id="clearDatabase" class="danger" title="Clear all settings">Reset</button>
 
-		<nav>
-			<ul class="menu">
-				<li><a href="http://xaviesteve.com/" title="About the author" target="_blank">Credits</a></li>
-				<li><a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">Source</a></li>
-				<li><a href="http://en.wikipedia.org/wiki/Pomodoro_Technique" title="Learn about the Pomodoro Technique" target="_blank" rel="nofollow">Help</a></li>
-			</ul>
-			☰
-		</nav>
-
 	</section>
 
-<script>
 
+	<nav>
+		<ul class="menu">
+			<li><a href="http://xaviesteve.com/" title="About the author" target="_blank">Credits</a></li>
+			<li><a href="https://github.com/luckyshot/timetracker" title="View source code" target="_blank">Source</a></li>
+			<li><a href="http://en.wikipedia.org/wiki/Pomodoro_Technique" title="Learn about the Pomodoro Technique" target="_blank" rel="nofollow">Help</a></li>
+		</ul>
+		☰
+	</nav>
+
+
+
+<script>
 
 /*!
   Tinycon - A small library for manipulating the Favicon
