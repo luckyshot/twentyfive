@@ -232,8 +232,7 @@ var TT = {
 				end: 0,
 				duration: 0, // used on save
 				countdown: 0, // used during countdown, cleared on save
-				title: '',
-				currentMinute: 0, // used to know when to update Tinycon
+				title: ''
 			}
 		},
 		tasks: []
@@ -241,8 +240,8 @@ var TT = {
 	db: null,
 	t: null, // stores the timer instance
 
-	currentDay: 0, // stores day for daySeparator
-	currentMinute: 0, // stores current countdown minute
+	currentDay: null, // stores day for daySeparator
+	currentMinute: null, // stores current countdown minute
 	lastTaskEnd: 0, //
 
 	tinyconOptionsRunning: {
@@ -343,6 +342,7 @@ var TT = {
 	resetCountdown: function() {
 		clearInterval(TT.t);
 		TT.db.config.status = 'idle';
+		TT.currentMinute = null;
 		Tinycon.reset();
 		TT.saveDatabase();
 	},
