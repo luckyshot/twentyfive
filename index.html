@@ -15,7 +15,7 @@ html,body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;height: 10
 
 body{transition: background .5s ease-in;}
 	body.welcome{background: #2c3e50;}
-	body.list{background: #3498db;}
+	body.list{background: #3498db;padding-bottom:80px;}
 	body.countdown{background: #2c3e50;}
 	body.naming{background: #1abc9c;}
 
@@ -430,7 +430,7 @@ var TT = {
 		}
 		for (var i = 0; i < TT.db.tasks.length; i++) {
 			gId('taskList').innerHTML +=
-				TT.timeBetween(TT.db.tasks[i].start)+
+				TT.timeBetween(TT.db.tasks[i].start, TT.db.tasks[i].end)+
 				'<li>'+
 					'<p class="title">'+TT.db.tasks[i].title+'</p>'+
 					'<p class="detail">'+
@@ -449,14 +449,14 @@ var TT = {
 	 * Used in the taskList to show the user it is a new day
 	 * If date passed belongs to a new day it outputs it
 	 */
-	timeBetween: function (date) {
+	timeBetween: function (start, end) {
 		var result;
 		if (TT.lastTaskEnd != 0) {
-			result = TT.niceTime(TT.lastTaskEnd - date);
+			result = TT.niceTime(TT.lastTaskEnd - start);
 		}else{
 			result = '';
 		}
-		TT.lastTaskEnd = date;
+		TT.lastTaskEnd = end;
 		return '<p class="timebetween">'+result+'</p>';
 	},
 
