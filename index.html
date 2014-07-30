@@ -465,14 +465,19 @@ var TT = {
 	 * If date passed belongs to a new day it outputs it
 	 */
 	timeBetween: function (start, end) {
-		var result;
+		var result,
+			padding;
 		if (TT.lastTaskEnd != 0) {
 			result = TT.niceTime(TT.lastTaskEnd - start);
 		}else{
 			result = '';
 		}
+		padding = Math.round((TT.lastTaskEnd - start) / 360000);
+		padding = (padding < 0) ? 0 : padding;
+		padding = (padding > 100) ? 100 : padding;
 		TT.lastTaskEnd = end;
-		return '<p class="timebetween">'+result+'</p>';
+
+		return '<p class="timebetween" style="padding: '+padding+'px 0">'+result+'</p>';
 	},
 
 
