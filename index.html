@@ -374,7 +374,7 @@ var TT = {
 
 		if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
 			TT.currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
-			Tinycon.setBubble( TT.currentMinute.toString() );
+			Tinycon.setBubble( (TT.currentMinute===0) ? 'O' : TT.currentMinute );
 		}
 
 		if (TT.db.config.currentTask.countdown < 1000) {
