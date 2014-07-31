@@ -35,6 +35,8 @@ TODO
 Credits
 ----------------
 
+Developed by <a href="http://xaviesteve.com/">Xavi Esteve</a>
+
 - Heavily inspired by Juani Ruiz's <a href="https://github.com/heyimjuani/html5timetracker">HTML5 Time Tracker</a>
 - Tom Moor's <a href="https://github.com/tommoor/tinycon">Tinycon plugin</a>
 - The Financial Times's <a href="https://github.com/ftlabs/fastclick">FastClick</a>
