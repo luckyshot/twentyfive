@@ -654,11 +654,6 @@ var TT = {
 		TT.loadDatabase();
 		TT.refreshList();
 
-		// Default task title to most recent task
-		if (!!TT.db.tasks.length) {
-			gId('taskTitle').value = TT.db.tasks[0].title;
-		}
-
 		if (TT.db.config.status === 'idle' && TT.db.tasks.length == 0) {
 			TT.selectView('welcome');
 		//}else if (TT.db.config.status === 'idle') {
