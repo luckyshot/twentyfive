@@ -369,8 +369,6 @@ var TT = {
 	startTimer: function() {
 
 		if (TT.db.config.status != 'running') {
-
-
 			TT.db.config.currentTask = {
 				start: Date.now(),
 				countdown: TT.db.config.cycle,
