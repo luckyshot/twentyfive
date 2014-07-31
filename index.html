@@ -337,14 +337,8 @@ var TT = {
 
 		clearInterval(TT.t);
 
-		win.blur();
-
 		Tinycon.setBubble('END');
 		Tinycon.setOptions(TT.tinyconOptionsEnd);
-
-		if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
-		TT.audio.loop = true;
-		TT.audio.play();
 
 	},
 
@@ -410,6 +404,12 @@ var TT = {
 
 		}else if (TT.db.config.currentTask.countdown < 1000) {
 			TT.selectView('naming');
+
+			win.blur();
+
+			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
+			TT.audio.loop = true;
+			TT.audio.play();
 
 		}else{
 
