@@ -47,8 +47,7 @@ button {cursor: pointer;}
 	background: #e74c3c;}
 	.primary:hover {background: #fd7062;}
 .secondary {opacity: .8;}
-	.secondary:hover {color: #2c3e50;
-	background: #1abc9c;}
+	.secondary:hover {color: #2c3e50;background: #1abc9c;}
 
 .danger {font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;border: none;background: none;}
 	.danger:hover {opacity: 1;color: #ff4849;}
@@ -69,8 +68,11 @@ section.countdown {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 6
 	.countdown .estimate {font-size: 1rem;margin-top: -20px;text-align: center;opacity: .2;}
 
 /* Page Naming */
-section.naming {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 170px;margin: auto;}
+section.naming {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 190px;margin: auto;}
 	.naming .title {font-size: 2rem;display: block;width: 40rem;margin: 10px auto;padding: 20px;text-align: center;border: none;}
+	.naming .tags {text-align:center;}
+	.naming .tags li {display: inline-block;background: rgba(255,255,255,.5);color:#2c3e50;padding: .2em .6em;margin: 0 .2em .2em;font-size: 0.55rem;text-transform: uppercase;cursor: pointer;opacity:.8;}
+	.naming .tags li:hover {opacity:1;}
 
 /* Page List */
 section.list {padding-bottom:100px;}
@@ -162,6 +164,7 @@ section.list {padding-bottom:100px;}
 
 	<section id="naming" class="page naming">
 		<input type="text" id="taskTitle" class="title" placeholder="What have you been working on?" title="Be as descriptive as possible&hellip;">
+		<ul id="suggestionList" class="tags"></ul>
 		<button id="saveNaming" class="primary" title="Save task">Save task</button>
 		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
 	</section>
@@ -449,12 +452,22 @@ var TT = {
 	 * Reloads the task list
 	 */
 	refreshList: function() {
+
+		var namingSuggestions = [],
+			namingSuggestionsHtml = '';
+
 		gId('taskList').innerHTML = '';
 		TT.lastTaskStart = 0;
 		if (TT.db.tasks.length === 0) {
 			return false;
 		}
 		for (var i = 0; i < TT.db.tasks.length; i++) {
+
+			if (namingSuggestions.indexOf(TT.db.tasks[i].title) === -1 && namingSuggestions.length < 5) {
+				namingSuggestions.push(TT.db.tasks[i].title);
+				namingSuggestionsHtml += '<li>'+TT.db.tasks[i].title+'</li>';
+			}
+
 			gId('taskList').innerHTML +=
 				TT.timeBetween(TT.db.tasks[i].start, TT.db.tasks[i].end)+
 				'<li>'+
@@ -468,6 +481,9 @@ var TT = {
 					'<a href="#" class="delete" title="Remove this task" data-id="'+i+'" data-action="deleteTask">✖</a>'+
 				'</li>';
 		}
+
+		gId('suggestionList').innerHTML = namingSuggestionsHtml;
+
 	},
 
 
@@ -540,6 +556,15 @@ var TT = {
 
 
 	/**
+	 *
+	 */
+	suggestionClick: function(e) {
+		gId('taskTitle').value = e.target.innerHTML;
+	},
+
+
+
+	/**
 	 * Loads the database, if no database loads default values
 	 */
 	loadDatabase: function() {
@@ -606,6 +631,7 @@ var TT = {
 		// Page Naming
 		gId('saveNaming').addEventListener('click', TT.saveNaming);
 		gId('cancelNaming').addEventListener('click', TT.cancelNaming);
+		gId('suggestionList').addEventListener('click', TT.suggestionClick);
 
 		win.addEventListener('focus', TT.windowFocused);
 
