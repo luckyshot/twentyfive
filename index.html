@@ -246,6 +246,7 @@ var TT = {
 	db: null,
 	t: null, // stores the timer instance
 	tR: null, // stores the resting timer instance
+	tN: null, // stores the naming timer instance
 
 	currentDay: null, // stores day for daySeparator
 	currentMinute: null, // stores current countdown minute
@@ -282,8 +283,6 @@ var TT = {
 			TT.tR = window.setInterval(function() {TT.timeResting();}, 5000);
 		}else if (page === 'welcome') {
 			doc.title = 'TimeTracker';
-		}else if (page==='naming') {
-			doc.title = '[0:00] Finished!';
 		}
 	},
 
@@ -337,8 +336,6 @@ var TT = {
 		TT.selectView('naming');
 		TT.db.config.currentTask.duration = TT.db.config.cycle - TT.db.config.currentTask.countdown;
 		delete TT.db.config.currentTask.countdown;
-		TT.db.config.currentTask.end = Date.now();
-		TT.resetCountdown();
 	},
 
 
@@ -408,9 +405,10 @@ var TT = {
 		}
 
 		if (TT.db.config.currentTask.countdown < 1000) {
+			win.blur();
 			Tinycon.setBubble('END');
 			Tinycon.setOptions(TT.tinyconOptionsEnd);
-			win.blur();
+			TT.tN = setInterval(function() {TT.timeNaming();}, 1000);
 			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
 			TT.audio.loop = true;
 			TT.audio.play();
@@ -426,6 +424,8 @@ var TT = {
 	saveNaming: function() {
 
 		TT.db.config.currentTask.title = gId('taskTitle').value;
+		TT.db.config.currentTask.end = Date.now();
+		TT.resetCountdown();
 
 		TT.windowFocused();
 		Tinycon.reset();
@@ -521,6 +521,14 @@ var TT = {
 
 
 	/**
+	 * Flashes the title when a task has finished to draw attention to the user
+	 */
+	timeNaming: function () {
+		doc.title = (doc.title == '▉▉▉▉▉▉▉▉▉▉▉▉▉') ? '[0:00] Finished!' : '▉▉▉▉▉▉▉▉▉▉▉▉▉';
+	},
+
+
+	/**
 	 * Used in the taskList to show the user it is a new day
 	 * If date passed belongs to a new day it outputs it
 	 */
@@ -609,6 +617,7 @@ var TT = {
 	 * gets back to the window, then this is fired
 	 */
 	windowFocused: function() {
+		clearInterval(TT.tN);
 		if (typeof TT.audio === 'undefined') return false;
 		TT.audio.loop = false;
 		TT.audio.pause();
