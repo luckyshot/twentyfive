@@ -244,9 +244,8 @@ var TT = {
 		tasks: []
 	},
 	db: null,
-	t: null, // stores the timer instance
-	tR: null, // stores the resting timer instance
-	tN: null, // stores the naming timer instance
+	t: 0, // stores the timer instance
+	tR: 0, // stores the resting timer instance
 
 	currentDay: null, // stores day for daySeparator
 	currentMinute: null, // stores current countdown minute
@@ -330,17 +329,28 @@ var TT = {
 
 
 	/**
-	 * Timer finished or user clicked Done
+	 * User clicks Done
 	 */
 	finishCountdown: function() {
+
 		TT.selectView('naming');
-		TT.db.config.currentTask.duration = TT.db.config.cycle - TT.db.config.currentTask.countdown;
-		delete TT.db.config.currentTask.countdown;
+
+		clearInterval(TT.t);
+
+		win.blur();
+
+		Tinycon.setBubble('END');
+		Tinycon.setOptions(TT.tinyconOptionsEnd);
+
+		if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
+		TT.audio.loop = true;
+		TT.audio.play();
+
 	},
 
 
 	/**
-	 * User clicked Cancel
+	 * User clicks Cancel
 	 */
 	cancelCountdown: function() {
 		TT.selectView('list');
@@ -352,9 +362,9 @@ var TT = {
 	 */
 	resetCountdown: function() {
 		clearInterval(TT.t);
-		TT.db.config.status = 'idle';
-		TT.currentMinute = null;
 		Tinycon.reset();
+		TT.currentMinute = null;
+		TT.db.config.status = 'idle';
 		TT.saveDatabase();
 	},
 
@@ -394,26 +404,27 @@ var TT = {
 		TT.db.config.currentTask.countdown = parseInt(TT.db.config.currentTask.start + TT.db.config.cycle - Date.now());
 
 
-		gId('clock').innerHTML = TT.msToTime( TT.db.config.currentTask.countdown );
-		doc.title = '▶ ['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
+		if (TT.db.config.currentTask.countdown < 1000 && document.body.classList.contains('naming')) {
+			console.log(123);
+			doc.title = (doc.title == '[0:00] Finished!') ? '▉▉▉▉▉▉▉▉▉▉▉▉▉' : '[0:00] Finished!';
 
-		gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
+		}else if (TT.db.config.currentTask.countdown < 1000) {
+			TT.selectView('naming');
 
-		if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
-			TT.currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
-			Tinycon.setBubble( (TT.currentMinute===0) ? 'O' : TT.currentMinute );
+		}else{
+
+			gId('clock').innerHTML = TT.msToTime( TT.db.config.currentTask.countdown );
+			doc.title = '▶ ['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
+
+			gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
+
+			// Updates bubble on minute change and not every second
+			if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
+				TT.currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
+				Tinycon.setBubble( (TT.currentMinute===0) ? 'O' : TT.currentMinute );
+			}
 		}
 
-		if (TT.db.config.currentTask.countdown < 1000) {
-			win.blur();
-			Tinycon.setBubble('END');
-			Tinycon.setOptions(TT.tinyconOptionsEnd);
-			TT.tN = setInterval(function() {TT.timeNaming();}, 1000);
-			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
-			TT.audio.loop = true;
-			TT.audio.play();
-			TT.finishCountdown();
-		}
 		TT.saveDatabase();
 	},
 
@@ -423,19 +434,19 @@ var TT = {
 	 */
 	saveNaming: function() {
 
+		//TT.windowFocused(); // remove if not needed
+
 		TT.db.config.currentTask.title = gId('taskTitle').value;
 		TT.db.config.currentTask.end = Date.now();
-		TT.resetCountdown();
-
-		TT.windowFocused();
-		Tinycon.reset();
+		TT.db.config.currentTask.duration = TT.db.config.cycle - TT.db.config.currentTask.countdown;
+		delete TT.db.config.currentTask.countdown;
 
 		// Add task at the beginning
 		TT.db.tasks.unshift(TT.db.config.currentTask);
 
-		TT.saveDatabase();
-		TT.refreshList();
+		TT.resetCountdown();
 
+		TT.refreshList();
 		TT.selectView('list');
 	},
 
@@ -464,7 +475,7 @@ var TT = {
 		}
 		for (var i = 0; i < TT.db.tasks.length; i++) {
 
-			if (namingSuggestions.indexOf(TT.db.tasks[i].title) === -1 && namingSuggestions.length < 5) {
+			if (TT.db.tasks[i].title && namingSuggestions.indexOf(TT.db.tasks[i].title) === -1 && namingSuggestions.length < 5) {
 				namingSuggestions.push(TT.db.tasks[i].title);
 				namingSuggestionsHtml += '<li>'+TT.db.tasks[i].title+'</li>';
 			}
@@ -517,14 +528,6 @@ var TT = {
 	 */
 	timeResting: function () {
 		gId('timeResting').innerHTML = '<p class="timebetween">'+TT.niceTime(Date.now() - TT.db.tasks[0].end)+'</p>';
-	},
-
-
-	/**
-	 * Flashes the title when a task has finished to draw attention to the user
-	 */
-	timeNaming: function () {
-		doc.title = (doc.title == '▉▉▉▉▉▉▉▉▉▉▉▉▉') ? '[0:00] Finished!' : '▉▉▉▉▉▉▉▉▉▉▉▉▉';
 	},
 
 
