@@ -452,15 +452,6 @@ var TT = {
 
 
 	/**
-	 * User pressed Cancel on Naming view
-	 */
-	cancelNaming: function() {
-		Tinycon.reset();
-		TT.selectView('list');
-	},
-
-
-	/**
 	 * Reloads the task list
 	 */
 	refreshList: function() {
@@ -644,7 +635,7 @@ var TT = {
 
 		// Page Naming
 		gId('saveNaming').addEventListener('click', TT.saveNaming);
-		gId('cancelNaming').addEventListener('click', TT.cancelNaming);
+		gId('cancelNaming').addEventListener('click', TT.cancelCountdown);
 		gId('suggestionList').addEventListener('click', TT.suggestionClick);
 
 		win.addEventListener('focus', TT.windowFocused);
