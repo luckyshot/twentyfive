@@ -560,6 +560,7 @@ var TT = {
 	 *
 	 */
 	suggestionClick: function(e) {
+		if (e.target.tagName !== 'LI') return;
 		gId('taskTitle').value = e.target.innerHTML;
 	},
 
