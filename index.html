@@ -381,6 +381,7 @@ var TT = {
 
 		gId('estimate').innerHTML = TT.timestampToDate(TT.db.config.currentTask.start) + ' - ' + TT.timestampToDate(TT.db.config.currentTask.end);
 
+		TT.timerTick();
 		TT.t = window.setInterval(TT.timerTick, 200); // must be less than a second to avoid setInterval lag jumps
 		TT.db.config.status = 'running';
 	},
