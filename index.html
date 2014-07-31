@@ -398,7 +398,7 @@ var TT = {
 
 
 		gId('clock').innerHTML = TT.msToTime( TT.db.config.currentTask.countdown );
-		doc.title = '['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
+		doc.title = '▶ ['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
 
 		gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
 
