@@ -418,11 +418,11 @@ var TT = {
 		}else if (TT.db.config.currentTask.countdown < 1000) {
 			TT.selectView('naming');
 
-			win.blur();
-
 			Tinycon.setBubble('END');
 			Tinycon.setOptions(TT.tinyconOptionsEnd);
 
+
+			win.addEventListener('mousemove', TT.windowFocused);
 			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
 			TT.audio.loop = true;
 			TT.audio.play();
@@ -628,8 +628,7 @@ var TT = {
 	 * gets back to the window, then this is fired
 	 */
 	windowFocused: function() {
-		clearInterval(TT.tN);
-		if (typeof TT.audio === 'undefined') return false;
+		win.removeEventListener('mousemove', TT.windowFocused);
 		TT.audio.loop = false;
 		TT.audio.pause();
 	},
@@ -654,8 +653,6 @@ var TT = {
 		gId('saveNaming').addEventListener('click', TT.saveNaming);
 		gId('cancelNaming').addEventListener('click', TT.cancelCountdown);
 		gId('suggestionList').addEventListener('click', TT.suggestionClick);
-
-		win.addEventListener('focus', TT.windowFocused);
 
 		// FastClick
 		win.addEventListener('load', function() {
