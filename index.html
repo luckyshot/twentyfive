@@ -103,7 +103,7 @@ section.list {padding-bottom:100px;}
 /* Small screen */
 @media screen and (max-width: 640px), screen and (max-height: 240px) {
 	/* Page Welcome */
-	section.welcome {width: 100%;height: 220px;}
+	section.welcome {width: 100%;height: 230px;}
 		.welcome h1 {font-size: 3.5rem;}
 
 	/* Page Countdown */
@@ -534,6 +534,7 @@ var TT = {
 	 * Calculates how much time has passed since last task and puts it on top of the list
 	 */
 	timeResting: function () {
+		if (TT.db.tasks.length == 0) return;
 		gId('timeResting').innerHTML = '<p class="timebetween">'+TT.niceTime(Date.now() - TT.db.tasks[0].end)+'</p>';
 	},
 
