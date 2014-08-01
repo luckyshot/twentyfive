@@ -411,7 +411,6 @@ var TT = {
 
 
 		if (TT.db.config.currentTask.countdown < 1000 && document.body.classList.contains('naming')) {
-			console.log(Date.now(), TT.db.config.currentTask.start, Date.now() - TT.db.config.currentTask.start);
 			doc.title = (doc.title.indexOf('Finished') === -1) ? '['+TT.msToTime(Date.now() - TT.db.config.currentTask.start)+'] Finished!' : '▉▉▉▉▉▉▉▉▉▉▉▉▉';
 
 		}else if (TT.db.config.currentTask.countdown < 1000) {
@@ -471,10 +470,10 @@ var TT = {
 	 */
 	refreshList: function() {
 
-		var namingSuggestions = [],
+		var taskListHtml = '',
+			namingSuggestions = [],
 			namingSuggestionsHtml = '';
 
-		gId('taskList').innerHTML = '';
 		TT.lastTaskStart = 0;
 		if (TT.db.tasks.length === 0) {
 			return false;
@@ -486,7 +485,7 @@ var TT = {
 				namingSuggestionsHtml += '<li>'+TT.db.tasks[i].title+'</li>';
 			}
 
-			gId('taskList').innerHTML +=
+			taskListHtml +=
 				TT.timeBetween(TT.db.tasks[i].start, TT.db.tasks[i].end)+
 				'<li>'+
 					'<p class="title">'+TT.db.tasks[i].title+'</p>'+
@@ -500,8 +499,8 @@ var TT = {
 				'</li>';
 		}
 
+		gId('taskList').innerHTML = taskListHtml;
 		gId('suggestionList').innerHTML = namingSuggestionsHtml;
-
 	},
 
 
