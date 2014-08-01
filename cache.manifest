@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# 2014-08-01 12:47
+
+# Explicitly cached entries
+index.html
+alert.mp3
+splash-startup.png
+
+# All other resources (e.g. sites) require the user to be online.
+NETWORK:
+*
