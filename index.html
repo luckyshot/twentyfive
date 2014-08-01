@@ -15,7 +15,6 @@ li {list-style:none;}
 
 
 /* General */
-
 body {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;height: 100%;-webkit-font-smoothing: antialiased;transition: background-color .3s ease;}
 	body.welcome {background: #2c3e50;}
 	body.list {background: #3498db;}
@@ -222,6 +221,8 @@ function FastClick(e,t){"use strict";function r(e,t){return function(){return e.
   Copyright (c) 2014 Xavi Esteve
   @license MIT Licensed
 */
+var TF;
+
 ;( function( doc, win ) {
 
 'use strict';
@@ -680,8 +681,8 @@ var TT = {
 	}
 };
 
-
-TT.init();
+TF = TT;
+TF.init();
 
 
 }( document, window ) );
