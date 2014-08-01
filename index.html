@@ -66,8 +66,8 @@ section.welcome {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640
 
 /* Page Countdown */
 section.countdown {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 260px;margin: auto;}
-	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);}
-	.countdown .bar {position: fixed;top: 0;left: 0;width: 0;height: 3px;background: rgba(231, 76, 60, .8);}
+	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;overflow:hidden;background: rgba(0,0,0,.3);}
+		.countdown .bar {width: 0;height: 100%;background: rgba(231, 76, 60, .8);}
 	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
 	.countdown .estimate {font-size: 1rem;margin-top: -20px;text-align: center;opacity: .2;}
 
@@ -111,8 +111,7 @@ section.list {padding-bottom:100px;}
 	section.countdown {width: 280px;height: 180px;}
 		.countdown .clock {font-size: 6rem;}
 		.countdown .estimate {margin-top: -10px;}
-		.countdown .progress,
-		.countdown .bar {height: 10px;}
+		.countdown .progress {height: 10px;}
 
 	/* Page List */
 	.list li {width: auto;margin: 20px;}
