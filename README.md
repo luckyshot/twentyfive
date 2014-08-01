@@ -20,11 +20,6 @@ TwentyFive
 
 Try it live on http://luckyshot.github.io/twentyfive/
 
-TODO
-----------------
-
-- Desktop Browser Notifications ( https://developer.mozilla.org/en-US/docs/Web/API/notification )
-
 
 Author
 ----------------
