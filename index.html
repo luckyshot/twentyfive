@@ -291,9 +291,22 @@ var TT = {
 	 */
 	msToTime: function(ms) {
 		var s = parseInt(ms / 1000);
-		return parseInt(s / 60) +':'+ ('0'+s % 60).slice(-2);
+		if (s > 3599) {
+			var hh,mm,ss;
+			hh = Math.floor(s / 3600);
+			s %= 3600;
+			mm = Math.floor(s / 60),
+			ss = s % 60;
+			return hh +':'+ ('0'+mm).slice(-2) +':'+ ('0'+ss).slice(-2);
+		}else{
+			return parseInt(s / 60) +':'+ ('0'+s % 60).slice(-2);
+		}
 	},
 
+
+	/**
+	 * Converts miliseconds to '8 minutes' format
+	 */
 	niceTime: function(ms) {
 		var i = 0,
 		s = ms / 1000,
@@ -397,8 +410,8 @@ var TT = {
 
 
 		if (TT.db.config.currentTask.countdown < 1000 && document.body.classList.contains('naming')) {
-			console.log(123);
-			doc.title = (doc.title == '[0:00] Finished!') ? '▉▉▉▉▉▉▉▉▉▉▉▉▉' : '[0:00] Finished!';
+			console.log(Date.now(), TT.db.config.currentTask.start, Date.now() - TT.db.config.currentTask.start);
+			doc.title = (doc.title.indexOf('Finished') === -1) ? '['+TT.msToTime(Date.now() - TT.db.config.currentTask.start)+'] Finished!' : '▉▉▉▉▉▉▉▉▉▉▉▉▉';
 
 		}else if (TT.db.config.currentTask.countdown < 1000) {
 			TT.selectView('naming');
