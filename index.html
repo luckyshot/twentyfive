@@ -44,15 +44,15 @@ nav .menu {display:none;text-transform:uppercase;}
 button {cursor: pointer;}
 
 .primary,
-.secondary {font-size: 1rem;display: block;margin: 10px auto;padding: .5em 2rem;color: #1abc9c;border: 2px solid #1abc9c;background: transparent;}
-.primary {font-size: 1.33rem;padding: 1rem 4rem;color: #fff;border: none;
-	background: #e74c3c;}
+.secondary {font-size: 1rem;display: block;margin: 10px auto;padding: .5em 2rem;}
+.primary {font-size: 1.33rem;padding: 1rem 4rem;color: #fff;border: 3px solid transparent;background: #e74c3c;}
 	.primary:hover {background: #fd7062;}
-.secondary {opacity: .8;}
+	.danger .primary {border: 3px solid #fff;}
+.secondary {opacity: .8;color: #1abc9c;border: 2px solid #1abc9c;background: transparent;}
 	.secondary:hover {color: #2c3e50;background: #1abc9c;}
 
-.danger {font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;border: none;background: none;}
-	.danger:hover {opacity: 1;color: #ff4849;}
+.cancel {font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;border: none;background: none;}
+	.cancel:hover {opacity: 1;color: #ff4849;}
 
 
 /* Page Welcome */
@@ -68,13 +68,13 @@ section.countdown {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 6
 	.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;overflow:hidden;background: rgba(0,0,0,.3);}
 		.countdown .bar {width: 0;height: 100%;background: rgba(231, 76, 60, .8);}
 	.countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
-	.countdown .estimate {font-size: 1rem;margin-top: -20px;text-align: center;opacity: .2;}
+	.countdown .estimate {font-size: .8rem;margin-top: -20px;text-align: center;opacity: .2;}
 
 /* Page Naming */
 section.naming {position: absolute;top: 0;right: 0;bottom: 0;left: 0;width: 640px;height: 190px;margin: auto;}
 	.naming .title {font-size: 2rem;display: block;width: 40rem;margin: 10px auto;padding: 20px;text-align: center;border: none;border-radius: 0;}
 	.naming .tags {text-align:center;}
-	.naming .tags li {display: inline-block;background: rgba(255,255,255,.5);color:#2c3e50;padding: .2em .6em;margin: 0 .2em .2em;font-size: 0.55rem;text-transform: uppercase;cursor: pointer;opacity:.8;}
+	.naming .tags li {display: inline-block;background: rgba(255,255,255,.5);color:#2c3e50;padding: .2em .6em;margin: 0 .2em .2em;font-size: 0.55rem;cursor: pointer;opacity:.8;}
 	.naming .tags li:hover {opacity:1;}
 
 /* Page List */
@@ -160,7 +160,7 @@ section.list {padding-bottom:100px;}
 		<p id="clock" class="clock"></p>
 		<p id="estimate" class="estimate"></p>
 		<button id="finishCountdown" class="secondary" title="Finish the current task">I'm done</button>
-		<button id="cancelCountdown" class="danger" title="Cancel the current task">Cancel</button>
+		<button id="cancelCountdown" class="cancel" title="Cancel the current task">Cancel</button>
 	</section>
 
 
@@ -168,7 +168,7 @@ section.list {padding-bottom:100px;}
 		<input type="text" id="taskTitle" class="title" placeholder="What have you been working on?" title="Be as descriptive as possible&hellip;">
 		<ul id="suggestionList" class="tags"></ul>
 		<button id="saveNaming" class="primary" title="Save task">Save task</button>
-		<button id="cancelNaming" class="danger" title="Cancel the current task">Cancel</button>
+		<button id="cancelNaming" class="cancel" title="Cancel the current task">Cancel</button>
 	</section>
 
 
@@ -398,7 +398,7 @@ var TT = {
 		gId('estimate').innerHTML = TT.timestampToDate(TT.db.config.currentTask.start) + ' - ' + TT.timestampToDate(TT.db.config.currentTask.end);
 
 		TT.timerTick();
-		TT.t = window.setInterval(TT.timerTick, 330); // must be less than a second to avoid setInterval lag jumps
+		TT.t = window.setInterval(TT.timerTick, 1000);
 		TT.db.config.status = 'running';
 	},
 
@@ -422,6 +422,7 @@ var TT = {
 			Tinycon.setBubble('END');
 			Tinycon.setOptions(TT.tinyconOptionsEnd);
 
+			document.body.classList.add('danger');
 
 			win.addEventListener('mousemove', TT.windowFocused);
 			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
@@ -629,6 +630,7 @@ var TT = {
 	 * gets back to the window, then this is fired
 	 */
 	windowFocused: function() {
+		document.body.classList.remove('danger');
 		win.removeEventListener('mousemove', TT.windowFocused);
 		TT.audio.loop = false;
 		TT.audio.pause();
@@ -673,8 +675,6 @@ var TT = {
 
 		if (TT.db.config.status === 'idle' && TT.db.tasks.length == 0) {
 			TT.selectView('welcome');
-		//}else if (TT.db.config.status === 'idle') {
-		//	TT.selectView('list');
 		}else{
 			TT.startCountdown();
 		}
@@ -687,16 +687,20 @@ TF.init();
 
 }( document, window ) );
 
-</script>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-1815428-34', 'auto');
-  ga('send', 'pageview');
+/**
+ * Google Analytics
+ */
+if (document.location.href.indexOf("http://luckyshot.github.io/twentyfive/") !== -1) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-1815428-34', 'auto');
+	ga('send', 'pageview');
+}
 
 </script>
 
