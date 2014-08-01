@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>TimeTracker - Pomodoro HTML5 web app timer</title>
+	<title>TwentyFive - HTML5 Pomodoro time tracker</title>
 	<style>
 
 /* Reset */
@@ -126,7 +126,7 @@ section.list {padding-bottom:100px;}
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-	<meta name="apple-mobile-web-app-title" content="TimeTracker">
+	<meta name="apple-mobile-web-app-title" content="TwentyFive">
 
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
@@ -145,8 +145,8 @@ section.list {padding-bottom:100px;}
 <body class="welcome">
 
 	<section id="welcome" class="page welcome">
-		<h1>TimeTracker</h1>
-		<p>TimeTracker is a time tracking tool focused on speed and simplicity that encourages you to follow the Pomodoro Technique.</p>
+		<h1>TwentyFive</h1>
+		<p>TwentyFive is an HTML5 <strong>time tracking</strong> web app focused on speed and simplicity that encourages you to follow the Pomodoro Technique.</p>
 		<button id="startCountdownWelcome" class="secondary start" title="Start a new task">Start your first task</button>
 	</section>
 
@@ -214,7 +214,7 @@ function FastClick(e,t){"use strict";function r(e,t){return function(){return e.
 
 
 /*!
-  TimeTracker - Minimal Pomodoro HTML5 timetracker
+  TwentyFive - Minimal Pomodoro HTML5 timetracker
   Xavi Esteve, http://xaviesteve.com/
   Copyright (c) 2014 Xavi Esteve
   @license MIT Licensed
@@ -277,11 +277,11 @@ var TT = {
 		clearInterval(TT.tR);
 
 		if (page === 'list') {
-			doc.title = 'TimeTracker';
+			doc.title = 'TwentyFive';
 			TT.timeResting();
 			TT.tR = window.setInterval(function() {TT.timeResting();}, 5000);
 		}else if (page === 'welcome') {
-			doc.title = 'TimeTracker';
+			doc.title = 'TwentyFive';
 		}
 	},
 
@@ -425,7 +425,7 @@ var TT = {
 		}else{
 
 			gId('clock').innerHTML = TT.msToTime( TT.db.config.currentTask.countdown );
-			doc.title = '▶ ['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TimeTracker';
+			doc.title = '▶ ['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TwentyFive';
 
 			gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
 
@@ -583,7 +583,7 @@ var TT = {
 	 * Loads the database, if no database loads default values
 	 */
 	loadDatabase: function() {
-		var lsDb = localStorage.getItem('TimeTracker');
+		var lsDb = localStorage.getItem('TwentyFive');
 		TT.db = (lsDb) ? JSON.parse(lsDb) : TT.defaultDb;
 	},
 
@@ -591,7 +591,7 @@ var TT = {
 	 * Stores the database in localStorage
 	 */
 	saveDatabase: function() {
-		localStorage.setItem( 'TimeTracker', JSON.stringify(TT.db) );
+		localStorage.setItem( 'TwentyFive', JSON.stringify(TT.db) );
 	},
 
 
@@ -601,7 +601,7 @@ var TT = {
 	 */
 	clearDatabase: function() {
 		if (!confirm('Do you want to reset all data?')) return false;
-		localStorage.removeItem('TimeTracker');
+		localStorage.removeItem('TwentyFive');
 		TT.loadDatabase();
 		TT.refreshList();
 	},
