@@ -413,7 +413,7 @@ var TT = {
 
 
 		if (TT.db.config.currentTask.countdown < 1000 && document.body.classList.contains('naming')) {
-			doc.title = (doc.title.indexOf('Finished') === -1) ? '['+TT.msToTime(Date.now() - TT.db.config.currentTask.start)+'] Finished!' : '▉▉▉▉▉▉▉▉▉▉▉▉▉';
+			doc.title = (doc.title.indexOf('Finished') > -1 && TF.audio.loop == true) ? '▉▉▉▉▉▉▉▉▉▉▉▉▉' : '['+TT.msToTime(Date.now() - TT.db.config.currentTask.start)+'] Finished!';
 
 		}else if (TT.db.config.currentTask.countdown < 1000) {
 			TT.selectView('naming');
