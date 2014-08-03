@@ -273,8 +273,6 @@ var TT = {
 	selectView: function(page) {
 		doc.body.className = page;
 
-		clearInterval(TT.tR);
-
 		if (page === 'list') {
 			doc.title = 'TwentyFive';
 			TT.timeResting();
@@ -335,6 +333,9 @@ var TT = {
 	 */
 	startCountdown: function() {
 		gId('clock').innerHTML = TT.msToTime(TT.db.config.cycle);
+
+		clearInterval(TT.tR);
+
 		TT.startTimer();
 		TT.selectView('countdown');
 	},
