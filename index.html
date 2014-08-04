@@ -64,8 +64,8 @@ button {cursor: pointer;}
 .welcome p strong {font-weight:400;}
 
 /* Page Countdown */
-.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;overflow:hidden;background: rgba(0,0,0,.3);}
-	.countdown .bar {width: 0;height: 100%;background: rgba(231, 76, 60, .8);}
+.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);}
+	.countdown .bar {width: 0;height: 3px;background: rgba(231, 76, 60, .8);color: rgba(231, 76, 60, .8);font-size: 0.6rem;text-align: right;line-height: 1.8em;}
 .countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
 .countdown .estimate {font-size: .8rem;margin-top: -20px;text-align: center;opacity: .2;}
 
@@ -107,6 +107,7 @@ section.list {padding-bottom:100px;}
 	.countdown .clock {font-size: 6rem;}
 	.countdown .estimate {margin-top: -10px;}
 	.countdown .progress {height: 10px;}
+		.countdown .bar {color: rgba(0, 0, 0, 0.5);font-size: 9px;line-height: 1.4em;height:11px;}
 
 	/* Page List */
 	.tasklist li {width: auto;margin: 20px;}
@@ -404,6 +405,8 @@ var TT = {
 	 */
 	timerTick: function() {
 
+		var progress = '';
+
 		if (parseInt(TT.db.config.currentTask.countdown / 1000) == parseInt((TT.db.config.currentTask.start + TT.db.config.cycle - Date.now()) / 1000)) return false;
 
 		TT.db.config.currentTask.countdown = parseInt(TT.db.config.currentTask.start + TT.db.config.cycle - Date.now());
@@ -430,7 +433,9 @@ var TT = {
 			gId('clock').innerHTML = TT.msToTime( TT.db.config.currentTask.countdown );
 			doc.title = '▶ ['+TT.msToTime( TT.db.config.currentTask.countdown )+'] TwentyFive';
 
-			gId('bar').style.width = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100))+'%';
+			progress = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100));
+			gId('bar').style.width = progress+'%';
+			gId('bar').innerHTML = Math.round(progress)+'<small>%</small>';
 
 			// Updates bubble on minute change and not every second
 			if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
