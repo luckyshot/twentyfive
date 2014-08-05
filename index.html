@@ -49,6 +49,7 @@ button:active {box-shadow: inset 0 1px 3px rgba(0,0,0,.3),0 1px 0 rgba(255,255,2
 .secondary {font-size: 1rem;display: block;margin: 10px auto;padding: .5em 2rem;}
 .primary {font-size: 1.33rem;padding: 1rem 4rem;color: #fff;background: #e74c3c;}
 	.primary:hover {background: #fd7062;}
+	body.danger .primary  {background: #fd7062;}
 .secondary {opacity: .8;color: #1abc9c;border: 2px solid #1abc9c;background: transparent;}
 	.secondary:hover {color: #2c3e50;background: #1abc9c;}
 
@@ -64,8 +65,10 @@ button:active {box-shadow: inset 0 1px 3px rgba(0,0,0,.3),0 1px 0 rgba(255,255,2
 .welcome p strong {font-weight:400;}
 
 /* Page Countdown */
-.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);}
-	.countdown .bar {width: 0;height: 3px;background: rgba(231, 76, 60, .8);color: rgba(231, 76, 60, .8);font-size: 0.6rem;text-align: right;line-height: 1.8em;}
+.countdown .progress {position: fixed;top: 0;left: 0;width: 100%;height: 3px;background: rgba(0,0,0,.3);transition: height .3s ease;}
+	.countdown .bar {width: 0;height: 3px;background: rgba(231, 76, 60, .8);color: rgba(231, 76, 60, .8);font-size: 0.6rem;text-align: right;line-height: 1.8em;transition: height .3s ease;}
+.countdown .progress:hover,
+	.countdown .progress:hover .bar {height:11px;}
 .countdown .clock {font-size: 10rem;text-align: center;color: #fff;text-shadow: 0 5px 10px rgba(0, 0, 0, .1);}
 .countdown .estimate {font-size: .8rem;margin-top: -20px;text-align: center;opacity: .2;}
 
@@ -151,7 +154,7 @@ section.list {padding-bottom:100px;}
 
 
 	<section id="countdown" class="page countdown">
-		<div class="progress">
+		<div id="progress" class="progress">
 			<div id="bar" class="bar"></div>
 		</div>
 		<p id="clock" class="clock"></p>
@@ -409,7 +412,8 @@ var TT = {
 	 */
 	timerTick: function() {
 
-		var progress = '';
+		var progress = '',
+			currentMinute;
 
 		if (parseInt(TT.db.config.currentTask.countdown / 1000) == parseInt((TT.db.config.currentTask.start + TT.db.config.cycle - Date.now()) / 1000)) return false;
 
@@ -457,11 +461,12 @@ var TT = {
 			progress = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100));
 			gId('bar').style.width = progress+'%';
 			//gId('bar').innerHTML = Math.round(progress)+'<small>%</small>';
-			gId('bar').title = Math.round(progress)+'%';
+			gId('progress').title = Math.round(progress)+'%';
 
 			// Updates bubble on minute change and not every second
-			if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
-				TT.currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
+			currentMinute = parseInt(TT.db.config.currentTask.countdown/60/1000);
+			if (TT.currentMinute != currentMinute) {
+				TT.currentMinute = currentMinute;
 				Tinycon.setBubble( (TT.currentMinute===0) ? 'O' : TT.currentMinute );
 			}
 		}
