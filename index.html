@@ -42,17 +42,17 @@ nav .menu {display:none;text-transform:uppercase;}
 
 
 /* Forms */
-button {cursor: pointer;}
+button {border:none;cursor: pointer;outline:none;}
+button:active {box-shadow: inset 0 1px 3px rgba(0,0,0,.3),0 1px 0 rgba(255,255,255,.3);}
 
 .primary,
 .secondary {font-size: 1rem;display: block;margin: 10px auto;padding: .5em 2rem;}
-.primary {font-size: 1.33rem;padding: 1rem 4rem;color: #fff;border: 3px solid transparent;background: #e74c3c;}
+.primary {font-size: 1.33rem;padding: 1rem 4rem;color: #fff;background: #e74c3c;}
 	.primary:hover {background: #fd7062;}
-	.danger .primary {border: 3px solid #fff;}
 .secondary {opacity: .8;color: #1abc9c;border: 2px solid #1abc9c;background: transparent;}
 	.secondary:hover {color: #2c3e50;background: #1abc9c;}
 
-.cancel {font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;border: none;background: none;padding: .3em .7rem;border: 2px solid #fff;}
+.cancel {font-size: .6rem;position: fixed;right: 20px;bottom: 20px;text-transform: uppercase;opacity: .6;color: #fff;;background: none;padding: .3em .7rem;border: 2px solid #fff;}
 	.cancel:hover {opacity: 1;color: #ff4849;border-color:#ff4849;}
 
 
