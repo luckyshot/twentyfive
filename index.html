@@ -423,16 +423,16 @@ var TT = {
 		}else if (TT.db.config.currentTask.countdown < 1000) {
 			TT.selectView('naming');
 
-			if (Notification.permission === 'default') {
+			if (Notification && Notification.permission === 'default') {
 				Notification.requestPermission(function (permission) {
 					Notification.permission = permission;
 				});
 			}
 
-			if (Notification.permission === 'granted') {
-				TT.notification = new Notification('Timer finished!', {
+			if (Notification && Notification.permission === 'granted') {
+				TT.notification = new Notification('TwentyFive finished!', {
 					body: 'You have worked for 25 minutes in a task, take a rest.',
-					icon: 'apple-touch-icon-72x72.png',
+					icon: 'apple-touch-icon-72x72.png'
 				});
 			}
 
