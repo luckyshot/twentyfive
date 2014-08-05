@@ -247,6 +247,8 @@ var TT = {
 	t: 0, // stores the timer instance
 	tR: 0, // stores the resting timer instance
 
+	notification: null, // stores the Desktop Browser Notification
+
 	currentDay: null, // stores day for daySeparator
 	currentMinute: null, // stores current countdown minute
 	lastTaskStart: 0, //
@@ -414,16 +416,30 @@ var TT = {
 		TT.db.config.currentTask.countdown = parseInt(TT.db.config.currentTask.start + TT.db.config.cycle - Date.now());
 
 
-		if (TT.db.config.currentTask.countdown < 1000 && document.body.classList.contains('naming')) {
+		if (TT.db.config.currentTask.countdown < 1000 && doc.body.classList.contains('naming')) {
 			doc.title = (doc.title.indexOf('Finished') > -1 && TF.audio.loop == true) ? '▉▉▉▉▉▉▉▉▉▉▉▉▉' : '['+TT.msToTime(Date.now() - TT.db.config.currentTask.start)+'] Finished!';
 
+		// will run only once when timer reaches 0
 		}else if (TT.db.config.currentTask.countdown < 1000) {
 			TT.selectView('naming');
+
+			if (Notification.permission === 'default') {
+				Notification.requestPermission(function (permission) {
+					Notification.permission = permission;
+				});
+			}
+
+			if (Notification.permission === 'granted') {
+				TT.notification = new Notification('Timer finished!', {
+					body: 'You have worked for 25 minutes in a task, take a rest.',
+					icon: 'apple-touch-icon-72x72.png',
+				});
+			}
 
 			Tinycon.setBubble('END');
 			Tinycon.setOptions(TT.tinyconOptionsEnd);
 
-			document.body.classList.add('danger');
+			doc.body.classList.add('danger');
 
 			win.addEventListener('mousemove', TT.windowFocused);
 			win.addEventListener('touchstart', TT.windowFocused);
@@ -482,7 +498,8 @@ var TT = {
 
 		var taskListHtml = '',
 			namingSuggestions = [],
-			namingSuggestionsHtml = '';
+			namingSuggestionsHtml = '',
+			liPadding;
 
 		TT.lastTaskStart = 0;
 		if (TT.db.tasks.length === 0) {
@@ -495,9 +512,13 @@ var TT = {
 				namingSuggestionsHtml += '<li>'+TT.db.tasks[i].title+'</li>';
 			}
 
+			liPadding = Math.round(TT.db.tasks[i].duration / 30000);
+			liPadding = (liPadding < 30) ? 30 : liPadding;
+			liPadding = (liPadding > 100) ? 100 : liPadding;
+
 			taskListHtml +=
 				TT.timeBetween(TT.db.tasks[i].start, TT.db.tasks[i].end)+
-				'<li>'+
+				'<li style="padding-top:'+(liPadding-10)+'px;padding-bottom:'+liPadding+'px;">'+
 					'<p class="title">'+TT.db.tasks[i].title+'</p>'+
 					'<p class="detail">'+
 						'<span class="interval">'+TT.niceTime(TT.db.tasks[i].duration)+'</span>'+
@@ -636,7 +657,7 @@ var TT = {
 	 * gets back to the window, then this is fired
 	 */
 	windowFocused: function() {
-		document.body.classList.remove('danger');
+		doc.body.classList.remove('danger');
 
 		win.removeEventListener('mousemove', TT.windowFocused);
 		win.removeEventListener('touchstart', TT.windowFocused);
