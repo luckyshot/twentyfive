@@ -432,7 +432,8 @@ var TT = {
 			if (Notification && Notification.permission === 'granted') {
 				TT.notification = new Notification('TwentyFive finished!', {
 					body: 'You have worked for 25 minutes in a task, take a rest.',
-					icon: 'apple-touch-icon-72x72.png'
+					icon: 'apple-touch-icon-72x72.png',
+					tag: 'timerFinished'
 				});
 			}
 
