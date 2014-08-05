@@ -12,7 +12,7 @@ h1,p,ul,li,button {margin: 0;padding: 0;user-select: none;}
 html,body,
 h1,p,ul,li,button {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
 li {list-style:none;}
-
+a {-webkit-touch-callout: none;}
 
 /* General */
 html {height: 100%;}
@@ -426,6 +426,8 @@ var TT = {
 			document.body.classList.add('danger');
 
 			win.addEventListener('mousemove', TT.windowFocused);
+			win.addEventListener('touchstart', TT.windowFocused);
+
 			if (typeof TT.audio === 'undefined') { TT.audio = new Audio("alert.mp3"); }
 			TT.audio.loop = true;
 			TT.audio.play();
@@ -635,7 +637,10 @@ var TT = {
 	 */
 	windowFocused: function() {
 		document.body.classList.remove('danger');
+
 		win.removeEventListener('mousemove', TT.windowFocused);
+		win.removeEventListener('touchstart', TT.windowFocused);
+
 		TT.audio.loop = false;
 		TT.audio.pause();
 	},
