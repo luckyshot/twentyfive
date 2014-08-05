@@ -437,7 +437,8 @@ var TT = {
 
 			progress = (100-(TT.db.config.currentTask.countdown / TT.db.config.cycle * 100));
 			gId('bar').style.width = progress+'%';
-			gId('bar').innerHTML = Math.round(progress)+'<small>%</small>';
+			//gId('bar').innerHTML = Math.round(progress)+'<small>%</small>';
+			gId('bar').title = Math.round(progress)+'%';
 
 			// Updates bubble on minute change and not every second
 			if (TT.currentMinute != parseInt(TT.db.config.currentTask.countdown/60/1000)) {
