@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>TwentyFive - HTML5 Pomodoro time tracker</title>
+	<title>TwentyFive - A simple Pomodoro time tracker</title>
 	<style>
 		/* Reset */
 
@@ -225,6 +225,10 @@
 
 		.welcome p strong {
 			font-weight: 400;
+		}
+
+		.welcome p i.icon {
+			font-style: normal;
 		}
 
 		/* Page Countdown */
@@ -497,8 +501,9 @@
 
 	<section id="welcome" class="page welcome">
 		<h1>TwentyFive</h1>
-		<p>HTML5
-			<strong>time tracking</strong> web app focused on speed and simplicity that encourages you to follow the Pomodoro Technique.</p>
+		<p>A
+			<strong>time tracking</strong> app focused on speed and simplicity that encourages you to follow the
+			<i class="icon" title="Pomodoro, Italian word for Tomato">🍅</i> Pomodoro Technique.</p>
 		<button id="startCountdownWelcome" class="secondary start" title="Start a new task">Start your first task</button>
 	</section>
 
@@ -1087,9 +1092,9 @@
 		if (document.location.href.indexOf("http://luckyshot.github.io/twentyfive/") === 0) {
 			(function (i, s, o, g, r, a, m) {			
 			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-			(i[r].q = i[r].q || []).push(arguments)			
+				(i[r].q = i[r].q || []).push(arguments)			
 			}, i[r].l = 1 * new Date(); a = s.createElement(o),
-			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+				m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
 			})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
 			ga('create', 'UA-1815428-34', 'auto');
