@@ -543,6 +543,9 @@
 				<a href="https://github.com/luckyshot/twentyfive" title="View source code" target="_blank">Source</a>
 			</li>
 			<li>
+				<a id="exportDatabase" href="#" title="Export database via a window prompt">Export</a>
+			</li>
+			<li>
 				<a id="clearDatabase" href="#" title="Clear all tasks and settings">Reset</a>
 			</li>
 		</ul>
@@ -996,7 +999,9 @@
 					localStorage.setItem('TwentyFive', JSON.stringify(TT.db));
 				},
 
-
+				exportDatabase: function () {
+					win.prompt("Copy to clipboard: Ctrl+C, Enter", JSON.stringify(TT.db));
+				},
 
 				/**
 				 * Deletes the database
@@ -1042,6 +1047,7 @@
 
 					// Page List
 					gId('startCountdown').addEventListener('click', TT.startCountdown);
+					gId('exportDatabase').addEventListener('click', TT.exportDatabase);
 					gId('clearDatabase').addEventListener('click', TT.clearDatabase);
 					gId('taskList').addEventListener('click', TT.taskClick);
 
