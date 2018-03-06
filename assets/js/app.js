@@ -221,7 +221,7 @@ var TF;
                 if (Notification && Notification.permission === 'granted') {
                     TT.notification = new Notification('TwentyFive finished!', {
                         body: 'You have worked for 25 minutes in a task, take a rest.',
-                        icon: '../image/apple-touch-icon-72x72.png',
+                        icon: 'assets/image/apple-touch-icon-72x72.png',
                         tag: 'timerFinished'
                     });
                 }
@@ -234,7 +234,7 @@ var TF;
                 win.addEventListener('mousemove', TT.windowFocused);
                 win.addEventListener('touchstart', TT.windowFocused);
 
-                if (typeof TT.audio === 'undefined') { TT.audio = new Audio("../sound/alert.mp3"); }
+                if (typeof TT.audio === 'undefined') { TT.audio = new Audio("assets/sound/alert.mp3"); }
                 TT.audio.loop = true;
                 TT.audio.play();
 
