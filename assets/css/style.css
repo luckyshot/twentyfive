@@ -1,0 +1,469 @@
+/* Reset */
+
+html,
+body,
+h1,
+p,
+ul,
+li,
+button {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+html,
+body,
+h1,
+p,
+ul,
+li,
+button {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    -webkit-touch-callout: none;
+}
+
+
+/* General */
+
+html {
+    height: 100%;
+}
+
+body {
+    display: table;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 1s ease;
+}
+
+body.welcome {
+    background: #2c3e50;
+}
+
+body.list {
+    background: #3498db;
+}
+
+body.countdown {
+    background: #2c3e50;
+}
+
+body.naming {
+    background: #1abc9c;
+}
+
+body.danger {
+    background: #e74c3c;
+}
+
+section {
+    display: none;
+    text-align: center;
+    vertical-align: middle;
+    transition: opacity .3s ease;
+    opacity: 0;
+}
+
+body.welcome section.welcome,
+body.list section.list,
+body.countdown section.countdown,
+body.naming section.naming {
+    display: table-cell;
+    opacity: 1;
+}
+
+nav {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+    opacity: .6;
+}
+
+body.welcome nav,
+body.list nav {
+    display: block;
+}
+
+nav:hover {
+    opacity: 1;
+}
+
+nav .menu {
+    display: none;
+    text-transform: uppercase;
+}
+
+nav:focus .menu,
+nav:active .menu,
+nav:hover .menu {
+    display: block;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: .6rem;
+    padding: .5em 0;
+}
+
+
+/* Forms */
+
+button {
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+button:active {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .3), 0 1px 0 rgba(255, 255, 255, .3);
+}
+
+.primary,
+.secondary {
+    font-size: 1rem;
+    display: block;
+    margin: 10px auto;
+    padding: .5em 2rem;
+}
+
+.primary {
+    font-size: 1.33rem;
+    padding: 1rem 4rem;
+    color: #fff;
+    background: #e74c3c;
+}
+
+.primary:hover {
+    background: #fd7062;
+}
+
+body.danger .primary {
+    background: #fd7062;
+}
+
+.secondary {
+    opacity: .8;
+    color: #1abc9c;
+    border: 2px solid #1abc9c;
+    background: transparent;
+}
+
+.secondary:hover {
+    color: #2c3e50;
+    background: #1abc9c;
+}
+
+.cancel {
+    font-size: .6rem;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    text-transform: uppercase;
+    opacity: .6;
+    color: #fff;
+    ;
+    background: none;
+    padding: .3em .7rem;
+    border: 2px solid #fff;
+}
+
+.cancel:hover {
+    opacity: 1;
+    color: #ff4849;
+    border-color: #ff4849;
+}
+
+
+/* Page Welcome */
+
+.welcome h1,
+.welcome p {
+    text-align: center;
+    color: #fff;
+}
+
+.welcome h1 {
+    font-size: 8rem;
+    line-height: 1em;
+    letter-spacing: -.1em;
+    text-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+}
+
+.welcome p {
+    font-size: 1.4rem;
+    font-weight: 200;
+    font-style: italic;
+    line-height: 1.33em;
+    opacity: .8;
+    max-width: 30em;
+    margin: auto;
+}
+
+.welcome p strong {
+    font-weight: 400;
+}
+
+.welcome p i.icon {
+    font-style: normal;
+}
+
+
+/* Page Countdown */
+
+.countdown .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 0, 0, .3);
+    transition: height .3s ease;
+}
+
+.countdown .bar {
+    width: 0;
+    height: 3px;
+    background: rgba(231, 76, 60, .8);
+    color: rgba(231, 76, 60, .8);
+    font-size: 0.6rem;
+    text-align: right;
+    line-height: 1.8em;
+    transition: height .3s ease;
+}
+
+.countdown .progress:hover,
+.countdown .progress:hover .bar {
+    height: 11px;
+}
+
+.countdown .clock {
+    font-size: 10rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+}
+
+.countdown .estimate {
+    font-size: .8rem;
+    margin-top: -20px;
+    text-align: center;
+    opacity: .2;
+}
+
+
+/* Page Naming */
+
+.naming .title {
+    font-size: 2rem;
+    display: block;
+    width: 40rem;
+    margin: 10px auto;
+    padding: 20px;
+    text-align: center;
+    border: none;
+    border-radius: 0;
+}
+
+.naming .tags {
+    text-align: center;
+}
+
+.naming .tags li {
+    display: inline-block;
+    background: rgba(255, 255, 255, .5);
+    color: #2c3e50;
+    padding: .2em .6em;
+    margin: 0 .2em .2em;
+    font-size: 0.55rem;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.naming .tags li:hover {
+    opacity: 1;
+}
+
+
+/* Page List */
+
+section.list {
+    padding-bottom: 100px;
+}
+
+.list .start {
+    margin: 40px auto;
+}
+
+.tasklist li {
+    position: relative;
+    width: 580px;
+    margin: 20px auto;
+    padding: 20px 30px 30px;
+    text-align: center;
+    opacity: .8;
+    background: #fff;
+    box-shadow: 0 5px 5px rgba(44, 62, 80, .1);
+}
+
+.tasklist li:hover {
+    opacity: 1;
+}
+
+.tasklist li:before {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    margin-left: -8px;
+    content: '';
+    border: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+}
+
+.tasklist li:after {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    margin-left: -8px;
+    content: '';
+    border: 8px solid transparent;
+    border-top: 8px solid #fff;
+}
+
+.tasklist li:first-child:before,
+.tasklist li:last-child:after {
+    border: none;
+}
+
+.tasklist .title {
+    font-size: 1.66rem;
+}
+
+.tasklist .detail {
+    font-size: 1.5rem;
+    font-weight: 100;
+    line-height: 1rem;
+    opacity: .66;
+}
+
+.tasklist .interval {
+    font-size: .6rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: .6rem;
+    text-transform: uppercase;
+    opacity: .33;
+}
+
+.tasklist .delete {
+    font-size: .8rem;
+    font-style: normal;
+    line-height: 1rem;
+    position: absolute;
+    top: -2px;
+    right: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    opacity: .1;
+    color: #000;
+}
+
+.tasklist .date {
+    font-size: 2rem;
+    line-height: 1.2rem;
+    position: absolute;
+    top: 10px;
+    left: -50px;
+    width: 40px;
+    text-align: center;
+    opacity: .5;
+    color: #fff;
+}
+
+.tasklist .month {
+    font-size: .6rem;
+    display: block;
+    text-transform: uppercase;
+}
+
+.timebetween {
+    font-size: .6rem;
+    margin: -.5rem 0;
+    text-align: center;
+    text-transform: uppercase;
+    opacity: .5;
+    color: #fff;
+}
+
+
+/* Responsive */
+
+
+/* Small screen */
+
+@media screen and (max-width: 640px),
+screen and (max-height: 240px) {
+    /* Page Welcome */
+    .welcome h1 {
+        font-size: 3.5rem;
+    }
+    /* Page Countdown */
+    .countdown .clock {
+        font-size: 6rem;
+    }
+    .countdown .estimate {
+        margin-top: -10px;
+    }
+    .countdown .progress {
+        height: 10px;
+    }
+    .countdown .bar {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 9px;
+        line-height: 1.4em;
+        height: 11px;
+    }
+    /* Page List */
+    .tasklist li {
+        width: auto;
+        margin: 20px;
+    }
+    .tasklist .date {
+        font-size: .6rem;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: left;
+        transform: rotate(90deg);
+        transform-origin: 0 0;
+    }
+    .tasklist .month {
+        font-size: inherit;
+        display: inline;
+    }
+    /* Page Naming */
+    section.naming {
+        width: auto;
+        max-width: 40rem;
+        padding: 20px;
+    }
+    .naming .title {
+        font-size: 1.2em;
+        width: 90%;
+    }
+}
