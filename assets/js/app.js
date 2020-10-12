@@ -281,6 +281,15 @@ var TF;
             TT.selectView('list');
         },
 
+        /**
+         * Processes Enter keypress on taskTitle input field
+         */
+        saveNamingKeyUp: function (e) {
+            if (e.key === "Enter") {
+                TT.saveNaming();
+            }
+        },
+
 
         /**
          * Reloads the task list
@@ -477,6 +486,7 @@ var TF;
             gId('cancelCountdown').addEventListener('click', TT.cancelCountdown);
 
             // Page Naming
+            gId('taskTitle').addEventListener('keyup', TT.saveNamingKeyUp);
             gId('saveNaming').addEventListener('click', TT.saveNaming);
             gId('cancelNaming').addEventListener('click', TT.cancelCountdown);
             gId('suggestionList').addEventListener('click', TT.suggestionClick);
