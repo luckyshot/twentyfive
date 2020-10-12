@@ -70,6 +70,11 @@ var TF;
                 TT.tR = window.setInterval(function () { TT.timeResting(); }, 5000);
             } else if (page === 'welcome') {
                 doc.title = 'TwentyFive';
+            } else if (page == 'naming') {
+                var element = gId('taskTitle');
+                var past_the_end_pos = element.value.length;
+                element.focus();
+                element.setSelectionRange(past_the_end_pos, past_the_end_pos);
             }
         },
 
