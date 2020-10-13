@@ -438,6 +438,49 @@ var TF;
             win.prompt("Copy to clipboard: Ctrl+C, Enter", JSON.stringify(TT.db));
         },
 
+        importDatabase: function () {
+            var input = win.prompt("Paste from clipboard: Ctrl+V, Enter");
+            if (input === null) {
+                // User cancelled the input.
+                return;
+            }
+
+            // Invariant: `input` is not `null`.
+
+            var errorMessage = "Input is invalid. Nothing got imported. Please make sure you exported the data from another twentyfive instance.";
+
+            var parsedInput = null;
+            try {
+                parsedInput = JSON.parse(input);
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    win.alert(errorMessage);
+                    return;
+                } else {
+                    throw e;
+                }
+            }
+            if (parsedInput === null || parsedInput.constructor != Object) {
+                win.alert(errorMessage);
+                return;
+            }
+
+            // Invariant: `parsedInput` is an `Object`.
+
+            // Take the default DB and update its keys from `parsedInput`. This
+            // is to make sure that invalid inputs like `{}` don't remove
+            // default keys, breaking the whole app.
+            TT.db = Object.assign(TT.defaultDb, parsedInput);
+            TT.saveDatabase();
+
+            TT.refreshList();
+            if (TT.db.tasks.length == 0) {
+                TT.selectView('welcome');
+            } else {
+                TT.selectView('list');
+            }
+        },
+
         /**
          * Deletes the database
          */
@@ -483,6 +526,7 @@ var TF;
             // Page List
             gId('startCountdown').addEventListener('click', TT.startCountdown);
             gId('exportDatabase').addEventListener('click', TT.exportDatabase);
+            gId('importDatabase').addEventListener('click', TT.importDatabase);
             gId('clearDatabase').addEventListener('click', TT.clearDatabase);
             gId('taskList').addEventListener('click', TT.taskClick);
 
