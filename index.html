@@ -2,6 +2,19 @@
 <html manifest="cache.manifest">
 
 <head>
+	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-JVYKDW787V"></script>
+	<script>
+	if (location.host === "twentyfive.js.org"){
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-JVYKDW787V');
+	}
+	</script>
+	
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>TwentyFive - A simple Pomodoro time tracker</title>
@@ -94,17 +107,6 @@
 	
 	<script src="assets/js/app.js"></script>
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-JVYKDW787V"></script>
-	<script>
-	if (location.host === "twentyfive.js.org"){
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', 'G-JVYKDW787V');
-	}
-	</script>
 </body>
 
 </html>
