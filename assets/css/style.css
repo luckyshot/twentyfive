@@ -169,11 +169,17 @@ body.danger .primary {
     background: #1abc9c;
 }
 
+#buttonss{
+    display:flex;
+    flex-direction: column;
+}
+
+
 .cancel {
     font-size: .6rem;
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
+    /* position: fixed; */
+    /* right: 20px; */
+    /* bottom: 20px; */
     text-transform: uppercase;
     opacity: .6;
     color: #fff;

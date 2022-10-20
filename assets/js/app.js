@@ -5,6 +5,8 @@
   @license MIT Licensed
 */
 
+
+
 var TF;
 
 ; (function (doc, win) {
@@ -417,7 +419,7 @@ var TF;
             gId('taskTitle').value = e.target.innerHTML;
         },
 
-
+        
 
         /**
          * Loads the database, if no database loads default values
@@ -569,3 +571,7 @@ var TF;
 
 
 }(document, window));
+
+function myFunction(){
+    alert("Are you sure to cancel?")
+    }
