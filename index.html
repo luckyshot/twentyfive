@@ -63,17 +63,21 @@
 		<button id="cancelCountdown" class="cancel" title="Cancel the current task">Cancel</button>
 	</section>
 
-	<section id="naming" class="page naming">
+	<section id="naming" class="page-naming">
 		<input type="text" id="taskTitle" class="title" placeholder="What have you been working on?" title="Be as descriptive as possible&hellip;">
 		<ul id="suggestionList" class="tags"></ul>
-		<button id="saveNaming" class="primary" title="Save task">Save task</button>
-		<button id="cancelNaming" class="cancel" title="Cancel the current task">Cancel</button>
+
+		<div class="buttons" id="buttonss">
+			<button id="saveNaming" class="primary" title="Save task">Save task</button>
+			<button id="cancelNaming" class="cancel" onclick="myFunction()" title="Cancel the current task">Cancel</button>
+		</div>
+		
 	</section>
 
 	<section id="list" class="page list">
 		<button id="startCountdown" class="primary start" title="Start a new task">Start a new task</button>
 		<div id="timeResting"></div>
-		<ul id="taskList" class="tasklist"></ul>
+		<ul id="taskList" class="tasklist"></ul>	
 	</section>
 
 	<nav>
